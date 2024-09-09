@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\ClientManagement\ClientController;
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\CompanyReportController;
 use App\Http\Controllers\Admin\DomainController;
@@ -58,7 +59,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
         });
     });
 
-    // Company Routes 
+
+    // Company Routes
     Route::controller(CompanyController::class, 'company')->prefix('company')->name('company.')->group(function () {
         Route::get('index', 'index')->name('company_list');
         Route::get('details/{id}', 'details')->name('details.company_list');
@@ -69,7 +71,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
         Route::get('status/{id}', 'status')->name('status.company_edit');
         Route::get('delete/{id}', 'delete')->name('company_delete');
     });
-    // Hosting Routes 
+    // Hosting Routes
     Route::controller(HostingController::class, 'hosting')->prefix('hosting')->name('hosting.')->group(function () {
         Route::get('index', 'index')->name('hosting_list');
         Route::get('details/{id}', 'details')->name('details.hosting_list');
@@ -81,7 +83,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
         Route::get('status/{id}', 'status')->name('status.hosting_edit');
         Route::get('delete/{id}', 'delete')->name('hosting_delete');
     });
-    // Domain Routes 
+    // Domain Routes
     Route::controller(DomainController::class, 'domain')->prefix('domain')->name('domain.')->group(function () {
         Route::get('index', 'index')->name('domain_list');
         Route::get('details/{id}', 'details')->name('details.domain_list');
@@ -95,7 +97,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
         Route::get('delete/{id}', 'delete')->name('domain_delete');
     });
 
-    // Payment Routes 
+    // Payment Routes
     Route::controller(PaymentController::class, 'payment')->prefix('payment')->name('payment.')->group(function () {
         Route::get('index', 'index')->name('payment_list');
         Route::get('details/{id}', 'details')->name('details.payment_list');
@@ -110,4 +112,17 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
         Route::get('get-hostings-or-domains/{payment_for}', 'get_hostings_or_domains')->name('get_hostings_or_domains.payment_list');
     });
 
+    // Client Management Routes
+    Route::group(['as' => 'cm.', 'prefix' => 'client-management'], function () {
+        Route::controller(ClientController::class, 'client')->prefix('client')->name('client.')->group(function () {
+            Route::get('index', 'index')->name('client_list');
+            Route::get('details/{id}', 'details')->name('details.client_list');
+            Route::get('create', 'create')->name('client_create');
+            Route::post('create', 'store')->name('client_create');
+            Route::get('edit/{id}', 'edit')->name('client_edit');
+            Route::put('edit/{id}', 'update')->name('client_edit');
+            Route::get('status/{id}', 'status')->name('status.client_edit');
+            Route::get('delete/{id}', 'delete')->name('client_delete');
+        });
+    });
 });
