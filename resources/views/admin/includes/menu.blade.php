@@ -58,6 +58,16 @@
                     'routeName' => 'cm.client.client_list',
                     'label' => 'Clients',
                 ],
+                [
+                    'pageSlug' => 'client',
+                    'routeName' => 'cm.client.client_list',
+                    'label' => 'Client Hostings',
+                ],
+                [
+                    'pageSlug' => 'client',
+                    'routeName' => 'cm.client.client_list',
+                    'label' => 'Client Domains',
+                ],
             ],
         ])
 
