@@ -41,16 +41,16 @@
 ])
 
 <li class="nav-item
-@if ($pageSlug == 'client') menu-is-opening menu-open @endif">
+@if ($pageSlug == 'client' || $pageSlug == 'ch') menu-is-opening menu-open @endif">
 
-    <a href="javescript:void(0)" class="nav-link @if ($pageSlug == 'client') active @endif">
+    <a href="javescript:void(0)" class="nav-link @if ($pageSlug == 'client' || $pageSlug == 'ch') active @endif">
         <i class="fa-solid fa-people-roof"></i>
         <p>
             {{ __('Client Management') }}
             <i class="right fas fa-angle-left"></i>
         </p>
     </a>
-    <ul class="nav nav-treeview" style="@if ($pageSlug == 'client') display:block @endif">
+    <ul class="nav nav-treeview" style="@if ($pageSlug == 'client' || $pageSlug == 'ch') display:block @endif">
         @include('admin.partials.menu_buttons', [
             'menuItems' => [
                 [
@@ -59,8 +59,8 @@
                     'label' => 'Clients',
                 ],
                 [
-                    'pageSlug' => 'client',
-                    'routeName' => 'cm.client.client_list',
+                    'pageSlug' => 'ch',
+                    'routeName' => 'cm.ch.ch_list',
                     'label' => 'Client Hostings',
                 ],
                 [

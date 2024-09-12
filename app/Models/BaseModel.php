@@ -54,25 +54,32 @@ class BaseModel extends Model
             return 'badge badge-warning';
         }
     }
-    public function scopeActivated($query){
-        return $query->where('status',1);
+    public function scopeActivated($query)
+    {
+        return $query->where('status', 1);
     }
-    public function scopeCreated_user_name(){
+    public function created_user_name()
+    {
         return $this->created_user->name ?? 'System';
     }
-    public function scopeUpdated_user_name(){
+    public function updated_user_name()
+    {
         return $this->updated_user->name ?? '--';
     }
-    public function scopeDeleted_user_name(){
+    public function deleted_user_name()
+    {
         return $this->deleted_user->name ?? '--';
     }
-    public function scopeCreated_date(){
+    public function created_date()
+    {
         return timeFormate($this->created_at);
     }
-    public function scopeUpdated_date(){
+    public function updated_date()
+    {
         return ($this->updated_at != $this->created_at) ? timeFormate($this->updated_at) : '--';
     }
-    public function scopeDeleted_date(){
+    public function deleted_date()
+    {
         return timeFormate($this->deleted_at);
     }
 }

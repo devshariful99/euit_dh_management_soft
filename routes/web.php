@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ClientManagement\ClientController;
+use App\Http\Controllers\Admin\ClientManagement\ClientHostingController;
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\CompanyReportController;
 use App\Http\Controllers\Admin\DomainController;
@@ -114,7 +115,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
 
     // Client Management Routes
     Route::group(['as' => 'cm.', 'prefix' => 'client-management'], function () {
-        Route::controller(ClientController::class, 'client')->prefix('client')->name('client.')->group(function () {
+        Route::controller(ClientController::class)->prefix('client')->name('client.')->group(function () {
             Route::get('index', 'index')->name('client_list');
             Route::get('details/{id}', 'details')->name('details.client_list');
             Route::get('create', 'create')->name('client_create');
@@ -123,6 +124,16 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
             Route::put('edit/{id}', 'update')->name('client_edit');
             Route::get('status/{id}', 'status')->name('status.client_edit');
             Route::get('delete/{id}', 'delete')->name('client_delete');
+        });
+        Route::controller(ClientHostingController::class)->prefix('client-hosting')->name('ch.')->group(function () {
+            Route::get('index', 'index')->name('ch_list');
+            Route::get('details/{id}', 'details')->name('details.ch_list');
+            Route::get('create', 'create')->name('ch_create');
+            Route::post('create', 'store')->name('ch_create');
+            Route::get('edit/{id}', 'edit')->name('ch_edit');
+            Route::put('edit/{id}', 'update')->name('ch_edit');
+            Route::get('status/{id}', 'status')->name('status.ch_edit');
+            Route::get('delete/{id}', 'delete')->name('ch_delete');
         });
     });
 });
