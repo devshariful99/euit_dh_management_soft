@@ -42,7 +42,9 @@ class ClientDomainController extends Controller
         $data->renew_status = $data->renew_date ? 'Yes' : 'No';
         $data->renew_statusClass = $data->renew_date ? 'badge-success' : 'badge-danger';
         $data->price = number_format($data->price, 2);
-        $data->type = $data->type();
+        $data->type = ucfirst(str_replace('_', ' ', $data->type()));
+        $data->isDeveloped = $data->getDevelopedStatus();
+        $data->isDevelopedBadge = $data->getDevelopedStatusBadgeClass();
         return response()->json($data);
     }
     public function create(): View
@@ -61,6 +63,7 @@ class ClientDomainController extends Controller
             ->addMonths($months);
 
         $cd = new ClientDomain();
+        $cd->domain_name = $req->domain_name;
         $cd->client_id = $req->client_id;
         $cd->hosting_id = $req->hosting_id;
         $cd->domain_id = $req->domain_id;
@@ -76,7 +79,7 @@ class ClientDomainController extends Controller
         $cd->created_by = admin()->id;
         $cd->save();
         flash()->addSuccess('Client domain created successfully.');
-        return redirect()->route('cm.cd.cd_create');
+        return redirect()->route('cm.cd.cd_list');
     }
     public function edit($id): View
     {
@@ -96,6 +99,7 @@ class ClientDomainController extends Controller
             ->addYears($years)
             ->addMonths($months);
         $cd = ClientDomain::findOrFail($id);
+        $cd->domain_name = $req->domain_name;
         $cd->client_id = $req->client_id;
         $cd->hosting_id = $req->hosting_id;
         $cd->domain_id = $req->domain_id;

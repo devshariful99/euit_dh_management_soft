@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ClientManagement\ClientController;
+use App\Http\Controllers\Admin\ClientManagement\ClientDomainController;
 use App\Http\Controllers\Admin\ClientManagement\ClientHostingController;
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\CompanyReportController;
@@ -134,6 +135,17 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
             Route::put('edit/{id}', 'update')->name('ch_edit');
             Route::get('status/{id}', 'status')->name('status.ch_edit');
             Route::get('delete/{id}', 'delete')->name('ch_delete');
+        });
+        Route::controller(ClientDomainController::class)->prefix('client-domain')->name('cd.')->group(function () {
+            Route::get('index', 'index')->name('cd_list');
+            Route::get('details/{id}', 'details')->name('details.cd_list');
+            Route::get('create', 'create')->name('cd_create');
+            Route::post('create', 'store')->name('cd_create');
+            Route::get('edit/{id}', 'edit')->name('cd_edit');
+            Route::put('edit/{id}', 'update')->name('cd_edit');
+            Route::get('status/{id}', 'status')->name('status.cd_edit');
+            Route::get('developed/{id}', 'developed')->name('developed.cd_edit');
+            Route::get('delete/{id}', 'delete')->name('cd_delete');
         });
     });
 });

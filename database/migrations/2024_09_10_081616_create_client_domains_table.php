@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('client_id');
             $table->unsignedBigInteger('hosting_id')->nullable();
             $table->unsignedBigInteger('domain_id')->nullable();
+            $table->string('domain_name');
             $table->tinyInteger('type')->comment('1 = main-domain, 2 = sub-domain, 3 = custom-domain');
             $table->double('price', 8, 2);
             $table->string('admin_url');

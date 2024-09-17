@@ -59,4 +59,22 @@ class ClientDomain extends BaseModel
                 break;
         }
     }
+
+    public function isDeveloped()
+    {
+        if ($this->is_developed == 1) {
+            return 'Yes';
+        } else {
+            return 'No';
+        }
+    }
+
+    public function isDevelopedBadge()
+    {
+        if ($this->is_developed == 1) {
+            return 'badge badge-success';
+        } else {
+            return 'badge badge-warning';
+        }
+    }
 }

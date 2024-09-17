@@ -11,7 +11,7 @@ class ClientDomainRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,18 @@ class ClientDomainRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'client_id' => 'required|exists:clients,id',
+            'hosting_id' => 'required|exists:hostings,id',
+            'domain_id' => 'nullable|exists:domains,id',
+            'price' => 'required|numeric',
+            'type' => 'required|numeric',
+            'admin_url' => 'required|url',
+            'username' => 'nullable',
+            'email' => 'required|email',
+            'password' => 'required',
+            'purchase_date' => 'required|date|before_or_equal:today',
+            'duration' => 'required|numeric',
+            'note' => 'nullable',
         ];
     }
 }
