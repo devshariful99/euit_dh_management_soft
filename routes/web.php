@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ClientManagement\ClientController;
 use App\Http\Controllers\Admin\ClientManagement\ClientDomainController;
 use App\Http\Controllers\Admin\ClientManagement\ClientHostingController;
+use App\Http\Controllers\Admin\ClientManagement\RenewController;
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\CompanyReportController;
 use App\Http\Controllers\Admin\DomainController;
@@ -146,6 +147,18 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
             Route::get('status/{id}', 'status')->name('status.cd_edit');
             Route::get('developed/{id}', 'developed')->name('developed.cd_edit');
             Route::get('delete/{id}', 'delete')->name('cd_delete');
+        });
+        Route::controller(RenewController::class)->prefix('client-renew')->name('renew.')->group(function () {
+            Route::get('index', 'index')->name('renew_list');
+            Route::get('details/{id}', 'details')->name('details.renew_list');
+            Route::get('create', 'create')->name('renew_create');
+            Route::post('create', 'store')->name('renew_create');
+            Route::get('edit/{id}', 'edit')->name('renew_edit');
+            Route::put('edit/{id}', 'update')->name('renew_edit');
+            Route::get('status/{id}', 'status')->name('status.renew_edit');
+            Route::get('delete/{id}', 'delete')->name('renew_delete');
+
+            Route::get('get-hostings-or-domains', 'get_hostings_or_domains')->name('get_hostings_or_domains.renew_list');
         });
     });
 });
