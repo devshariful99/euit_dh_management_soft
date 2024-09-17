@@ -22,7 +22,7 @@
                         @csrf
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="domain_name">{{ __('Domain Name') }}</label>
+                                <label for="domain_name">{{ __('Domain Name') }}<span class="text-danger">*</span></label>
                                 <input type="text"
                                     class="form-control {{ $errors->has('domain_name') ? ' is-invalid' : '' }}"
                                     id="domain_name" name="domain_name" value="{{ $cd->domain_name }}"
@@ -30,7 +30,7 @@
                                 @include('alerts.feedback', ['field' => 'domain_name'])
                             </div>
                             <div class="form-group">
-                                <label for="client_id">{{ __('Client') }}</label>
+                                <label for="client_id">{{ __('Client') }}<span class="text-danger">*</span></label>
                                 <select name="client_id"
                                     class="form-control {{ $errors->has('client_id') ? ' is-invalid' : '' }}"
                                     id="client_id">
@@ -68,7 +68,7 @@
                                 @include('alerts.feedback', ['field' => 'domain_id'])
                             </div>
                             <div class="form-group">
-                                <label for="type">{{ __('Type') }}</label>
+                                <label for="type">{{ __('Type') }}<span class="text-danger">*</span></label>
                                 <select name="type" id="type" class="form-control">
                                     <option selected hidden value="">{{ __('Select Type') }}</option>
                                     <option value="1" {{ $cd->type == '1' ? 'selected' : '' }}>
@@ -81,20 +81,21 @@
                                 @include('alerts.feedback', ['field' => 'type'])
                             </div>
                             <div class="form-group">
-                                <label for="price">{{ __('Purchase Price') }}</label>
+                                <label for="price">{{ __('Purchase Price') }}<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control {{ $errors->has('price') ? ' is-invalid' : '' }}"
                                     id="price" name="price" value="{{ $cd->price }}" placeholder="Enter price">
                                 @include('alerts.feedback', ['field' => 'price'])
                             </div>
                             <div class="form-group">
-                                <label for="purchase_date">{{ __('Purchase Date') }}</label>
+                                <label for="purchase_date">{{ __('Purchase Date') }}<span
+                                        class="text-danger">*</span></label>
                                 <input type="date"
                                     class="form-control {{ $errors->has('purchase_date') ? ' is-invalid' : '' }}"
                                     id="purchase_date" name="purchase_date" value="{{ $cd->purchase_date }}">
                                 @include('alerts.feedback', ['field' => 'purchase_date'])
                             </div>
                             <div class="form-group">
-                                <label for="duration">{{ __('Duration') }}</label>
+                                <label for="duration">{{ __('Duration') }}<span class="text-danger">*</span></label>
                                 <select name="duration" id="duration"
                                     class="form-control {{ $errors->has('duration') ? ' is-invalid' : '' }}">
                                     <option selected hidden value="">{{ __('Select Duration') }}</option>
@@ -142,7 +143,7 @@
                                 @include('alerts.feedback', ['field' => 'duration'])
                             </div>
                             <div class="form-group">
-                                <label for="admin_url">{{ __('Login URL') }}</label>
+                                <label for="admin_url">{{ __('Login URL') }}<span class="text-danger">*</span></label>
                                 <input type="url"
                                     class="form-control {{ $errors->has('admin_url') ? ' is-invalid' : '' }}"
                                     id="admin_url" name="admin_url" value="{{ $cd->admin_url }}"
@@ -158,14 +159,14 @@
                                 @include('alerts.feedback', ['field' => 'username'])
                             </div>
                             <div class="form-group">
-                                <label for="email">{{ __('Email') }}</label>
+                                <label for="email">{{ __('Email') }}<span class="text-danger">*</span></label>
                                 <input type="email"
                                     class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}" id="email"
                                     name="email" value="{{ $cd->email }}" placeholder="Enter email">
                                 @include('alerts.feedback', ['field' => 'email'])
                             </div>
                             <div class="form-group">
-                                <label for="password">{{ __('Password') }}</label>
+                                <label for="password">{{ __('Password') }}<span class="text-danger">*</span></label>
                                 <input type="text"
                                     class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}"
                                     id="password" name="password" value="{{ $cd->password }}"
