@@ -69,7 +69,7 @@
                                                     'className' => 'btn btn-info',
                                                     'title' => 'Edit',
                                                 ],
-
+                                        
                                                 [
                                                     'routeName' => 'cm.cd.cd_delete',
                                                     'params' => [$domain->id],
@@ -197,13 +197,23 @@
                                         <th class="text-nowrap">Renew Status</th>
                                         <th>:</th>
                                         <td><span class="badge ${data.renew_statusClass}">${data.renew_status}</span></td>
-                                    </tr>
+                                    </tr>`;
+                        if (data.renew_status === 'Yes') {
+                            result += `
                                     <tr>
                                         <th class="text-nowrap">Renew Date</th>
                                         <th>:</th>
                                         <td>${data.renew_date}</td>
                                     </tr>
                                     <tr>
+                                        <th class="text-nowrap">Renew From</th>
+                                        <th>:</th>
+                                        <td>${data.renew_from}</td>
+                                    </tr>`;
+                        }
+
+
+                        result += `<tr>
                                         <th class="text-nowrap">Duration</th>
                                         <th>:</th>
                                         <td>${data.duration} Year</td>

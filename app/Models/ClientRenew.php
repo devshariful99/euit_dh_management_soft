@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ClientRenew extends Model
+class ClientRenew extends BaseModel
 {
     use HasFactory;
     public function hd()

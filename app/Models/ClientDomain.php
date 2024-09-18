@@ -77,4 +77,9 @@ class ClientDomain extends BaseModel
             return 'badge badge-warning';
         }
     }
+
+    public function renews()
+    {
+        return $this->morphMany(ClientRenew::class, 'hd');
+    }
 }

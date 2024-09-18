@@ -27,4 +27,8 @@ class ClientHosting extends BaseModel
     {
         return $this->belongsTo(Client::class, 'client_id');
     }
+    public function renews()
+    {
+        return $this->morphMany(ClientRenew::class, 'hd');
+    }
 }

@@ -27,14 +27,21 @@ class ClientHostingController extends Controller
     }
     public function details($id): JsonResponse
     {
-        $data = ClientHosting::with(['created_user', 'updated_user', 'client', 'hosting'])->findOrFail($id);
+        $data = ClientHosting::with(['created_user', 'updated_user', 'client', 'hosting', 'renews'])->findOrFail($id);
         $data->creating_time = $data->created_date();
         $data->updating_time = $data->updated_date();
         $data->created_by = $data->created_user_name();
         $data->updated_by = $data->updated_user_name();
         $data->statusTitle = $data->getStatus();
         $data->statusBg = $data->getStatusBadgeClass();
-        $data->duration = Carbon::parse($data->expire_date)->diffInMonths(Carbon::parse($data->purchase_date)) / 12;
+        $renew = $data->renews->where('status', 1)->first();
+        $data->renew_from = $data->purchase_date;
+        if ($renew) {
+            $data->renew_from = $renew->renew_from;
+            $data->expire_date = $renew->expire_date;
+        }
+        $data->duration = Carbon::parse($data->expire_date)->diffInMonths(Carbon::parse($data->renew_from)) / 12;
+        $data->renew_from = timeFormate($data->renew_from);
         $data->purchase_date = timeFormate($data->purchase_date);
         $data->expire_date = timeFormate($data->expire_date);
         $data->renew_date = $data->renew_date ? timeFormate($data->renew_date) : null;

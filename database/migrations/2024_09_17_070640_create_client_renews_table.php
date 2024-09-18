@@ -20,6 +20,7 @@ return new class extends Migration
             $table->enum('renew_for', ['Hosting', 'Domain']);
             $this->addHostingDomainMorphedAuditColumns($table);
             $table->date('renew_date');
+            $table->date('renew_from');
             $table->date('expire_date');
             $table->double('price', 8, 2);
             $table->boolean('status')->default(1);

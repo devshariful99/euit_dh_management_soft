@@ -23,10 +23,10 @@
                                 <th>{{ __('SL') }}</th>
                                 <th>{{ __('Renew For') }}</th>
                                 <th>{{ __('Domain/Hosting') }}</th>
+                                <th>{{ __('Status') }}</th>
                                 <th>{{ __('Renew Date') }}</th>
                                 <th>{{ __('Price') }}</th>
                                 <th>{{ __('Duration') }}</th>
-                                <th>{{ __('Expiry Date') }}</th>
                                 <th>{{ __('Created By') }}</th>
                                 <th class="text-center">{{ __('Action') }}</th>
                             </tr>
@@ -38,11 +38,13 @@
                                     <td> {{ $renew->renew_for }} </td>
                                     <td>
                                         @if ($renew->renew_for == 'Domain')
-                                            {{ $renew->hd->domain_name }}
+                                            {{ $renew->hd ? $renew->hd->domain_name : '' }}
                                         @else
-                                            {{ $renew->hd->hosting->name . '(' . $renew->hd->storage . ')' }}
+                                            {{ $renew->hd ? $renew->hd->hosting->name . '(' . $renew->hd->storage . ')' : '' }}
                                         @endif
                                         {{ " ($renew->renew_for)" }}
+                                    </td>
+                                    <td> <span class="{{ $renew->getStatusBadgeClass() }}">{{ $renew->getStatus() }}</span>
                                     </td>
                                     <td> {{ timeFormate($renew->renew_date) }} </td>
                                     <td> {{ number_format($renew->price, 2) }} </td>
@@ -65,7 +67,7 @@
                                                     'className' => 'btn btn-info',
                                                     'title' => 'Edit',
                                                 ],
-
+                                        
                                                 [
                                                     'routeName' => 'cm.renew.renew_delete',
                                                     'params' => [$renew->id],
@@ -119,30 +121,63 @@
                         var result = `
                                 <table class="table table-striped">
                                     <tr>
+                                        <th class="text-nowrap">Client</th>
+                                        <th>:</th>
+                                        <td>${data.client.name}</td>
+                                    </tr>
+                                    <tr>
                                         <th class="text-nowrap">Renew For</th>
                                         <th>:</th>
-                                        <td>${data.payment_for}</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-nowrap">${data.renew_for}</th>
-                                        <th>:</th>
-                                        <td>${data.hd.name} (${data.renew_for})</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-nowrap">Payment Type</th>
-                                        <th>:</th>
-                                        <td>${data.payment_type}</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-nowrap">Payment Date</th>
-                                        <th>:</th>
-                                        <td>${data.payment_date}</td>
-                                    </tr>
+                                        <td>${data.renew_for}</td>
+                                    </tr>`;
+                        if (data.renew_for == 'Domain') {
+                            result +=
+                                `<tr>
+                                    <th class="text-nowrap">${data.renew_for}</th>
+                                    <th>:</th>
+                                    <td>${data.hd.domain_name}</td>
+                                </tr>`;
+                        } else {
+                            result +=
+                                `<tr>
+                                    <th class="text-nowrap">${data.renew_for}</th>
+                                    <th>:</th>
+                                    <td>${data.hd.hosting.name} (${data.hd.storage})</td>
+                                </tr>`;
+                        }
+                        result += `
                                     <tr>
                                         <th class="text-nowrap">Price</th>
                                         <th>:</th>
                                         <td>${data.price} Tk</td>
                                     </tr>
+                                    <tr>
+                                        <th class="text-nowrap">Status</th>
+                                        <th>:</th>
+                                        <td><span class="${data.statusBg}">${data.statusTitle}</span></td>
+                                    </tr>
+
+                                    <tr>
+                                        <th class="text-nowrap">Renew Date</th>
+                                        <th>:</th>
+                                        <td>${data.renew_date}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-nowrap">Renew From</th>
+                                        <th>:</th>
+                                        <td>${data.renew_from}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-nowrap">Duration</th>
+                                        <th>:</th>
+                                        <td>${data.duration} Year</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-nowrap">Expiry Date</th>
+                                        <th>:</th>
+                                        <td>${data.expire_date}</td>
+                                    </tr>
+
                                     <tr>
                                         <th class="text-nowrap">Created At</th>
                                         <th>:</th>
@@ -169,7 +204,7 @@
                         $('.view_modal').modal('show');
                     },
                     error: function(xhr, status, error) {
-                        console.error('Error fetching admin data:', error);
+                        console.error('Error fetching renew data:', error);
                     }
                 });
             });
