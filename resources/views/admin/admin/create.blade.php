@@ -21,26 +21,27 @@
                         @csrf
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="name">{{ __('Name') }}</label>
+                                <label for="name">{{ __('Name') }}<span class="text-danger">*</span></label>
                                 <input type="name" class="form-control {{ $errors->has('name') ? ' is-invalid' : '' }}"
                                     id="name" name="name" value="{{ old('name') }}" placeholder="Enter name">
                                 @include('alerts.feedback', ['field' => 'name'])
                             </div>
                             <div class="form-group">
-                                <label for="email">{{ __('Email') }}</label>
+                                <label for="email">{{ __('Email') }}<span class="text-danger">*</span></label>
                                 <input type="email" class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}"
                                     id="email" name="email" value="{{ old('email') }}" placeholder="Enter email">
                                 @include('alerts.feedback', ['field' => 'email'])
                             </div>
                             <div class="form-group">
-                                <label for="password">{{ __('Password') }}</label>
+                                <label for="password">{{ __('Password') }}<span class="text-danger">*</span></label>
                                 <input type="password"
                                     class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" id="password"
                                     name="password" placeholder="Password">
                                 @include('alerts.feedback', ['field' => 'password'])
                             </div>
                             <div class="form-group">
-                                <label for="password_confirmation">{{ __('Confirm Password') }}</label>
+                                <label for="password_confirmation">{{ __('Confirm Password') }}<span
+                                        class="text-danger">*</span></label>
                                 <input type="password"
                                     class="form-control {{ $errors->has('password_confirmation') ? ' is-invalid' : '' }}"
                                     id="password_confirmation" name="password_confirmation" placeholder="Confirm Password">

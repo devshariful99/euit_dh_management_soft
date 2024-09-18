@@ -22,13 +22,13 @@
                         @method('PUT')
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="name">{{ __('Name') }}</label>
+                                <label for="name">{{ __('Name') }}<span class="text-danger">*</span></label>
                                 <input type="name" class="form-control {{ $errors->has('name') ? ' is-invalid' : '' }}"
                                     id="name" name="name" value="{{ $admin->name }}" placeholder="Enter name">
                                 @include('alerts.feedback', ['field' => 'name'])
                             </div>
                             <div class="form-group">
-                                <label for="email">{{ __('Email') }}</label>
+                                <label for="email">{{ __('Email') }}<span class="text-danger">*</span></label>
                                 <input type="email" class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}"
                                     id="email" name="email" value="{{ $admin->email }}" placeholder="Enter email">
                                 @include('alerts.feedback', ['field' => 'email'])
@@ -58,5 +58,3 @@
         </div>
     </div>
 @endsection
-
-

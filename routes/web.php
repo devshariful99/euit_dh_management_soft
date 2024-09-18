@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ClientManagement\ClientController;
+use App\Http\Controllers\Admin\ClientManagement\ClientDomainController;
+use App\Http\Controllers\Admin\ClientManagement\ClientHostingController;
+use App\Http\Controllers\Admin\ClientManagement\RenewController;
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\CompanyReportController;
 use App\Http\Controllers\Admin\DomainController;
@@ -114,7 +117,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
 
     // Client Management Routes
     Route::group(['as' => 'cm.', 'prefix' => 'client-management'], function () {
-        Route::controller(ClientController::class, 'client')->prefix('client')->name('client.')->group(function () {
+        Route::controller(ClientController::class)->prefix('client')->name('client.')->group(function () {
             Route::get('index', 'index')->name('client_list');
             Route::get('details/{id}', 'details')->name('details.client_list');
             Route::get('create', 'create')->name('client_create');
@@ -123,6 +126,39 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
             Route::put('edit/{id}', 'update')->name('client_edit');
             Route::get('status/{id}', 'status')->name('status.client_edit');
             Route::get('delete/{id}', 'delete')->name('client_delete');
+        });
+        Route::controller(ClientHostingController::class)->prefix('client-hosting')->name('ch.')->group(function () {
+            Route::get('index', 'index')->name('ch_list');
+            Route::get('details/{id}', 'details')->name('details.ch_list');
+            Route::get('create', 'create')->name('ch_create');
+            Route::post('create', 'store')->name('ch_create');
+            Route::get('edit/{id}', 'edit')->name('ch_edit');
+            Route::put('edit/{id}', 'update')->name('ch_edit');
+            Route::get('status/{id}', 'status')->name('status.ch_edit');
+            Route::get('delete/{id}', 'delete')->name('ch_delete');
+        });
+        Route::controller(ClientDomainController::class)->prefix('client-domain')->name('cd.')->group(function () {
+            Route::get('index', 'index')->name('cd_list');
+            Route::get('details/{id}', 'details')->name('details.cd_list');
+            Route::get('create', 'create')->name('cd_create');
+            Route::post('create', 'store')->name('cd_create');
+            Route::get('edit/{id}', 'edit')->name('cd_edit');
+            Route::put('edit/{id}', 'update')->name('cd_edit');
+            Route::get('status/{id}', 'status')->name('status.cd_edit');
+            Route::get('developed/{id}', 'developed')->name('developed.cd_edit');
+            Route::get('delete/{id}', 'delete')->name('cd_delete');
+        });
+        Route::controller(RenewController::class)->prefix('client-renew')->name('renew.')->group(function () {
+            Route::get('index', 'index')->name('renew_list');
+            Route::get('details/{id}', 'details')->name('details.renew_list');
+            Route::get('create', 'create')->name('renew_create');
+            Route::post('create', 'store')->name('renew_create');
+            Route::get('edit/{id}', 'edit')->name('renew_edit');
+            Route::put('edit/{id}', 'update')->name('renew_edit');
+            Route::get('status/{id}', 'status')->name('status.renew_edit');
+            Route::get('delete/{id}', 'delete')->name('renew_delete');
+
+            Route::get('get-hostings-or-domains', 'get_hostings_or_domains')->name('get_hostings_or_domains.renew_list');
         });
     });
 });
