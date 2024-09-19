@@ -69,7 +69,7 @@
                                                     'className' => 'btn btn-info',
                                                     'title' => 'Edit',
                                                 ],
-                                        
+
                                                 [
                                                     'routeName' => 'cm.cd.cd_delete',
                                                     'params' => [$domain->id],
@@ -91,6 +91,13 @@
                                                     'iconClass' => 'fa-solid fa-power-off',
                                                     'className' => $domain->getStatusClass(),
                                                     'title' => $domain->getStatusTitle(),
+                                                ],
+                                                [
+                                                    'routeName' => 'cm.renew.renew_list',
+                                                    'params' => ['type' => 'Domain', 'id' => $domain->id],
+                                                    'iconClass' => 'fa-solid fa-arrow-right',
+                                                    'className' => 'btn btn-primary',
+                                                    'title' => 'Renewals',
                                                 ],
                                             ],
                                         ])

@@ -6,7 +6,7 @@
         <div class="col-12">
             <div class="card m-3">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h3 class="card-title">{{ __('Client Renew List') }}</h3>
+                    <h3 class="card-title">{{ __($title) }}</h3>
                     <div class="button_ ms-auto">
                         @include('admin.partials.button', [
                             'routeName' => 'cm.renew.renew_create',
@@ -47,7 +47,7 @@
                                     <td> <span class="{{ $renew->getStatusBadgeClass() }}">{{ $renew->getStatus() }}</span>
                                     </td>
                                     <td> {{ timeFormate($renew->renew_date) }} </td>
-                                    <td> {{ number_format($renew->price, 2) }} </td>
+                                    <td> {{ number_format($renew->price, 2) . 'tk' }} </td>
                                     <td> {{ $renew->duration . ' Year' }} </td>
                                     <td>{{ $renew->created_user_name() }}</td>
                                     <td class="text-center align-middle">
@@ -67,7 +67,7 @@
                                                     'className' => 'btn btn-info',
                                                     'title' => 'Edit',
                                                 ],
-                                        
+
                                                 [
                                                     'routeName' => 'cm.renew.renew_delete',
                                                     'params' => [$renew->id],

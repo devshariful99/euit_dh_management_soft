@@ -63,7 +63,7 @@
                                                     'className' => 'btn btn-info',
                                                     'title' => 'Edit',
                                                 ],
-                                        
+
                                                 [
                                                     'routeName' => 'cm.ch.ch_delete',
                                                     'params' => [$hosting->id],
@@ -78,6 +78,13 @@
                                                     'iconClass' => 'fa-solid fa-power-off',
                                                     'className' => $hosting->getStatusClass(),
                                                     'title' => $hosting->getStatusTitle(),
+                                                ],
+                                                [
+                                                    'routeName' => 'cm.renew.renew_list',
+                                                    'params' => ['type' => 'Hosting', 'id' => $hosting->id],
+                                                    'iconClass' => 'fa-solid fa-arrow-right',
+                                                    'className' => 'btn btn-primary',
+                                                    'title' => 'Renewals',
                                                 ],
                                             ],
                                         ])
