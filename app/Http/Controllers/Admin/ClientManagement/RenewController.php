@@ -17,9 +17,21 @@ use Illuminate\View\View;
 class RenewController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        $data['renewals'] = ClientRenew::with(['hd', 'hd.hosting', 'client', 'created_user'])->latest()->get()->each(function (&$renew) {
+        $type = request('type');
+        $id = request('id');
+        $data['title'] = 'Domain/Hosting Renew List';
+        $query = ClientRenew::with(['hd', 'hd.hosting', 'client', 'created_user'])->latest();
+        if ($type == 'Domain') {
+            $data['title'] = 'Domain Renew List';
+            $query = $query->where('hd_id', $id)->where('hd_type', 'App\Models\ClientDomain');
+        } elseif ($type == 'Hosting') {
+            $data['title'] = 'Hosting Renew List';
+            $query = $query->where('hd_id', $id)->where('hd_type', 'App\Models\ClientHosting');
+        }
+
+        $data['renewals'] = $query->get()->each(function (&$renew) {
             $modelData = '';
             if ($renew->renew_for == 'Domain') {
                 $modelData = ClientDomain::where('id', $renew->hd_id)->first();
