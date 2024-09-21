@@ -8,6 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class ExpiryReminder extends Mailable
 {
@@ -18,7 +19,7 @@ class ExpiryReminder extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct($data)
+    public function __construct(array $data)
     {
         $this->mailData = $data;
     }
