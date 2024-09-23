@@ -93,12 +93,11 @@ class SendExpiryEmails extends Command
 
         // Call queue worker to process the job immediately (optional)
         try {
+            Log::info('Queue worker processing the jobs.');
             Artisan::call('queue:work', ['--once' => true]);
-            Log::info('Queue worker processed the jobs.');
         } catch (\Exception $e) {
             Log::error('Failed to run queue worker: ' . $e->getMessage());
         }
-
         $this->info('Email sending job dispatched and processed successfully!');
         Log::info('Command finished execution.');
 
