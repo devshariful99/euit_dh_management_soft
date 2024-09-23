@@ -21,9 +21,13 @@ class ClientDomainController extends Controller
         return $this->middleware('auth');
     }
 
-    public function index(): View
+    public function index(Request $req): View
     {
-        $data['client_domains'] = ClientDomain::with(['created_user', 'client', 'domain', 'hosting'])->latest()->get();
+        $query = ClientDomain::with(['created_user', 'client', 'domain', 'hosting'])->latest();
+        if (isset($req->status)) {
+            $query->where('status', $req->status);
+        }
+        $data['client_domains'] = $query->get();
         return view('admin.client_management.client_domain.index', $data);
     }
     public function details($id): JsonResponse

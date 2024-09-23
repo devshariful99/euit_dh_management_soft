@@ -20,9 +20,13 @@ class ClientHostingController extends Controller
         return $this->middleware('auth');
     }
 
-    public function index(): View
+    public function index(Request $req): View
     {
-        $data['client_hostings'] = ClientHosting::with(['created_user', 'client', 'hosting'])->latest()->get();
+        $query = ClientHosting::with(['created_user', 'client', 'hosting'])->latest();
+        if (isset($req->status)) {
+            $query->where('status', $req->status);
+        }
+        $data['client_hostings'] = $query->get();
         return view('admin.client_management.client_hosting.index', $data);
     }
     public function details($id): JsonResponse
