@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class SendExpiryEmails implements ShouldQueue
@@ -42,6 +43,10 @@ class SendExpiryEmails implements ShouldQueue
 
     private function sendEmails(object $items, string $type)
     {
+        if ($items->isEmpty()) {
+            Log::info("No $type's to send email");
+            return;
+        }
         foreach ($items as $item) {
             $renew = $item->renews->where('status', 1)->first();
             if ($renew) {
@@ -60,5 +65,7 @@ class SendExpiryEmails implements ShouldQueue
                 ->send(new ExpiryReminder($data));
             sleep(5);
         }
+
+        Log::info("$type's expiration reminder emais send successfully");
     }
 }
