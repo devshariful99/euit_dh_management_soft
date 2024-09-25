@@ -20,89 +20,93 @@
                     <table class="table table-striped">
                         <tbody>
                             <tr>
-                                <th>{{__('Domain Name')}}</th>
+                                <th>{{ __('Domain Name') }}</th>
                                 <th>:</th>
-                                <td>{{$domain->name}}</td>
+                                <td>{{ $domain->name }}</td>
                             </tr>
                             <tr>
-                                <th>{{__('Hosting Name')}}</th>
+                                <th>{{ __('Hosting Name') }}</th>
                                 <th>:</th>
-                                <td>{{$domain->hosting ? $domain->hosting->name : '--'}}</td>
+                                <td>{{ $domain->hosting ? $domain->hosting->name : '--' }}</td>
                             </tr>
                             <tr>
-                                <th>{{__('Company Name')}}</th>
+                                <th>{{ __('Company Name') }}</th>
                                 <th>:</th>
-                                <td>{{$domain->company->name}}</td>
+                                <td>{{ $domain->company->name }}</td>
                             </tr>
                             <tr>
-                                <th>{{__('Login URL')}}</th>
+                                <th>{{ __('Login URL') }}</th>
                                 <th>:</th>
-                                <td><a target="_blank" class="btn btn-sm btn-primary" href="{{$domain->admin_url}}">{{__('Log In')}}</a></td>
+                                <td><a target="_blank" class="btn btn-sm btn-primary"
+                                        href="{{ $domain->admin_url }}">{{ __('Log In') }}</a></td>
                             </tr>
                             <tr>
-                                <th>{{__('Username')}}</th>
+                                <th>{{ __('Username') }}</th>
                                 <th>:</th>
-                                <td>{{$domain->username ?? '--'}}</td>
+                                <td>{{ $domain->username ?? '--' }}</td>
                             </tr>
                             <tr>
-                                <th>{{__('Email')}}</th>
+                                <th>{{ __('Email') }}</th>
                                 <th>:</th>
-                                <td>{{$domain->email}}</td>
+                                <td>{{ $domain->email }}</td>
                             </tr>
                             <tr>
-                                <th>{{__('Password')}}</th>
+                                <th>{{ __('Password') }}</th>
                                 <th>:</th>
-                                <td>{{$domain->password}}</td>
+                                <td>{{ $domain->password }}</td>
                             </tr>
                             <tr>
-                                <th>{{__('Purchase Date')}}</th>
+                                <th>{{ __('Purchase Date') }}</th>
                                 <th>:</th>
-                                <td>{{$domain->purchase_date ? timeFormate($domain->purchase_date) : '--'}}</td>
+                                <td>{{ $domain->purchase_date ? timeFormate($domain->purchase_date) : '--' }}</td>
                             </tr>
                             <tr>
-                                <th>{{__('Renew Status')}}</th>
+                                <th>{{ __('Renew Status') }}</th>
                                 <th>:</th>
-                                <td><span class="badge {{$domain->renew_data ? 'badge-success' : 'badge-warning'}}">{{$domain->renew_data ? 'Yes' : 'No'}}</span></td>
+                                <td><span
+                                        class="badge {{ $domain->renew_date ? 'badge-success' : 'badge-warning' }}">{{ $domain->renew_date ? 'Yes' : 'No' }}</span>
+                                </td>
                             </tr>
                             <tr>
-                                <th>{{__('Renew Date')}}</th>
+                                <th>{{ __('Renew Date') }}</th>
                                 <th>:</th>
-                                <td>{{$domain->renew_date ?timeFormate($domain->renew_date) : '--'}}</td>
+                                <td>{{ $domain->renew_date ? timeFormate($domain->renew_date) : '--' }}</td>
                             </tr>
                             <tr>
-                                <th>{{__('Expiry Date')}}</th>
+                                <th>{{ __('Expiry Date') }}</th>
                                 <th>:</th>
-                                <td>{{$domain->expire_date ?timeFormate($domain->expire_date) : '--'}}</td>
+                                <td>{{ $domain->expire_date ? timeFormate($domain->expire_date) : '--' }}</td>
                             </tr>
                             <tr>
-                                <th>{{__('Status')}}</th>
+                                <th>{{ __('Status') }}</th>
                                 <th>:</th>
-                                <td><span class="{{ $domain->getStatusBadgeClass() }}">{{ $domain->getStatus() }}</span></td>
+                                <td><span class="{{ $domain->getStatusBadgeClass() }}">{{ $domain->getStatus() }}</span>
+                                </td>
                             </tr>
                             <tr>
-                                <th>{{__('Note')}}</th>
+                                <th>{{ __('Note') }}</th>
                                 <th>:</th>
-                                <td>{{$domain->note}}</td>
+                                <td>{{ $domain->note }}</td>
                             </tr>
                             <tr>
-                                <th>{{__('Created By')}}</th>
+                                <th>{{ __('Created By') }}</th>
                                 <th>:</th>
-                                <td>{{$domain->created_user_name()}}</td>
+                                <td>{{ $domain->created_user_name() }}</td>
                             </tr>
                             <tr>
-                                <th>{{__('Created Date')}}</th>
+                                <th>{{ __('Created Date') }}</th>
                                 <th>:</th>
-                                <td>{{$domain->created_date()}}</td>
+                                <td>{{ $domain->created_date() }}</td>
                             </tr>
                             <tr>
-                                <th>{{__('Updated By')}}</th>
+                                <th>{{ __('Updated By') }}</th>
                                 <th>:</th>
-                                <td>{{$domain->updated_user_name()}}</td>
+                                <td>{{ $domain->updated_user_name() }}</td>
                             </tr>
                             <tr>
-                                <th>{{__('Updated At')}}</th>
+                                <th>{{ __('Updated At') }}</th>
                                 <th>:</th>
-                                <td>{{$domain->updated_date()}}</td>
+                                <td>{{ $domain->updated_date() }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -113,7 +117,7 @@
         <div class="col-12">
             <div class="card m-3">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h3 class="card-title">{{ __($domain->name.' Payments') }}</h3>
+                    <h3 class="card-title">{{ __($domain->name . ' Payments') }}</h3>
                 </div>
                 <div class="card-body">
                     <table class="table table-striped datatable">
@@ -134,9 +138,9 @@
                                     <td> {{ $loop->iteration }} </td>
                                     <td> {{ $payment->payment_type }} </td>
                                     <td> {{ timeFormate($payment->payment_date) }} </td>
-                                    <td> {{ number_format($payment->price,2) }} </td>
-                                    <td>{{ $payment->created_user_name()}}</td>
-                                    <td>{{ $payment->created_date()}}</td>
+                                    <td> {{ number_format($payment->price, 2) }} </td>
+                                    <td>{{ $payment->created_user_name() }}</td>
+                                    <td>{{ $payment->created_date() }}</td>
                                     <td class="text-center align-middle">
                                         @include('admin.partials.action_buttons', [
                                             'menuItems' => [
@@ -160,8 +164,8 @@
         {{-- Hosting Payments  --}}
     </div>
     {{-- Payment Details Modal  --}}
-    <div class="modal payment_modal_view fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal payment_modal_view fade" id="exampleModal" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -180,8 +184,7 @@
 
 @push('js')
     <script>
-
-        // Payment Details AJAX 
+        // Payment Details AJAX
         $(document).ready(function() {
             $('.view1').on('click', function() {
                 let id = $(this).data('id');
@@ -250,9 +253,5 @@
                 });
             });
         });
-
-
-
-        
     </script>
 @endpush

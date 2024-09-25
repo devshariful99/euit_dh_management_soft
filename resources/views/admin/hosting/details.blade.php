@@ -20,84 +20,88 @@
                     <table class="table table-striped">
                         <tbody>
                             <tr>
-                                <th>{{__('Hosting Name')}}</th>
+                                <th>{{ __('Hosting Name') }}</th>
                                 <th>:</th>
-                                <td>{{$hosting->name}}</td>
+                                <td>{{ $hosting->name }}</td>
                             </tr>
                             <tr>
-                                <th>{{__('Company Name')}}</th>
+                                <th>{{ __('Company Name') }}</th>
                                 <th>:</th>
-                                <td>{{$hosting->company->name}}</td>
+                                <td>{{ $hosting->company->name }}</td>
                             </tr>
                             <tr>
-                                <th>{{__('Login URL')}}</th>
+                                <th>{{ __('Login URL') }}</th>
                                 <th>:</th>
-                                <td><a target="_blank" class="btn btn-sm btn-primary" href="{{$hosting->admin_url}}">{{__('Log In')}}</a></td>
+                                <td><a target="_blank" class="btn btn-sm btn-primary"
+                                        href="{{ $hosting->admin_url }}">{{ __('Log In') }}</a></td>
                             </tr>
                             <tr>
-                                <th>{{__('Username')}}</th>
+                                <th>{{ __('Username') }}</th>
                                 <th>:</th>
-                                <td>{{$hosting->username ?? '--'}}</td>
+                                <td>{{ $hosting->username ?? '--' }}</td>
                             </tr>
                             <tr>
-                                <th>{{__('Email')}}</th>
+                                <th>{{ __('Email') }}</th>
                                 <th>:</th>
-                                <td>{{$hosting->email}}</td>
+                                <td>{{ $hosting->email }}</td>
                             </tr>
                             <tr>
-                                <th>{{__('Password')}}</th>
+                                <th>{{ __('Password') }}</th>
                                 <th>:</th>
-                                <td>{{$hosting->password}}</td>
+                                <td>{{ $hosting->password }}</td>
                             </tr>
                             <tr>
-                                <th>{{__('Purchase Date')}}</th>
+                                <th>{{ __('Purchase Date') }}</th>
                                 <th>:</th>
-                                <td>{{$hosting->purchase_date ?timeFormate($hosting->purchase_date) : '--'}}</td>
+                                <td>{{ $hosting->purchase_date ? timeFormate($hosting->purchase_date) : '--' }}</td>
                             </tr>
                             <tr>
-                                <th>{{__('Renew Status')}}</th>
+                                <th>{{ __('Renew Status') }}</th>
                                 <th>:</th>
-                                <td><span class="badge {{$hosting->renew_data ? 'badge-success' : 'badge-warning'}}">{{$hosting->renew_data ? 'Yes' : 'No'}}</span></td>
+                                <td><span
+                                        class="badge {{ $hosting->renew_date ? 'badge-success' : 'badge-warning' }}">{{ $hosting->renew_date ? 'Yes' : 'No' }}</span>
+                                </td>
                             </tr>
                             <tr>
-                                <th>{{__('Renew Date')}}</th>
+                                <th>{{ __('Renew Date') }}</th>
                                 <th>:</th>
-                                <td>{{$hosting->renew_date ?timeFormate($hosting->renew_date) : '--'}}</td>
+                                <td>{{ $hosting->renew_date ? timeFormate($hosting->renew_date) : '--' }}</td>
                             </tr>
                             <tr>
-                                <th>{{__('Expiry Date')}}</th>
+                                <th>{{ __('Expiry Date') }}</th>
                                 <th>:</th>
-                                <td>{{$hosting->expire_date ?timeFormate($hosting->expire_date) : '--'}}</td>
+                                <td>{{ $hosting->expire_date ? timeFormate($hosting->expire_date) : '--' }}</td>
                             </tr>
                             <tr>
-                                <th>{{__('Status')}}</th>
+                                <th>{{ __('Status') }}</th>
                                 <th>:</th>
-                                <td><span class="{{ $hosting->getStatusBadgeClass() }}">{{ $hosting->getStatus() }}</span></td>
+                                <td><span class="{{ $hosting->getStatusBadgeClass() }}">{{ $hosting->getStatus() }}</span>
+                                </td>
                             </tr>
                             <tr>
-                                <th>{{__('Note')}}</th>
+                                <th>{{ __('Note') }}</th>
                                 <th>:</th>
-                                <td>{{$hosting->note}}</td>
+                                <td>{{ $hosting->note }}</td>
                             </tr>
                             <tr>
-                                <th>{{__('Created By')}}</th>
+                                <th>{{ __('Created By') }}</th>
                                 <th>:</th>
-                                <td>{{$hosting->created_user_name()}}</td>
+                                <td>{{ $hosting->created_user_name() }}</td>
                             </tr>
                             <tr>
-                                <th>{{__('Created Date')}}</th>
+                                <th>{{ __('Created Date') }}</th>
                                 <th>:</th>
-                                <td>{{$hosting->created_date()}}</td>
+                                <td>{{ $hosting->created_date() }}</td>
                             </tr>
                             <tr>
-                                <th>{{__('Updated By')}}</th>
+                                <th>{{ __('Updated By') }}</th>
                                 <th>:</th>
-                                <td>{{$hosting->updated_user_name()}}</td>
+                                <td>{{ $hosting->updated_user_name() }}</td>
                             </tr>
                             <tr>
-                                <th>{{__('Updated At')}}</th>
+                                <th>{{ __('Updated At') }}</th>
                                 <th>:</th>
-                                <td>{{$hosting->updated_date()}}</td>
+                                <td>{{ $hosting->updated_date() }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -108,7 +112,7 @@
         <div class="col-12">
             <div class="card m-3">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h3 class="card-title">{{ __($hosting->name.' Payments') }}</h3>
+                    <h3 class="card-title">{{ __($hosting->name . ' Payments') }}</h3>
                 </div>
                 <div class="card-body">
                     <table class="table table-striped datatable">
@@ -129,9 +133,9 @@
                                     <td> {{ $loop->iteration }} </td>
                                     <td> {{ $payment->payment_type }} </td>
                                     <td> {{ timeFormate($payment->payment_date) }} </td>
-                                    <td> {{ number_format($payment->price,2) }} </td>
-                                    <td>{{ $payment->created_user_name()}}</td>
-                                    <td>{{ $payment->created_date()}}</td>
+                                    <td> {{ number_format($payment->price, 2) }} </td>
+                                    <td>{{ $payment->created_user_name() }}</td>
+                                    <td>{{ $payment->created_date() }}</td>
                                     <td class="text-center align-middle">
                                         @include('admin.partials.action_buttons', [
                                             'menuItems' => [
@@ -157,7 +161,8 @@
         <div class="col-12">
             <div class="card m-3">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h3 class="card-title">{{ __('Total Domains -') }} <strong class="text-primary">({{$hosting->domains->count()}})</strong></h3>
+                    <h3 class="card-title">{{ __('Total Domains -') }} <strong
+                            class="text-primary">({{ $hosting->domains->count() }})</strong></h3>
                 </div>
                 <div class="card-body">
                     <table class="table table-striped datatable">
@@ -185,14 +190,18 @@
                                     <td>{{ $domain->name }}</td>
                                     <td>{{ $domain->company->name }}</td>
                                     <td>{{ $domain->username ?? '--' }}</td>
-                                    <td><a target="_blank" href="{{$domain->admin_url}}">{{removeHttpProtocol($domain->admin_url)}}</a></td>
+                                    <td><a target="_blank"
+                                            href="{{ $domain->admin_url }}">{{ removeHttpProtocol($domain->admin_url) }}</a>
+                                    </td>
                                     <td>{{ $domain->email }}</td>
                                     <td>{{ $domain->password }}</td>
-                                    <td><span class="{{ $domain->getStatusBadgeClass() }}">{{ $domain->getStatus() }}</span>
+                                    <td><span
+                                            class="{{ $domain->getStatusBadgeClass() }}">{{ $domain->getStatus() }}</span>
                                     </td>
-                                    <td><span class="{{ $domain->getDevelopedStatusBadgeClass() }}">{{ $domain->getDevelopedStatus() }}</span>
+                                    <td><span
+                                            class="{{ $domain->getDevelopedStatusBadgeClass() }}">{{ $domain->getDevelopedStatus() }}</span>
                                     </td>
-                                    <td>{{ $domain->created_user_name()}}</td>
+                                    <td>{{ $domain->created_user_name() }}</td>
                                     <td class="text-center align-middle">
                                         @include('admin.partials.action_buttons', [
                                             'menuItems' => [
@@ -216,8 +225,8 @@
         {{-- Total Domains  --}}
     </div>
     {{-- Payment Details Modal  --}}
-    <div class="modal payment_modal_view fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal payment_modal_view fade" id="exampleModal" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -232,8 +241,8 @@
         </div>
     </div>
     {{-- Domain Details Modal  --}}
-    <div class="modal domain_modal_view fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal domain_modal_view fade" id="exampleModal" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -252,8 +261,7 @@
 
 @push('js')
     <script>
-
-        // Payment Details AJAX 
+        // Payment Details AJAX
         $(document).ready(function() {
             $('.view1').on('click', function() {
                 let id = $(this).data('id');
@@ -323,7 +331,7 @@
             });
         });
 
-        // Domain Details AJAX 
+        // Domain Details AJAX
         $(document).ready(function() {
             $('.view2').on('click', function() {
                 let id = $(this).data('id');
@@ -337,7 +345,8 @@
                         let status = data.status = 1 ? 'Active' : 'Deactive';
                         let statusClass = data.status = 1 ? 'badge-success' :
                             'badge-warning';
-                        let developedStatus = data.is_developed == 1 ? 'Developed' : 'Not Developed';
+                        let developedStatus = data.is_developed == 1 ? 'Developed' :
+                            'Not Developed';
                         let developedStatusClass = data.is_developed == 1 ? 'badge-info' :
                             'badge-warning';
                         let renew_status = (data.renew_date !== '--') ? 'Yes' : 'No';
@@ -446,8 +455,5 @@
                 });
             });
         });
-
-
-        
     </script>
 @endpush

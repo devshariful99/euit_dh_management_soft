@@ -64,7 +64,7 @@ class ClientHostingController extends Controller
     {
         $years = floor($req->duration);
         $months = ($req->duration - $years) * 12;
-        $expire_data = Carbon::parse($req->purchase_date)
+        $expire_date = Carbon::parse($req->purchase_date)
             ->addYears($years)
             ->addMonths($months);
 
@@ -78,7 +78,7 @@ class ClientHostingController extends Controller
         $ch->email = $req->email;
         $ch->password = $req->password;
         $ch->purchase_date = $req->purchase_date;
-        $ch->expire_date = $expire_data;
+        $ch->expire_date = $expire_date;
         $ch->note = $req->note;
         $ch->created_by = admin()->id;
         $ch->save();
@@ -97,7 +97,7 @@ class ClientHostingController extends Controller
     {
         $years = floor($req->duration);
         $months = ($req->duration - $years) * 12;
-        $expire_data = Carbon::parse($req->purchase_date)
+        $expire_date = Carbon::parse($req->purchase_date)
             ->addYears($years)
             ->addMonths($months);
         $ch = ClientHosting::findOrFail($id);
@@ -110,7 +110,7 @@ class ClientHostingController extends Controller
         $ch->email = $req->email;
         $ch->password = $req->password;
         $ch->purchase_date = $req->purchase_date;
-        $ch->expire_date = $expire_data;
+        $ch->expire_date = $expire_date;
         $ch->note = $req->note;
         $ch->updated_by = admin()->id;
         $ch->update();
