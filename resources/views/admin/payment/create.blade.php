@@ -73,7 +73,7 @@
                                         <input type="text" name="price" placeholder="Enter price" id="price"
                                             class="form-control" value="{{ old('price') }}">
                                         <span class="btn btn-sm btn-secondary disabled"
-                                            style="line-height: 2">{{ __('BDT') }}</span>
+                                            style="line-height: 2">{{ __('USD') }}</span>
                                     </div>
                                     @include('alerts.feedback', ['field' => 'price'])
                                 </div>
@@ -82,13 +82,9 @@
                                     <div class="input-group" role="group">
                                         <input type="text" name="duration" placeholder="Enter duration" id="duration"
                                             class="form-control" value="{{ old('duration') }}">
-                                        <select name="duration_type" class="form-control">
-                                            <option selected hidden value="">{{ __('Select type') }}</option>
-                                            <option value="Year" {{ old('duration_type') == 'Year' ? 'selected' : '' }}>
-                                                {{ __('Year') }}</option>
-                                            <option value="Month" {{ old('duration_type') == 'Month' ? 'selected' : '' }}>
-                                                {{ __('Month') }}</option>
-                                        </select>
+                                        <span class="btn btn-sm btn-secondary disabled"
+                                            style="line-height: 2">{{ __('Year') }}</span>
+
                                     </div>
                                     @include('alerts.feedback', ['field' => 'duration'])
                                     @include('alerts.feedback', ['field' => 'duration_type'])

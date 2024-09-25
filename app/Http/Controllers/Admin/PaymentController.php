@@ -53,19 +53,18 @@ class PaymentController extends Controller
             $modelData = Hosting::findOrFail($req->hd_id);
         }
         if ($req->payment_type == "First-payment") {
-            if ($req->duration_type == 'Year') {
-                $expiry_date = $payment_date->copy()->addYears($req->duration);
-            } elseif ($req->duration_type == 'Month') {
-                $expiry_date = $payment_date->copy()->addMonths($req->duration);
-            }
+            $years = floor($req->duration);
+            $months = ($req->duration - $years) * 12;
+            $expiry_date = $payment_date->addYears($years)
+                ->addMonths($months);
+
             $modelData->purchase_date = $req->payment_date;
             $modelData->expire_date = $expiry_date;
         } elseif ($req->payment_type == "Renew-payment") {
-            if ($req->duration_type == 'Year') {
-                $expiry_date = $modelData->expire_date->copy()->addYears($req->duration);
-            } elseif ($req->duration_type == 'Month') {
-                $expiry_date = $modelData->expire_date->copy()->addMonths($req->duration);
-            }
+            $years = floor($req->duration);
+            $months = ($req->duration - $years) * 12;
+            $expiry_date = Carbon::parse($modelData->expire_date)->addYears($years)
+                ->addMonths($months);
             $modelData->renew_data = $req->payment_date;
             $modelData->expire_date = $expiry_date;
         } elseif ($req->payment_type == "Due-payment") {
@@ -97,7 +96,8 @@ class PaymentController extends Controller
 
     public function edit($id): View
     {
-        $data['payment'] = Payment::findOrFail($id);
+        $data['payment'] = Payment::with('hd')->findOrFail($id);
+        $data['payment']->duration = Carbon::parse($data['payment']->hd->expire_date)->diffInMonths(Carbon::parse($data['payment']->payment_date)) / 12;
         if ($data['payment']->payment_for == 'Domain') {
             $data['hds'] = Domain::activated()->latest()->get();
         } else {
@@ -118,19 +118,21 @@ class PaymentController extends Controller
             $modelData = Hosting::findOrFail($req->hd_id);
         }
         if ($req->payment_type == "First-payment") {
-            if ($req->duration_type == 'Year') {
-                $expiry_date = $payment_date->copy()->addYears($req->duration);
-            } elseif ($req->duration_type == 'Month') {
-                $expiry_date = $payment_date->copy()->addMonths($req->duration);
-            }
+
+            $years = floor($req->duration);
+            $months = ($req->duration - $years) * 12;
+            $expiry_date = $payment_date->addYears($years)
+                ->addMonths($months);
+
             $modelData->purchase_date = $req->payment_date;
             $modelData->expire_date = $expiry_date;
         } elseif ($req->payment_type == "Renew-payment") {
-            if ($req->duration_type == 'Year') {
-                $expiry_date = $modelData->expire_date->copy()->addYears($req->duration);
-            } elseif ($req->duration_type == 'Month') {
-                $expiry_date = $modelData->expire_date->copy()->addMonths($req->duration);
-            }
+
+            $years = floor($req->duration);
+            $months = ($req->duration - $years) * 12;
+            $expiry_date = Carbon::parse($modelData->expire_date)->addYears($years)
+                ->addMonths($months);
+
             $modelData->renew_data = $req->payment_date;
             $modelData->expire_date = $expiry_date;
         } elseif ($req->payment_type == "Due-payment") {

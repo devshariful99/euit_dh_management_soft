@@ -69,7 +69,7 @@ class ClientDomainController extends Controller
     {
         $years = floor($req->duration);
         $months = ($req->duration - $years) * 12;
-        $expire_data = Carbon::parse($req->purchase_date)
+        $expire_date = Carbon::parse($req->purchase_date)
             ->addYears($years)
             ->addMonths($months);
 
@@ -85,7 +85,7 @@ class ClientDomainController extends Controller
         $cd->email = $req->email;
         $cd->password = $req->password;
         $cd->purchase_date = $req->purchase_date;
-        $cd->expire_date = $expire_data;
+        $cd->expire_date = $expire_date;
         $cd->note = $req->note;
         $cd->created_by = admin()->id;
         $cd->save();
@@ -106,7 +106,7 @@ class ClientDomainController extends Controller
 
         $years = floor($req->duration);
         $months = ($req->duration - $years) * 12;
-        $expire_data = Carbon::parse($req->purchase_date)
+        $expire_date = Carbon::parse($req->purchase_date)
             ->addYears($years)
             ->addMonths($months);
         $cd = ClientDomain::findOrFail($id);
@@ -121,7 +121,7 @@ class ClientDomainController extends Controller
         $cd->email = $req->email;
         $cd->password = $req->password;
         $cd->purchase_date = $req->purchase_date;
-        $cd->expire_date = $expire_data;
+        $cd->expire_date = $expire_date;
         $cd->note = $req->note;
         $cd->updated_by = admin()->id;
         $cd->update();
