@@ -65,10 +65,10 @@ class PaymentController extends Controller
             $months = ($req->duration - $years) * 12;
             $expiry_date = Carbon::parse($modelData->expire_date)->addYears($years)
                 ->addMonths($months);
-            $modelData->renew_data = $req->payment_date;
+            $modelData->renew_date = $req->payment_date;
             $modelData->expire_date = $expiry_date;
         } elseif ($req->payment_type == "Due-payment") {
-            $modelData->renew_data = $req->payment_date;
+            $modelData->renew_date = $req->payment_date;
             $modelData->expire_date = $expiry_date;
         }
         $modelData->update();
@@ -133,10 +133,10 @@ class PaymentController extends Controller
             $expiry_date = Carbon::parse($modelData->expire_date)->addYears($years)
                 ->addMonths($months);
 
-            $modelData->renew_data = $req->payment_date;
+            $modelData->renew_date = $req->payment_date;
             $modelData->expire_date = $expiry_date;
         } elseif ($req->payment_type == "Due-payment") {
-            $modelData->renew_data = $req->payment_date;
+            $modelData->renew_date = $req->payment_date;
             $modelData->expire_date = $expiry_date;
         }
         $modelData->update();
