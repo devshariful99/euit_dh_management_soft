@@ -138,7 +138,7 @@
                                     <td> {{ $loop->iteration }} </td>
                                     <td> {{ $payment->payment_type }} </td>
                                     <td> {{ timeFormate($payment->payment_date) }} </td>
-                                    <td> {{ number_format($payment->price, 2) }} </td>
+                                    <td> {{ number_format($payment->price, 2) . ' USD' }} </td>
                                     <td>{{ $payment->created_user_name() }}</td>
                                     <td>{{ $payment->created_date() }}</td>
                                     <td class="text-center align-middle">

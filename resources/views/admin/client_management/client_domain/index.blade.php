@@ -42,7 +42,7 @@
                                     <td>{{ $domain->hosting->name }}</td>
                                     <td>{{ $domain->domain_name }}</td>
                                     <td>{{ Str::ucfirst(str_replace('-', ' ', $domain->type())) }}</td>
-                                    <td>{{ number_format($domain->price, 2) . 'tk' }}</td>
+                                    <td>{{ number_format($domain->price, 2) . ' USD' }}</td>
                                     <td><span
                                             class="{{ $domain->getStatusBadgeClass() }}">{{ $domain->getStatus() }}</span>
                                     </td>
@@ -69,7 +69,7 @@
                                                     'className' => 'btn btn-info',
                                                     'title' => 'Edit',
                                                 ],
-
+                                        
                                                 [
                                                     'routeName' => 'cm.cd.cd_delete',
                                                     'params' => [$domain->id],
@@ -173,7 +173,7 @@
                                     <tr>
                                         <th class="text-nowrap">Purchase Price</th>
                                         <th>:</th>
-                                        <td>${data.price}tk</td>
+                                        <td>${data.price} USD</td>
                                     </tr>
                                     <tr>
                                         <th class="text-nowrap">Login URL</th>

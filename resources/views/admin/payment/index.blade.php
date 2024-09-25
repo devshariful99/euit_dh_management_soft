@@ -35,11 +35,11 @@
                                 <tr>
                                     <td> {{ $loop->iteration }} </td>
                                     <td> {{ $payment->payment_for }} </td>
-                                    <td> {{ $payment->domain_or_hosting_name()." ($payment->payment_for)" }} </td>
+                                    <td> {{ $payment->domain_or_hosting_name() . " ($payment->payment_for)" }} </td>
                                     <td> {{ $payment->payment_type }} </td>
                                     <td> {{ timeFormate($payment->payment_date) }} </td>
-                                    <td> {{ number_format($payment->price,2) }} </td>
-                                    <td>{{ $payment->created_user_name()}}</td>
+                                    <td> {{ number_format($payment->price, 2) . ' USD' }} </td>
+                                    <td>{{ $payment->created_user_name() }}</td>
                                     <td class="text-center align-middle">
                                         @include('admin.partials.action_buttons', [
                                             'menuItems' => [
@@ -57,7 +57,7 @@
                                                     'className' => 'btn btn-info',
                                                     'title' => 'Edit',
                                                 ],
-                                                
+                                        
                                                 [
                                                     'routeName' => 'payment.payment_delete',
                                                     'params' => [$payment->id],
@@ -133,7 +133,7 @@
                                     <tr>
                                         <th class="text-nowrap">Price</th>
                                         <th>:</th>
-                                        <td>${data.price} Tk</td>
+                                        <td>${data.price} USD </td>
                                     </tr>
                                     <tr>
                                         <th class="text-nowrap">Created At</th>

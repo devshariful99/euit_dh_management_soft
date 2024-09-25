@@ -57,7 +57,7 @@
                             <div class="form-group">
                                 <label for="price">{{ __('Purchase Price') }}<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control {{ $errors->has('price') ? ' is-invalid' : '' }}"
-                                    id="price" name="price" value="{{ $ch->price }}" placeholder="Enter price">
+                                    id="price" name="price" value="{{ $ch->price }}" placeholder="Enter price in USD">
                                 @include('alerts.feedback', ['field' => 'price'])
                             </div>
                             <div class="form-group">
