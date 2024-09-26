@@ -58,9 +58,6 @@
                                         <option value="Renew-payment"
                                             {{ $payment->payment_type == 'Renew-payment' ? 'selected' : '' }}>
                                             {{ __('Renew-payment') }}</option>
-                                        <option value="Due-payment"
-                                            {{ $payment->payment_type == 'Due-payment' ? 'selected' : '' }}>
-                                            {{ __('Due-payment') }}</option>
                                     </select>
                                     @include('alerts.feedback', ['field' => 'payment_type'])
                                 </div>
@@ -89,13 +86,7 @@
                                         <span class="btn btn-sm btn-secondary disabled"
                                             style="line-height: 2">{{ __('Year') }}</span>
                                     </div>
-                                    @include('alerts.feedback', ['field' => 'price'])
-                                </div>
-                                <div class="form-group col-md-6" id="is_expiry_date" style="display: none;">
-                                    <label for="expiry_date">{{ __('Expiry Date') }}</label>
-                                    <input type="date" name="expiry_date" id="expiry_date" class="form-control"
-                                        value="{{ $payment->hd->expiry_date }}">
-                                    @include('alerts.feedback', ['field' => 'expiry_date'])
+                                    @include('alerts.feedback', ['field' => 'duration'])
                                 </div>
                                 <div class="form-group">
                                     <label for="file">{{ __('Upload') }}</label>
@@ -143,24 +134,6 @@
                         console.error('Error fetching data:', error);
                     }
                 });
-            });
-        });
-        $(document).ready(function() {
-            if ($('#payment_type').val() === 'Due-payment') {
-                $('#is_duration').hide();
-                $('#is_expiry_date').show();
-            } else {
-                $('#is_duration').show();
-                $('#is_expiry_date').hide();
-            }
-            $('#payment_type').on('change', function() {
-                if ($(this).val() === 'Due-payment') {
-                    $('#is_duration').hide();
-                    $('#is_expiry_date').show();
-                } else {
-                    $('#is_duration').show();
-                    $('#is_expiry_date').hide();
-                }
             });
         });
     </script>
