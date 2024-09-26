@@ -22,14 +22,6 @@
                         @csrf
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="domain_name">{{ __('Domain Name') }}<span class="text-danger">*</span></label>
-                                <input type="text"
-                                    class="form-control {{ $errors->has('domain_name') ? ' is-invalid' : '' }}"
-                                    id="domain_name" name="domain_name" value="{{ $cd->domain_name }}"
-                                    placeholder="Enter domain name">
-                                @include('alerts.feedback', ['field' => 'domain_name'])
-                            </div>
-                            <div class="form-group">
                                 <label for="client_id">{{ __('Client') }}<span class="text-danger">*</span></label>
                                 <select name="client_id"
                                     class="form-control {{ $errors->has('client_id') ? ' is-invalid' : '' }}"
@@ -44,6 +36,26 @@
                                 @include('alerts.feedback', ['field' => 'client_id'])
                             </div>
                             <div class="form-group">
+                                <label for="domain_name">{{ __('Domain Name') }}<span class="text-danger">*</span></label>
+                                <input type="text"
+                                    class="form-control {{ $errors->has('domain_name') ? ' is-invalid' : '' }}"
+                                    id="domain_name" name="domain_name" value="{{ $cd->domain_name }}"
+                                    placeholder="Enter domain name">
+                                @include('alerts.feedback', ['field' => 'domain_name'])
+                            </div>
+                            <div class="form-group">
+                                <label for="company_id">{{ __('Company') }}</label>
+                                <select name="company_id" id="company_id" class="form-control">
+                                    <option selected value="">{{ __('Select Company') }}</option>
+                                    @foreach ($companies as $company)
+                                        <option value="{{ $company->id }}"
+                                            {{ $cd->company_id == $company->id ? 'selected' : '' }}>{{ $company->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @include('alerts.feedback', ['field' => 'company_id'])
+                            </div>
+                            <div class="form-group">
                                 <label for="hosting_id">{{ __('Hosting') }}</label>
                                 <select name="hosting_id" id="hosting_id" class="form-control">
                                     <option selected value="">{{ __('Select Company') }}</option>
@@ -54,18 +66,6 @@
                                     @endforeach
                                 </select>
                                 @include('alerts.feedback', ['field' => 'hosting_id'])
-                            </div>
-                            <div class="form-group">
-                                <label for="domain_id">{{ __('Domain') }}</label>
-                                <select name="domain_id" id="domain_id" class="form-control">
-                                    <option selected value="">{{ __('Select Domain') }}</option>
-                                    @foreach ($domains as $domain)
-                                        <option value="{{ $domain->id }}"
-                                            {{ $cd->domain_id == $domain->id ? 'selected' : '' }}>{{ $domain->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @include('alerts.feedback', ['field' => 'domain_id'])
                             </div>
                             <div class="form-group">
                                 <label for="type">{{ __('Type') }}<span class="text-danger">*</span></label>
@@ -183,7 +183,7 @@
                         </div>
 
                         <div class="card-footer text-end">
-                            <button type="submit" class="btn btn-primary">{{ __('Create') }}</button>
+                            <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                         </div>
                     </form>
                 </div>

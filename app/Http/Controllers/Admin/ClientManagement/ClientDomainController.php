@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientDomainRequest;
 use App\Models\Client;
 use App\Models\ClientDomain;
+use App\Models\Company;
 use App\Models\Domain;
 use App\Models\Hosting;
 use Carbon\Carbon;
@@ -23,7 +24,7 @@ class ClientDomainController extends Controller
 
     public function index(Request $req): View
     {
-        $query = ClientDomain::with(['created_user', 'client', 'domain', 'hosting'])->latest();
+        $query = ClientDomain::with(['created_user', 'client', 'company', 'hosting'])->latest();
         if (isset($req->status)) {
             $query->where('status', $req->status);
         }
@@ -32,7 +33,7 @@ class ClientDomainController extends Controller
     }
     public function details($id): JsonResponse
     {
-        $data = ClientDomain::with(['created_user', 'updated_user', 'client', 'hosting', 'domain', 'renews'])->findOrFail($id);
+        $data = ClientDomain::with(['created_user', 'updated_user', 'client', 'hosting', 'company', 'renews'])->findOrFail($id);
         $data->creating_time = $data->created_date();
         $data->updating_time = $data->updated_date();
         $data->created_by = $data->created_user_name();
@@ -60,7 +61,7 @@ class ClientDomainController extends Controller
     }
     public function create(): View
     {
-        $data['domains'] = Domain::activated()->latest()->get();
+        $data['companies'] = Company::activated()->latest()->get();
         $data['hostings'] = Hosting::activated()->latest()->get();
         $data['clients'] = Client::activated()->latest()->get();
         return view('admin.client_management.client_domain.create', $data);
@@ -77,7 +78,7 @@ class ClientDomainController extends Controller
         $cd->domain_name = $req->domain_name;
         $cd->client_id = $req->client_id;
         $cd->hosting_id = $req->hosting_id;
-        $cd->domain_id = $req->domain_id;
+        $cd->company_id = $req->company_id;
         $cd->type = $req->type;
         $cd->price = $req->price;
         $cd->admin_url = $req->admin_url;
@@ -113,7 +114,7 @@ class ClientDomainController extends Controller
         $cd->domain_name = $req->domain_name;
         $cd->client_id = $req->client_id;
         $cd->hosting_id = $req->hosting_id;
-        $cd->domain_id = $req->domain_id;
+        $cd->company_id = $req->company_id;
         $cd->type = $req->type;
         $cd->price = $req->price;
         $cd->admin_url = $req->admin_url;

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('client_id');
             $table->unsignedBigInteger('hosting_id')->nullable();
-            $table->unsignedBigInteger('domain_id')->nullable();
+            $table->unsignedBigInteger('company_id')->nullable();
             $table->string('domain_name');
             $table->tinyInteger('type')->comment('1 = main-domain, 2 = sub-domain, 3 = custom-domain');
             $table->double('price', 8, 2);
@@ -38,7 +38,7 @@ return new class extends Migration
 
             $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('hosting_id')->references('id')->on('hostings')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('domain_id')->references('id')->on('domains')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

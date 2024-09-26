@@ -69,7 +69,7 @@
                                                     'className' => 'btn btn-info',
                                                     'title' => 'Edit',
                                                 ],
-                                        
+
                                                 [
                                                     'routeName' => 'cm.cd.cd_delete',
                                                     'params' => [$domain->id],
@@ -148,27 +148,25 @@
                                         <th>:</th>
                                         <td>${data.client.name}</td>
                                     </tr>
+                                     <tr>
+                                        <th class="text-nowrap">Domain Name</th>
+                                        <th>:</th>
+                                        <td>${data.domain_name}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-nowrap">Company</th>
+                                        <th>:</th>
+                                        <td>${data.company.name}</td>
+                                    </tr>
                                     <tr>
                                         <th class="text-nowrap">Hosting</th>
                                         <th>:</th>
                                         <td>${data.hosting ? data.hosting.name : "NULL"}</td>
-                                    </tr>`;
-                        if (data.type == 2) {
-                            result += `<tr>
-                                        <th class="text-nowrap">Domain</th>
-                                        <th>:</th>
-                                        <td>${data.domain ? data.domain.name : "NULL"}</td>
-                                    </tr>`;
-                        }
-                        result += `<tr>
+                                    </tr>
+                                    <tr>
                                         <th class="text-nowrap">Type</th>
                                         <th>:</th>
                                         <td>${data.type}</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-nowrap">Domain Name</th>
-                                        <th>:</th>
-                                        <td>${data.domain_name}</td>
                                     </tr>
                                     <tr>
                                         <th class="text-nowrap">Purchase Price</th>

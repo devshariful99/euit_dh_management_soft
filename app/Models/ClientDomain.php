@@ -32,9 +32,9 @@ class ClientDomain extends BaseModel
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function domain()
+    public function company()
     {
-        return $this->belongsTo(Domain::class, 'domain_id');
+        return $this->belongsTo(Company::class, 'company_id');
     }
     /**
      * Get the type of the domain
