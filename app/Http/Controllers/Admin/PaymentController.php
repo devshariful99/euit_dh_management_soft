@@ -44,30 +44,25 @@ class PaymentController extends Controller
     public function store(PaymentRequest $req): RedirectResponse
     {
         $modelData = '';
-        $expiry_date = $req->expiry_date ? $req->expiry_date->format('Y-m-d') : '';
-
         $payment_date = Carbon::parse($req->payment_date);
+        $years = floor($req->duration);
+        $months = ($req->duration - $years) * 12;
+        $expiry_date = $payment_date->addYears($years)
+            ->addMonths($months);
+
         if ($req->payment_for == 'Domain') {
             $modelData = Domain::findOrFail($req->hd_id);
         } elseif ($req->payment_for == 'Hosting') {
             $modelData = Hosting::findOrFail($req->hd_id);
         }
         if ($req->payment_type == "First-payment") {
-            $years = floor($req->duration);
-            $months = ($req->duration - $years) * 12;
-            $expiry_date = $payment_date->addYears($years)
-                ->addMonths($months);
-
             $modelData->purchase_date = $req->payment_date;
             $modelData->expire_date = $expiry_date;
         } elseif ($req->payment_type == "Renew-payment") {
-            $years = floor($req->duration);
-            $months = ($req->duration - $years) * 12;
-            $expiry_date = $payment_date->addYears($years)
-                ->addMonths($months);
             $modelData->renew_date = $req->payment_date;
             $modelData->expire_date = $expiry_date;
         }
+        $modelData->updated_by = admin()->id;
         $modelData->update();
 
         $payment = new Payment();
@@ -106,33 +101,26 @@ class PaymentController extends Controller
     public function update(PaymentRequest $req, $id): RedirectResponse
     {
         $modelData = '';
-        $expiry_date = $req->expiry_date ? $req->expiry_date->format('Y-m-d') : '';
-
         $payment_date = Carbon::parse($req->payment_date);
+        $years = floor($req->duration);
+        $months = ($req->duration - $years) * 12;
+        $expiry_date = $payment_date->addYears($years)
+            ->addMonths($months);
+
+
         if ($req->payment_for == 'Domain') {
             $modelData = Domain::findOrFail($req->hd_id);
         } elseif ($req->payment_for == 'Hosting') {
             $modelData = Hosting::findOrFail($req->hd_id);
         }
         if ($req->payment_type == "First-payment") {
-
-            $years = floor($req->duration);
-            $months = ($req->duration - $years) * 12;
-            $expiry_date = $payment_date->addYears($years)
-                ->addMonths($months);
-
             $modelData->purchase_date = $req->payment_date;
             $modelData->expire_date = $expiry_date;
         } elseif ($req->payment_type == "Renew-payment") {
-
-            $years = floor($req->duration);
-            $months = ($req->duration - $years) * 12;
-            $expiry_date = $payment_date->addYears($years)
-                ->addMonths($months);
-
             $modelData->renew_date = $payment_date;
             $modelData->expire_date = $expiry_date;
         }
+        $modelData->updated_by = admin()->id;
         $modelData->update();
 
         $payment = Payment::findOrFail($id);
