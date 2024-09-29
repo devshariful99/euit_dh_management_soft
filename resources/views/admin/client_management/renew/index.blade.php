@@ -47,7 +47,7 @@
                                     <td> <span class="{{ $renew->getStatusBadgeClass() }}">{{ $renew->getStatus() }}</span>
                                     </td>
                                     <td> {{ timeFormate($renew->renew_date) }} </td>
-                                    <td> {{ number_format($renew->price, 2) . 'tk' }} </td>
+                                    <td> {{ number_format($renew->price, 2) . ' USD' }} </td>
                                     <td> {{ $renew->duration . ' Year' }} </td>
                                     <td>{{ $renew->created_user_name() }}</td>
                                     <td class="text-center align-middle">
@@ -149,7 +149,7 @@
                                     <tr>
                                         <th class="text-nowrap">Price</th>
                                         <th>:</th>
-                                        <td>${data.price} Tk</td>
+                                        <td>${data.price} USD</td>
                                     </tr>
                                     <tr>
                                         <th class="text-nowrap">Status</th>
