@@ -40,13 +40,15 @@
                                     <td>{{ $hosting->name }}</td>
                                     <td>{{ $hosting->company->name }}</td>
                                     <td>{{ $hosting->username ?? '--' }}</td>
-                                    <td><a target="_blank" class="btn btn-sm btn-primary" href="{{$hosting->admin_url}}">{{__('Log In')}}</a></td>
+                                    <td><a target="_blank" class="btn btn-sm btn-primary"
+                                            href="{{ $hosting->admin_url }}">{{ __('Log In') }}</a></td>
                                     <td>{{ $hosting->email }}</td>
                                     <td>{{ $hosting->password }}</td>
-                                    <td><span class="{{ $hosting->getStatusBadgeClass() }}">{{ $hosting->getStatus() }}</span>
+                                    <td><span
+                                            class="{{ $hosting->getStatusBadgeClass() }}">{{ $hosting->getStatus() }}</span>
                                     </td>
-                                    <td>{{ $hosting->created_user_name()}}</td>
-                                    <td>{{$hosting->created_date()}}</td>
+                                    <td>{{ $hosting->created_user_name() }}</td>
+                                    <td>{{ $hosting->created_date() }}</td>
                                     <td class="text-center align-middle">
                                         @include('admin.partials.action_buttons', [
                                             'menuItems' => [
@@ -64,7 +66,7 @@
                                                     'className' => 'btn btn-info',
                                                     'title' => 'Edit',
                                                 ],
-                                                
+                                        
                                                 [
                                                     'routeName' => 'hosting.hosting_delete',
                                                     'params' => [$hosting->id],
@@ -113,7 +115,7 @@
 {{-- @push('js')
     <script>
         $(document).ready(function() {
-            $('.view').on('click', function() {
+            $(document).on('click','.view', function() {
                 let id = $(this).data('id');
                 let url = ("{{ route('hosting.details.hosting_list', ['id']) }}");
                 let _url = url.replace('id', id);
@@ -180,7 +182,7 @@
                                         <th>:</th>
                                         <td>${data.expire_date}</td>
                                     </tr>
-                                    
+
                                     <tr>
                                         <th class="text-nowrap">Note</th>
                                         <th>:</th>
@@ -191,7 +193,7 @@
                                         <th>:</th>
                                         <td><span class="badge ${statusClass}">${status}</span></td>
                                     </tr>
-                                    
+
                                     <tr>
                                         <th class="text-nowrap">Created At</th>
                                         <th>:</th>

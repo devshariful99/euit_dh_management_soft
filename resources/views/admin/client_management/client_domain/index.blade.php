@@ -69,7 +69,7 @@
                                                     'className' => 'btn btn-info',
                                                     'title' => 'Edit',
                                                 ],
-
+                                        
                                                 [
                                                     'routeName' => 'cm.cd.cd_delete',
                                                     'params' => [$domain->id],
@@ -132,7 +132,7 @@
 @push('js')
     <script>
         $(document).ready(function() {
-            $('.view').on('click', function() {
+            $(document).on('click', '.view', function() {
                 let id = $(this).data('id');
                 let url = ("{{ route('cm.cd.details.cd_list', ['id']) }}");
                 let _url = url.replace('id', id);

@@ -42,14 +42,17 @@
                                     <td>{{ $domain->name }}</td>
                                     <td>{{ $domain->company->name }}</td>
                                     <td>{{ $domain->username ?? '--' }}</td>
-                                    <td><a target="_blank" class="btn btn-sm btn-primary" href="{{$domain->admin_url}}">{{__('Log In')}}</a></td>
+                                    <td><a target="_blank" class="btn btn-sm btn-primary"
+                                            href="{{ $domain->admin_url }}">{{ __('Log In') }}</a></td>
                                     <td>{{ $domain->email }}</td>
                                     <td>{{ $domain->password }}</td>
-                                    <td><span class="{{ $domain->getStatusBadgeClass() }}">{{ $domain->getStatus() }}</span>
+                                    <td><span
+                                            class="{{ $domain->getStatusBadgeClass() }}">{{ $domain->getStatus() }}</span>
                                     </td>
-                                    <td><span class="{{ $domain->getDevelopedStatusBadgeClass() }}">{{ $domain->getDevelopedStatus() }}</span>
+                                    <td><span
+                                            class="{{ $domain->getDevelopedStatusBadgeClass() }}">{{ $domain->getDevelopedStatus() }}</span>
                                     </td>
-                                    <td>{{ $domain->created_user_name()}}</td>
+                                    <td>{{ $domain->created_user_name() }}</td>
                                     <td class="text-center align-middle">
                                         @include('admin.partials.action_buttons', [
                                             'menuItems' => [
@@ -67,7 +70,7 @@
                                                     'className' => 'btn btn-info',
                                                     'title' => 'Edit',
                                                 ],
-                                                
+                                        
                                                 [
                                                     'routeName' => 'domain.domain_delete',
                                                     'params' => [$domain->id],
@@ -123,7 +126,7 @@
 {{-- @push('js')
     <script>
         $(document).ready(function() {
-            $('.view').on('click', function() {
+            $(document).on('click','.view', function() {
                 let id = $(this).data('id');
                 let url = ("{{ route('domain.details.domain_list', ['id']) }}");
                 let _url = url.replace('id', id);

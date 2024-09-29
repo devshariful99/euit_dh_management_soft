@@ -38,7 +38,7 @@
                                     <td><span class="{{ $admin->getStatusBadgeClass() }}">{{ $admin->getStatus() }}</span>
                                     </td>
                                     <td>{{ $admin->created_user_name() }}</td>
-                                    <td>{{$admin->created_date()}}</td>
+                                    <td>{{ $admin->created_date() }}</td>
                                     <td class="text-center align-middle">
                                         @include('admin.partials.action_buttons', [
                                             'menuItems' => [
@@ -56,7 +56,7 @@
                                                     'className' => 'btn btn-info',
                                                     'title' => 'Edit',
                                                 ],
-                                                
+                                        
                                                 [
                                                     'routeName' => 'am.admin.admin_delete',
                                                     'params' => [$admin->id],
@@ -105,7 +105,7 @@
 @push('js')
     <script>
         $(document).ready(function() {
-            $('.view').on('click', function() {
+            $(document).on('click', '.view', function() {
                 let id = $(this).data('id');
                 let url = ("{{ route('am.admin.details.admin_list', ['id']) }}");
                 let _url = url.replace('id', id);

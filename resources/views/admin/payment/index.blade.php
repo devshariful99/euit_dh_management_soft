@@ -99,7 +99,7 @@
 @push('js')
     <script>
         $(document).ready(function() {
-            $('.view').on('click', function() {
+            $(document).on('click', '.view', function() {
                 let id = $(this).data('id');
                 let url = ("{{ route('payment.details.payment_list', ['id']) }}");
                 let _url = url.replace('id', id);

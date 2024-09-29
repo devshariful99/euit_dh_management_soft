@@ -57,7 +57,7 @@
                                                     'className' => 'btn btn-info',
                                                     'title' => 'Edit',
                                                 ],
-
+                                        
                                                 [
                                                     'routeName' => 'cm.client.client_delete',
                                                     'params' => [$client->id],
@@ -106,7 +106,7 @@
 @push('js')
     <script>
         $(document).ready(function() {
-            $('.view').on('click', function() {
+            $(document).on('click', '.view', function() {
                 let id = $(this).data('id');
                 let url = ("{{ route('cm.client.details.client_list', ['id']) }}");
                 let _url = url.replace('id', id);

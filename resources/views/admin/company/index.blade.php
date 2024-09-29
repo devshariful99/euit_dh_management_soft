@@ -34,11 +34,13 @@
                                 <tr>
                                     <td> {{ $loop->iteration }} </td>
                                     <td>{{ $company->name }}</td>
-                                    <td><a target="_blank" class="btn btn-sm btn-primary" href="{{$company->website_url}}">{{__('Website')}}</a></td>
-                                    <td><span class="{{ $company->getStatusBadgeClass() }}">{{ $company->getStatus() }}</span>
+                                    <td><a target="_blank" class="btn btn-sm btn-primary"
+                                            href="{{ $company->website_url }}">{{ __('Website') }}</a></td>
+                                    <td><span
+                                            class="{{ $company->getStatusBadgeClass() }}">{{ $company->getStatus() }}</span>
                                     </td>
                                     <td>{{ $company->created_user_name() }}</td>
-                                    <td>{{$company->created_date()}}</td>
+                                    <td>{{ $company->created_date() }}</td>
                                     <td class="text-center align-middle">
                                         @include('admin.partials.action_buttons', [
                                             'menuItems' => [
@@ -56,7 +58,7 @@
                                                     'className' => 'btn btn-info',
                                                     'title' => 'Edit',
                                                 ],
-                                                
+                                        
                                                 [
                                                     'routeName' => 'company.company_delete',
                                                     'params' => [$company->id],
@@ -105,7 +107,7 @@
 {{-- @push('js')
     <script>
         $(document).ready(function() {
-            $('.view').on('click', function() {
+            $(document).on('click','.view', function() {
                 let id = $(this).data('id');
                 let url = ("{{ route('company.details.company_list', ['id']) }}");
                 let _url = url.replace('id', id);

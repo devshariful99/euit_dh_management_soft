@@ -109,7 +109,7 @@
 @push('js')
     <script>
         $(document).ready(function() {
-            $('.view').on('click', function() {
+            $(document).on('click', '.view', function() {
                 let id = $(this).data('id');
                 let url = ("{{ route('cm.renew.details.renew_list', ['id']) }}");
                 let _url = url.replace('id', id);
