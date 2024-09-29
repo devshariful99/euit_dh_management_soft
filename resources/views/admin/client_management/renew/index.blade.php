@@ -42,7 +42,7 @@
                                         @else
                                             {{ $renew->hd ? $renew->hd->hosting->name . '(' . $renew->hd->storage . ')' : '' }}
                                         @endif
-                                        {{ " ($renew->renew_for)" }}
+                                        {{ ' (' . $renew->client->name . ')' }}
                                     </td>
                                     <td> <span class="{{ $renew->getStatusBadgeClass() }}">{{ $renew->getStatus() }}</span>
                                     </td>
@@ -67,7 +67,7 @@
                                                     'className' => 'btn btn-info',
                                                     'title' => 'Edit',
                                                 ],
-
+                                        
                                                 [
                                                     'routeName' => 'cm.renew.renew_delete',
                                                     'params' => [$renew->id],
