@@ -1,3 +1,6 @@
 .card-header:after{
     display: none !important;
 }
+table th{
+    text-wrap: nowrap;
+}
