@@ -97,7 +97,7 @@ class ClientDomainController extends Controller
     {
         $data['cd'] = ClientDomain::with(['client', 'hosting', 'company'])->findOrFail($id);
         $data['cd']->duration = Carbon::parse($data['cd']->expire_date)->diffInMonths(Carbon::parse($data['cd']->purchase_date)) / 12;
-        $data['domains'] = Domain::activated()->latest()->get();
+        $data['companies'] = Company::activated()->latest()->get();
         $data['hostings'] = Hosting::activated()->latest()->get();
         $data['clients'] = Client::activated()->latest()->get();
         return view('admin.client_management.client_domain.edit', $data);
