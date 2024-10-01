@@ -39,7 +39,7 @@
                                 <tr>
                                     <td> {{ $loop->iteration }} </td>
                                     <td>{{ $domain->client->name }}</td>
-                                    <td>{{ $domain->hosting->name }}</td>
+                                    <td>{{ $domain->hosting ? $domain->hosting->name : 'NULL' }}</td>
                                     <td>{{ $domain->domain_name }}</td>
                                     <td>{{ Str::ucfirst(str_replace('-', ' ', $domain->type())) }}</td>
                                     <td>{{ number_format($domain->price, 2) . ' USD' }}</td>
