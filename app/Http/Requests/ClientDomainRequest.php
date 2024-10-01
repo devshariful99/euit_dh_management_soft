@@ -23,7 +23,7 @@ class ClientDomainRequest extends FormRequest
     {
         return [
             'client_id' => 'required|exists:clients,id',
-            'hosting_id' => 'required|exists:hostings,id',
+            'hosting_id' => 'nullable|exists:hostings,id',
             'domain_id' => 'nullable|exists:domains,id',
             'price' => 'required|numeric',
             'type' => 'required|numeric',
