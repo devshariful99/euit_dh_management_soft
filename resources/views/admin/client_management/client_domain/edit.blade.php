@@ -58,7 +58,7 @@
                             <div class="form-group">
                                 <label for="hosting_id">{{ __('Hosting') }}</label>
                                 <select name="hosting_id" id="hosting_id" class="form-control">
-                                    <option selected value="">{{ __('Select Company') }}</option>
+                                    <option selected value="">{{ __('Select Hosting') }}</option>
                                     @foreach ($hostings as $hosting)
                                         <option value="{{ $hosting->id }}"
                                             {{ $cd->hosting_id == $hosting->id ? 'selected' : '' }}>{{ $hosting->name }}
