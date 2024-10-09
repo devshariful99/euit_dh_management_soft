@@ -35,7 +35,7 @@
                                 <tr>
                                     <td> {{ $loop->iteration }} </td>
                                     <td> {{ $payment->payment_for }} </td>
-                                    <td> {{ $payment->domain_or_hosting_name() . " ($payment->payment_for)" }} </td>
+                                    <td> {{ $payment->domain_or_hosting_name() }} </td>
                                     <td> {{ $payment->payment_type }} </td>
                                     <td> {{ timeFormate($payment->payment_date) }} </td>
                                     <td> {{ number_format($payment->price, 2) . ' USD' }} </td>
