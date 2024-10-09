@@ -28,6 +28,9 @@ class ClientDomainController extends Controller
         if (isset($req->status)) {
             $query->where('status', $req->status);
         }
+        if (isset($req->is_developed)) {
+            $query->where('is_developed', $req->is_developed);
+        }
         $data['client_domains'] = $query->get();
         return view('admin.client_management.client_domain.index', $data);
     }

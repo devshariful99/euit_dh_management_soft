@@ -30,7 +30,7 @@ class ClientController extends Controller
         $data->created_by = $data->created_user_name();
         $data->updated_by = $data->updated_user_name();
         $data->statusTitle = $data->getStatus();
-        $data->statusBg = $data->getStatusClass();
+        $data->statusBg = $data->getStatusBadgeClass();
         return response()->json($data);
     }
     public function create(): View

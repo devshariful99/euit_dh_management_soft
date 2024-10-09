@@ -21,13 +21,13 @@ class RenewController extends Controller
     {
         $type = request('type');
         $id = request('id');
-        $data['title'] = 'Domain/Hosting Renew List';
+        $data['title'] = 'Clients Renewal Histories';
         $query = ClientRenew::with(['hd', 'hd.hosting', 'client', 'created_user'])->latest();
         if ($type == 'Domain') {
-            $data['title'] = 'Domain Renew List';
+            $data['title'] = 'Client Domain Renewal Histories';
             $query = $query->where('hd_id', $id)->where('hd_type', 'App\Models\ClientDomain');
         } elseif ($type == 'Hosting') {
-            $data['title'] = 'Hosting Renew List';
+            $data['title'] = 'Client Hosting Renewal Histories';
             $query = $query->where('hd_id', $id)->where('hd_type', 'App\Models\ClientHosting');
         }
 
