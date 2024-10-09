@@ -1,6 +1,6 @@
 .card-header:after{
     display: none !important;
 }
-table th{
+table th, table td{
     text-wrap: nowrap;
 }

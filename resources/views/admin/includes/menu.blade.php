@@ -71,7 +71,7 @@
                 [
                     'pageSlug' => 'renew',
                     'routeName' => 'cm.renew.renew_list',
-                    'label' => 'Renewals',
+                    'label' => 'Renewal Histories',
                 ],
             ],
         ])

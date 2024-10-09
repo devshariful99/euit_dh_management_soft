@@ -21,7 +21,7 @@ class DashboardController extends Controller
     public function dashboard(): View
     {
         $data['hostings'] = Hosting::latest()->get();
-        $data['domains'] = Domain::latest()->get();
+        // $data['domains'] = Domain::latest()->get();
         $data['companies'] = Company::latest()->get();
         $data['clients'] = Client::latest()->get();
         $data['client_hostings'] = ClientHosting::latest()->get();
