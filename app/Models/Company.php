@@ -14,6 +14,6 @@ class Company extends BaseModel
     }
     public function domains()
     {
-        return $this->hasMany(Domain::class, 'company_id');
+        return $this->hasMany(ClientDomain::class, 'company_id');
     }
 }

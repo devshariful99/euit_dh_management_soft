@@ -14,7 +14,7 @@ class Hosting extends BaseModel
     }
     public function domains()
     {
-        return $this->hasMany(Domain::class, 'hosting_id');
+        return $this->hasMany(ClientDomain::class, 'hosting_id');
     }
     public function payments()
     {

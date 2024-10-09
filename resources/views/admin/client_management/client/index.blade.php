@@ -34,7 +34,14 @@
                                 <tr>
                                     <td> {{ $loop->iteration }} </td>
                                     <td>{{ $client->name }}</td>
-                                    <td>{{ $client->email }}</td>
+                                    {{-- <td>{{ $client->email }}</td> --}}
+                                    <td>
+                                        <span id="email1">{{ $client->email }}</span>
+                                        <a href="javascript:void(0)" title="Copy" class="copy-btn text-info p-2 fs-5"
+                                            data-clipboard-target="#email1">
+                                            <i class="fas fa-copy"></i>
+                                        </a>
+                                    </td>
                                     <td><span
                                             class="{{ $client->getStatusBadgeClass() }}">{{ $client->getStatus() }}</span>
                                     </td>
@@ -125,7 +132,13 @@
                                     <tr>
                                         <th class="text-nowrap">Email</th>
                                         <th>:</th>
-                                        <td>${data.email}</td>
+                                        <td>
+                                            <span id="email">${data.email}</span>
+                                            <a href="javascript:void(0)" title="Copy" class="copy-btn text-info p-2 fs-5"
+                                            data-clipboard-target="#email">
+                                                <i class="fas fa-copy"></i>
+                                            </a>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <th class="text-nowrap">Phone</th>

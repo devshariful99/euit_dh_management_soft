@@ -150,6 +150,11 @@
                                         <th>:</th>
                                         <td>${data.price} USD</td>
                                     </tr>
+                                     <tr>
+                                        <th class="text-nowrap">Status</th>
+                                        <th>:</th>
+                                        <td><span class="badge ${data.statusBg}">${data.statusTitle}</span></td>
+                                    </tr>
                                     <tr>
                                         <th class="text-nowrap">Login URL</th>
                                         <th>:</th>
@@ -158,17 +163,35 @@
                                     <tr>
                                         <th class="text-nowrap">Username</th>
                                         <th>:</th>
-                                        <td>${data.username}</td>
+                                        <td>
+                                            <span id="username">${data.username}</span>
+                                            <a href="javascript:void(0)" title="Copy" class="copy-btn text-info p-2 fs-5"
+                                            data-clipboard-target="#username">
+                                                <i class="fas fa-copy"></i>
+                                            </a>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <th class="text-nowrap">Email</th>
                                         <th>:</th>
-                                        <td>${data.email}</td>
+                                        <td>
+                                            <span id="email">${data.email}</span>
+                                            <a href="javascript:void(0)" title="Copy" class="copy-btn text-info p-2 fs-5"
+                                            data-clipboard-target="#email">
+                                                <i class="fas fa-copy"></i>
+                                            </a>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <th class="text-nowrap">Password</th>
                                         <th>:</th>
-                                        <td>${data.password}</td>
+                                        <td>
+                                            <span id="password">${data.password}</span>
+                                            <a href="javascript:void(0)" title="Copy" class="copy-btn text-info p-2 fs-5"
+                                            data-clipboard-target="#password">
+                                                <i class="fas fa-copy"></i>
+                                            </a>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <th class="text-nowrap">Purchase Date</th>
@@ -186,11 +209,6 @@
                                         <th class="text-nowrap">Renew Date</th>
                                         <th>:</th>
                                         <td>${data.renew_date}</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-nowrap">Renew From</th>
-                                        <th>:</th>
-                                        <td>${data.renew_from}</td>
                                     </tr>`;
                         }
 
@@ -211,12 +229,6 @@
                                         <th>:</th>
                                         <td>${data.note}</td>
                                     </tr>
-                                    <tr>
-                                        <th class="text-nowrap">Status</th>
-                                        <th>:</th>
-                                        <td><span class="badge ${data.statusBg}">${data.statusTitle}</span></td>
-                                    </tr>
-
                                     <tr>
                                         <th class="text-nowrap">Created At</th>
                                         <th>:</th>

@@ -22,9 +22,9 @@
                             <tr>
                                 <th>{{ __('SL') }}</th>
                                 <th>{{ __('Client') }}</th>
-                                <th>{{ __('Hosting') }}</th>
+                                {{-- <th>{{ __('Hosting') }}</th> --}}
                                 <th>{{ __('Domain Name') }}</th>
-                                <th>{{ __('Type') }}</th>
+                                {{-- <th>{{ __('Type') }}</th> --}}
                                 <th>{{ __('Purchase Price') }}</th>
                                 <th>{{ __('Website') }}</th>
                                 <th>{{ __('Status') }}</th>
@@ -39,9 +39,16 @@
                                 <tr>
                                     <td> {{ $loop->iteration }} </td>
                                     <td>{{ $domain->client->name }}</td>
-                                    <td>{{ $domain->hosting ? $domain->hosting->name : 'NULL' }}</td>
-                                    <td>{{ $domain->domain_name }}</td>
-                                    <td>{{ Str::ucfirst(str_replace('-', ' ', $domain->type())) }}</td>
+                                    {{-- <td>{{ $domain->hosting ? $domain->hosting->name : 'NULL' }}</td> --}}
+                                    <td>
+                                        <span id="domain_name1">{{ $domain->domain_name }}<span>
+                                                <a href="javascript:void(0)" title="Copy"
+                                                    class="copy-btn text-info p-2 fs-5"
+                                                    data-clipboard-target="#domain_name1">
+                                                    <i class="fas fa-copy"></i>
+                                                </a>
+                                    </td>
+                                    {{-- <td>{{ Str::ucfirst(str_replace('-', ' ', $domain->type())) }}</td> --}}
                                     <td>{{ number_format($domain->price, 2) . ' USD' }}</td>
                                     <td><span
                                             class="{{ $domain->getStatusBadgeClass() }}">{{ $domain->getStatus() }}</span>
@@ -151,7 +158,13 @@
                                      <tr>
                                         <th class="text-nowrap">Domain Name</th>
                                         <th>:</th>
-                                        <td>${data.domain_name}</td>
+                                        <td>
+                                            <span id="domain_name">${data.domain_name}<span>
+                                            <a href="javascript:void(0)" title="Copy" class="copy-btn text-info p-2 fs-5"
+                                            data-clipboard-target="#domain_name">
+                                                <i class="fas fa-copy"></i>
+                                            </a>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <th class="text-nowrap">Company</th>
@@ -174,6 +187,16 @@
                                         <td>${data.price} USD</td>
                                     </tr>
                                     <tr>
+                                        <th class="text-nowrap">Website</th>
+                                        <th>:</th>
+                                        <td><span class="badge ${data.statusBg}">${data.statusTitle}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-nowrap">Status</th>
+                                        <th>:</th>
+                                        <td><span class="badge ${data.isDevelopedBadge}">${data.isDeveloped}</span></td>
+                                    </tr>
+                                    <tr>
                                         <th class="text-nowrap">Login URL</th>
                                         <th>:</th>
                                         <td><a target="_blank" href="${data.admin_url}">${data.admin_url}</a></td>
@@ -181,17 +204,35 @@
                                     <tr>
                                         <th class="text-nowrap">Username</th>
                                         <th>:</th>
-                                        <td>${data.username}</td>
+                                        <td>
+                                            <span id="username">${data.username}</span>
+                                            <a href="javascript:void(0)" title="Copy" class="copy-btn text-info p-2 fs-5"
+                                            data-clipboard-target="#username">
+                                                <i class="fas fa-copy"></i>
+                                            </a>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <th class="text-nowrap">Email</th>
                                         <th>:</th>
-                                        <td>${data.email}</td>
+                                        <td>
+                                            <span id="email">${data.email}</span>
+                                            <a href="javascript:void(0)" title="Copy" class="copy-btn text-info p-2 fs-5"
+                                            data-clipboard-target="#email">
+                                                <i class="fas fa-copy"></i>
+                                            </a>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <th class="text-nowrap">Password</th>
                                         <th>:</th>
-                                        <td>${data.password}</td>
+                                        <td>
+                                            <span id="password">${data.password}</span>
+                                           <a href="javascript:void(0)" title="Copy" class="copy-btn text-info p-2 fs-5"
+                                            data-clipboard-target="#password">
+                                                <i class="fas fa-copy"></i>
+                                            </a>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <th class="text-nowrap">Purchase Date</th>
@@ -209,11 +250,6 @@
                                         <th class="text-nowrap">Renew Date</th>
                                         <th>:</th>
                                         <td>${data.renew_date}</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-nowrap">Renew From</th>
-                                        <th>:</th>
-                                        <td>${data.renew_from}</td>
                                     </tr>`;
                         }
 
@@ -234,17 +270,6 @@
                                         <th>:</th>
                                         <td>${data.note}</td>
                                     </tr>
-                                    <tr>
-                                        <th class="text-nowrap">Website</th>
-                                        <th>:</th>
-                                        <td><span class="badge ${data.statusBg}">${data.statusTitle}</span></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-nowrap">Status</th>
-                                        <th>:</th>
-                                        <td><span class="badge ${data.isDevelopedBadge}">${data.isDeveloped}</span></td>
-                                    </tr>
-
                                     <tr>
                                         <th class="text-nowrap">Created At</th>
                                         <th>:</th>

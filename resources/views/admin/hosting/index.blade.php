@@ -23,10 +23,6 @@
                                 <th>{{ __('SL') }}</th>
                                 <th>{{ __('Name') }}</th>
                                 <th>{{ __('Company') }}</th>
-                                <th>{{ __('Username') }}</th>
-                                <th>{{ __('Login URL') }}</th>
-                                <th>{{ __('Email') }}</th>
-                                <th>{{ __('Password') }}</th>
                                 <th>{{ __('Status') }}</th>
                                 <th>{{ __('Created By') }}</th>
                                 <th>{{ __('Creation Date') }}</th>
@@ -39,11 +35,6 @@
                                     <td> {{ $loop->iteration }} </td>
                                     <td>{{ $hosting->name }}</td>
                                     <td>{{ $hosting->company->name }}</td>
-                                    <td>{{ $hosting->username ?? '--' }}</td>
-                                    <td><a target="_blank" class="btn btn-sm btn-primary"
-                                            href="{{ $hosting->admin_url }}">{{ __('Log In') }}</a></td>
-                                    <td>{{ $hosting->email }}</td>
-                                    <td>{{ $hosting->password }}</td>
                                     <td><span
                                             class="{{ $hosting->getStatusBadgeClass() }}">{{ $hosting->getStatus() }}</span>
                                     </td>
