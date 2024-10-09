@@ -91,9 +91,15 @@ class PaymentController extends Controller
         $data['payment'] = Payment::with('hd')->findOrFail($id);
         $data['payment']->duration = Carbon::parse($data['payment']->hd->expire_date)->diffInMonths(Carbon::parse($data['payment']->payment_date)) / 12;
         if ($data['payment']->payment_for == 'Domain') {
-            $data['hds'] = Domain::activated()->latest()->get();
+            $data['hds'] = Domain::with('payments')->activated()->latest()->get()
+                ->each(function (&$data) {
+                    $data->payment_count = $data->payments->count();
+                });
         } else {
-            $data['hds'] = Hosting::activated()->latest()->get();
+            $data['hds'] = Hosting::with('payments')->activated()->latest()->get()
+                ->each(function (&$data) {
+                    $data->payment_count = $data->payments->count();
+                });
         }
         return view('admin.payment.edit', $data);
     }
@@ -151,9 +157,15 @@ class PaymentController extends Controller
     {
         $data = [];
         if ($payment_for == 'Domain') {
-            $data['datas'] = Domain::activated()->latest()->get();
+            $data['datas'] = Domain::with('payments')->activated()->latest()->get()
+                ->each(function (&$data) {
+                    $data->payment_count = $data->payments->count();
+                });
         } else if ($payment_for == 'Hosting') {
-            $data['datas'] = Hosting::activated()->latest()->get();
+            $data['datas'] = Hosting::with('payments')->activated()->latest()->get()
+                ->each(function (&$data) {
+                    $data->payment_count = $data->payments->count();
+                });
         }
         return response()->json($data);
     }

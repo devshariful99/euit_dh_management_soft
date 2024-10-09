@@ -40,7 +40,8 @@
                                         <option selected hidden value="">{{ __('Select ' . $payment->payment_for) }}
                                         </option>
                                         @foreach ($hds as $hd)
-                                            <option value="{{ $hd->id }}"
+                                            <option data-payment_count="{{ $hd->payment_count }}"
+                                                value="{{ $hd->id }}"
                                                 {{ $payment->hd_id == $hd->id ? 'selected' : '' }}>{{ __($hd->name) }}
                                             </option>
                                         @endforeach
@@ -50,14 +51,8 @@
 
                                 <div class="form-group col-md-6">
                                     <label for="payment_type">{{ __('Payment Type') }}</label>
-                                    <select name="payment_type" id="payment_type" class="form-control">
-                                        <option selected hidden value="">{{ __('Select Payment For') }}</option>
-                                        <option value="First-payment"
-                                            {{ $payment->payment_type == 'First-payment' ? 'selected' : '' }}>
-                                            {{ __('First-payment') }}</option>
-                                        <option value="Renew-payment"
-                                            {{ $payment->payment_type == 'Renew-payment' ? 'selected' : '' }}>
-                                            {{ __('Renew-payment') }}</option>
+                                    <select name="payment_type" id="payment_type" class="form-control" disabled>
+                                        <option selected hidden value="">{{ __('Select Payment Type') }}</option>
                                     </select>
                                     @include('alerts.feedback', ['field' => 'payment_type'])
                                 </div>
@@ -117,14 +112,21 @@
                     method: 'GET',
                     dataType: 'json',
                     success: function(response) {
-                        console.log(response);
                         let result = '';
                         $('#dh_label').html(payment_for);
                         result +=
                             `<option selected hidden value=''>Select ${payment_for}</option>`;
+
+
+                        if (response.datas.length < 1) {
+                            $('#payment_type').prop('disabled', true);
+                            $('#payment_type').html(
+                                '<option selected hidden value="">Select Payment Type</option>'
+                            );
+                        }
                         response.datas.forEach(function(data) {
                             result +=
-                                `<option value='${data.id}'>${data.name}</option>`;
+                                `<option data-payment_count="${data.payment_count}" value='${data.id}'>${data.name}</option>`;
                         });
                         $('#hd_id').html(result);
                         $('#hd_id').prop('disabled', false);
@@ -135,6 +137,34 @@
                     }
                 });
             });
+
+
+            $('#hd_id').on('change', function() {
+                let payment_count = $(this).find(':selected').data('payment_count');
+                if (payment_count > 0) {
+                    $('#payment_type').html(
+                        '<option value = "Renew-payment" selected>Renew-payment</option>');
+                } else {
+                    $('#payment_type').html(
+                        '<option value = "First-payment" selected>First-payment</option>');
+                }
+
+                $('#payment_type').prop('disabled', false);
+
+
+            });
+
+            let payment_count = $('#hd_id').find(':selected').data('payment_count');
+            if (payment_count > 0) {
+                $('#payment_type').html(
+                    '<option value = "Renew-payment" selected>Renew-payment</option>');
+            } else {
+                $('#payment_type').html(
+                    '<option value = "First-payment" selected>First-payment</option>');
+            }
+            $('#payment_type').prop('disabled', false);
+
+
         });
     </script>
 @endpush

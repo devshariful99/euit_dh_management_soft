@@ -18,6 +18,6 @@ class Hosting extends BaseModel
     }
     public function payments()
     {
-        return $this->hasMany(Payment::class, 'hd_id');
+        return $this->hasMany(Payment::class, 'hd_id')->where('hd_type', get_class($this));
     }
 }
