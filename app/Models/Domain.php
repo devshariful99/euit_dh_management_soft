@@ -16,4 +16,8 @@ class Domain extends BaseModel
     {
         return $this->belongsTo(Hosting::class, 'hosting_id');
     }
+    public function payments()
+    {
+        return $this->hasMany(Domain::class, 'hd_id')->where('hd_type', get_class($this));
+    }
 }

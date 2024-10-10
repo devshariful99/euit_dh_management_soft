@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PaymentRequest;
+use App\Models\Currency;
 use App\Models\Domain;
 use App\Models\Hosting;
 use App\Models\Payment;
@@ -22,23 +23,25 @@ class PaymentController extends Controller
 
     public function index(): View
     {
-        $data['payments'] = Payment::with(['created_user', 'hd'])->latest()->get();
+        $data['payments'] = Payment::with(['created_user', 'hd', 'currency'])->latest()->get();
         return view('admin.payment.index', $data);
     }
     public function details($id): JsonResponse
     {
-        $data = Payment::with('hd')->findOrFail($id);
+        $data = Payment::with(['updated_user', 'created_user', 'hd', 'currency'])->findOrFail($id);
         $data->creating_time = $data->created_date();
         $data->payment_date = timeFormate($data->payment_date);
         $data->updating_time = $data->updated_date();
         $data->created_by = $data->created_user_name();
         $data->updated_by = $data->updated_user_name();
+        $data->icon = html_entity_decode(optional($data->currency)->icon);
         return response()->json($data);
     }
 
     public function create(): View
     {
-        return view('admin.payment.create');
+        $data['currencies'] = Currency::activated()->latest()->get();
+        return view('admin.payment.create', $data);
     }
 
     public function store(PaymentRequest $req): RedirectResponse
@@ -75,6 +78,7 @@ class PaymentController extends Controller
             $payment->file = $path;
         }
 
+        $payment->currency_id = $req->currency_id;
         $payment->payment_for = $req->payment_for;
         $payment->hd()->associate($modelData);
         $payment->payment_type = $req->payment_type;
@@ -88,12 +92,19 @@ class PaymentController extends Controller
 
     public function edit($id): View
     {
+        $data['currencies'] = Currency::activated()->latest()->get();
         $data['payment'] = Payment::with('hd')->findOrFail($id);
         $data['payment']->duration = Carbon::parse($data['payment']->hd->expire_date)->diffInMonths(Carbon::parse($data['payment']->payment_date)) / 12;
         if ($data['payment']->payment_for == 'Domain') {
-            $data['hds'] = Domain::activated()->latest()->get();
+            $data['hds'] = Domain::with('payments')->activated()->latest()->get()
+                ->each(function (&$data) {
+                    $data->payment_count = $data->payments->count();
+                });
         } else {
-            $data['hds'] = Hosting::activated()->latest()->get();
+            $data['hds'] = Hosting::with('payments')->activated()->latest()->get()
+                ->each(function (&$data) {
+                    $data->payment_count = $data->payments->count();
+                });
         }
         return view('admin.payment.edit', $data);
     }
@@ -135,7 +146,7 @@ class PaymentController extends Controller
             }
             $payment->file = $path;
         }
-
+        $payment->currency_id = $req->currency_id;
         $payment->payment_for = $req->payment_for;
         $payment->hd()->associate($modelData);
         $payment->payment_type = $req->payment_type;
@@ -151,9 +162,15 @@ class PaymentController extends Controller
     {
         $data = [];
         if ($payment_for == 'Domain') {
-            $data['datas'] = Domain::activated()->latest()->get();
+            $data['datas'] = Domain::with('payments')->activated()->latest()->get()
+                ->each(function (&$data) {
+                    $data->payment_count = $data->payments->count();
+                });
         } else if ($payment_for == 'Hosting') {
-            $data['datas'] = Hosting::activated()->latest()->get();
+            $data['datas'] = Hosting::with('payments')->activated()->latest()->get()
+                ->each(function (&$data) {
+                    $data->payment_count = $data->payments->count();
+                });
         }
         return response()->json($data);
     }

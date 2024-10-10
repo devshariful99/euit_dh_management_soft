@@ -39,7 +39,7 @@
                                     <td>{{ $hosting->client->name }}</td>
                                     <td>{{ $hosting->hosting->name }}</td>
                                     <td>{{ $hosting->storage }}</td>
-                                    <td>{{ number_format($hosting->price, 2) . ' USD' }}</td>
+                                    <td>{{ number_format($hosting->price, 2) }}{!! optional($hosting->currency)->icon !!}</td>
                                     <td><span
                                             class="{{ $hosting->getStatusBadgeClass() }}">{{ $hosting->getStatus() }}</span>
                                     </td>
@@ -63,7 +63,7 @@
                                                     'className' => 'btn btn-info',
                                                     'title' => 'Edit',
                                                 ],
-                                        
+
                                                 [
                                                     'routeName' => 'cm.ch.ch_delete',
                                                     'params' => [$hosting->id],
@@ -148,7 +148,7 @@
                                     <tr>
                                         <th class="text-nowrap">Purchase Price</th>
                                         <th>:</th>
-                                        <td>${data.price} USD</td>
+                                        <td>${data.price}${data.icon}</td>
                                     </tr>
                                      <tr>
                                         <th class="text-nowrap">Status</th>

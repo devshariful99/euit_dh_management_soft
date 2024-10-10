@@ -13,7 +13,12 @@ class Payment extends BaseModel
     {
         return $this->morphTo();
     }
-    public function scopeDomain_or_hosting_name(){
+    public function scopeDomain_or_hosting_name()
+    {
         return $this->hd->name;
+    }
+    public function currency()
+    {
+        return $this->belongsTo(Currency::class, 'currency_id');
     }
 }

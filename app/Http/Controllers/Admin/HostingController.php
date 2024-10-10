@@ -27,7 +27,7 @@ class HostingController extends Controller
     public function details($id): View
     {
         $data['hosting'] = Hosting::with(['created_user', 'company', 'domains'])->findOrFail($id);
-        $data['payments'] = Payment::with('hd')->where('hd_id', $data['hosting']->id)->where('hd_type', get_class($data['hosting']))->get();
+        $data['payments'] = Payment::with(['hd', 'currency'])->where('hd_id', $data['hosting']->id)->where('hd_type', get_class($data['hosting']))->get();
         return view('admin.hosting.details', $data);
     }
     public function view($id): JsonResponse

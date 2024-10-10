@@ -1,17 +1,17 @@
-@extends('admin.layouts.app', ['pageSlug' => 'renew'])
+@extends('admin.layouts.app', ['pageSlug' => 'currency'])
 
-@section('title', 'Clients Renewal History List')
+@section('title', 'Currency List')
 @section('content')
     <div class="row">
         <div class="col-12">
             <div class="card m-3">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h3 class="card-title">{{ __($title) }}</h3>
+                    <h3 class="card-title">{{ __('Currency List') }}</h3>
                     <div class="button_ ms-auto">
                         @include('admin.partials.button', [
-                            'routeName' => 'cm.renew.renew_create',
+                            'routeName' => 'currency.currency_create',
                             'className' => 'btn-outline-info',
-                            'label' => 'Renew domain/hosting',
+                            'label' => 'Add new currency',
                         ])
                     </div>
 
@@ -21,35 +21,27 @@
                         <thead>
                             <tr>
                                 <th>{{ __('SL') }}</th>
-                                <th>{{ __('Renew For') }}</th>
-                                <th>{{ __('Domain/Hosting') }}</th>
+                                <th>{{ __('Name') }}</th>
+                                <th>{{ __('Shor Form') }}</th>
+                                <th>{{ __('Icon') }}</th>
                                 <th>{{ __('Status') }}</th>
-                                <th>{{ __('Renew Date') }}</th>
-                                <th>{{ __('Price') }}</th>
-                                <th>{{ __('Duration') }}</th>
                                 <th>{{ __('Created By') }}</th>
+                                <th>{{ __('Creation Date') }}</th>
                                 <th class="text-center">{{ __('Action') }}</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($renewals as $renew)
+                            @foreach ($currencies as $currency)
                                 <tr>
                                     <td> {{ $loop->iteration }} </td>
-                                    <td> {{ $renew->renew_for }} </td>
-                                    <td>
-                                        @if ($renew->renew_for == 'Domain')
-                                            {{ $renew->hd ? $renew->hd->domain_name : '' }}
-                                        @else
-                                            {{ $renew->hd ? $renew->hd->hosting->name . '(' . $renew->hd->storage . ')' : '' }}
-                                        @endif
-                                        {{ ' (' . $renew->client->name . ')' }}
+                                    <td>{{ $currency->name }}</td>
+                                    <td>{{ $currency->short_form }}</td>
+                                    <td>{!! $currency->icon !!}</td>
+                                    <td><span
+                                            class="{{ $currency->getStatusBadgeClass() }}">{{ $currency->getStatus() }}</span>
                                     </td>
-                                    <td> <span class="{{ $renew->getStatusBadgeClass() }}">{{ $renew->getStatus() }}</span>
-                                    </td>
-                                    <td> {{ timeFormate($renew->renew_date) }} </td>
-                                    <td> {{ number_format($renew->price, 2) }}{!! optional($renew->currency)->icon !!} </td>
-                                    <td> {{ $renew->duration . ' Year' }} </td>
-                                    <td>{{ $renew->created_user_name() }}</td>
+                                    <td>{{ $currency->created_user_name() }}</td>
+                                    <td>{{ $currency->created_date() }}</td>
                                     <td class="text-center align-middle">
                                         @include('admin.partials.action_buttons', [
                                             'menuItems' => [
@@ -57,24 +49,31 @@
                                                     'routeName' => 'javascript:void(0)',
                                                     'iconClass' => 'fa-regular fa-eye',
                                                     'className' => 'btn btn-primary view',
-                                                    'data-id' => $renew->id,
+                                                    'data-id' => $currency->id,
                                                     'title' => 'Details',
                                                 ],
                                                 [
-                                                    'routeName' => 'cm.renew.renew_edit',
-                                                    'params' => [$renew->id],
+                                                    'routeName' => 'currency.currency_edit',
+                                                    'params' => [$currency->id],
                                                     'iconClass' => 'fa-regular fa-pen-to-square',
                                                     'className' => 'btn btn-info',
                                                     'title' => 'Edit',
                                                 ],
 
                                                 [
-                                                    'routeName' => 'cm.renew.renew_delete',
-                                                    'params' => [$renew->id],
+                                                    'routeName' => 'currency.currency_delete',
+                                                    'params' => [$currency->id],
                                                     'iconClass' => 'fa-regular fa-trash-can',
                                                     'className' => 'btn btn-danger',
                                                     'title' => 'Delete',
                                                     'delete' => true,
+                                                ],
+                                                [
+                                                    'routeName' => 'currency.status.currency_edit',
+                                                    'params' => [$currency->id],
+                                                    'iconClass' => 'fa-solid fa-power-off',
+                                                    'className' => $currency->getStatusClass(),
+                                                    'title' => $currency->getStatusTitle(),
                                                 ],
                                             ],
                                         ])
@@ -87,14 +86,13 @@
             </div>
         </div>
     </div>
-
-    {{-- Payment Details Modal  --}}
+    {{-- Currency Details Modal  --}}
     <div class="modal view_modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">{{ __('Renewal History Details') }}</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{ __('Currency Details') }}</h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -111,7 +109,7 @@
         $(document).ready(function() {
             $(document).on('click', '.view', function() {
                 let id = $(this).data('id');
-                let url = ("{{ route('cm.renew.details.renew_list', ['id']) }}");
+                let url = ("{{ route('currency.details.currency_list', ['id']) }}");
                 let _url = url.replace('id', id);
                 $.ajax({
                     url: _url,
@@ -121,63 +119,25 @@
                         var result = `
                                 <table class="table table-striped">
                                     <tr>
-                                        <th class="text-nowrap">Client</th>
+                                        <th class="text-nowrap">Name</th>
                                         <th>:</th>
-                                        <td>${data.client.name}</td>
+                                        <td>${data.name}</td>
                                     </tr>
                                     <tr>
-                                        <th class="text-nowrap">Renew For</th>
+                                        <th class="text-nowrap">Short Form</th>
                                         <th>:</th>
-                                        <td>${data.renew_for}</td>
-                                    </tr>`;
-                        if (data.renew_for == 'Domain') {
-                            result +=
-                                `<tr>
-                                    <th class="text-nowrap">${data.renew_for}</th>
-                                    <th>:</th>
-                                    <td>${data.hd.domain_name}</td>
-                                </tr>`;
-                        } else {
-                            result +=
-                                `<tr>
-                                    <th class="text-nowrap">${data.renew_for}</th>
-                                    <th>:</th>
-                                    <td>${data.hd.hosting.name} (${data.hd.storage})</td>
-                                </tr>`;
-                        }
-                        result += `
+                                        <td>${data.short_form}</td>
+                                    </tr>
                                     <tr>
-                                        <th class="text-nowrap">Price</th>
+                                        <th class="text-nowrap">Icon</th>
                                         <th>:</th>
-                                        <td>${data.price}${data.icon}</td>
+                                        <td>${data.icon}</td>
                                     </tr>
                                     <tr>
                                         <th class="text-nowrap">Status</th>
                                         <th>:</th>
-                                        <td><span class="${data.statusBg}">${data.statusTitle}</span></td>
+                                        <td><span class="badge ${data.statusBg}">${data.statusTitle}</span></td>
                                     </tr>
-
-                                    <tr>
-                                        <th class="text-nowrap">Renew Date</th>
-                                        <th>:</th>
-                                        <td>${data.renew_date}</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-nowrap">Renew From</th>
-                                        <th>:</th>
-                                        <td>${data.renew_from}</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-nowrap">Duration</th>
-                                        <th>:</th>
-                                        <td>${data.duration} Year</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-nowrap">Expiry Date</th>
-                                        <th>:</th>
-                                        <td>${data.expire_date}</td>
-                                    </tr>
-
                                     <tr>
                                         <th class="text-nowrap">Created At</th>
                                         <th>:</th>
@@ -204,7 +164,7 @@
                         $('.view_modal').modal('show');
                     },
                     error: function(xhr, status, error) {
-                        console.error('Error fetching renew data:', error);
+                        console.error('Error fetching admin data:', error);
                     }
                 });
             });

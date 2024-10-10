@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RenewRequest extends FormRequest
+class CurrencyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,13 +22,22 @@ class RenewRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'client_id' => 'required|exists:clients,id',
-            'price' => 'required|numeric',
-            'renew_date' => 'required|date|before_or_equal:today',
-            'renew_for' => 'required|in:"Hosting","Domain"',
-            'duration' => 'required|numeric',
-            'hd_id' => 'required',
-            'currency_id' => 'required|exists:currencies,id',
+            'icon' => 'required',
+            'short_form' => 'required',
+        ] +
+            ($this->isMethod('POST') ? $this->store() : $this->update());
+    }
+    protected function store(): array
+    {
+        return [
+            'name' => 'required|unique:currencies,name',
+        ];
+    }
+
+    protected function update(): array
+    {
+        return [
+            'name' => 'required|unique:currencies,name,' . $this->route('id'),
         ];
     }
 }

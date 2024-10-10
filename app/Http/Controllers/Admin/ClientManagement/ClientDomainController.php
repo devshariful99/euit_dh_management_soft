@@ -7,6 +7,7 @@ use App\Http\Requests\ClientDomainRequest;
 use App\Models\Client;
 use App\Models\ClientDomain;
 use App\Models\Company;
+use App\Models\Currency;
 use App\Models\Domain;
 use App\Models\Hosting;
 use Carbon\Carbon;
@@ -24,7 +25,7 @@ class ClientDomainController extends Controller
 
     public function index(Request $req): View
     {
-        $query = ClientDomain::with(['created_user', 'client', 'company', 'hosting'])->latest();
+        $query = ClientDomain::with(['created_user', 'client', 'company', 'hosting', 'currency'])->latest();
         if (isset($req->status)) {
             $query->where('status', $req->status);
         }
@@ -36,7 +37,7 @@ class ClientDomainController extends Controller
     }
     public function details($id): JsonResponse
     {
-        $data = ClientDomain::with(['created_user', 'updated_user', 'client', 'hosting', 'company', 'renews'])->findOrFail($id);
+        $data = ClientDomain::with(['created_user', 'updated_user', 'client', 'hosting', 'company', 'renews', 'currency'])->findOrFail($id);
         $data->creating_time = $data->created_date();
         $data->updating_time = $data->updated_date();
         $data->created_by = $data->created_user_name();
@@ -60,10 +61,12 @@ class ClientDomainController extends Controller
         $data->type = ucfirst(str_replace('_', ' ', $data->type()));
         $data->isDeveloped = $data->getDevelopedStatus();
         $data->isDevelopedBadge = $data->getDevelopedStatusBadgeClass();
+        $data->icon = html_entity_decode(optional($data->currency)->icon);
         return response()->json($data);
     }
     public function create(): View
     {
+        $data['currencies'] = Currency::activated()->latest()->get();
         $data['companies'] = Company::activated()->latest()->get();
         $data['hostings'] = Hosting::activated()->latest()->get();
         $data['clients'] = Client::activated()->latest()->get();
@@ -78,6 +81,7 @@ class ClientDomainController extends Controller
             ->addMonths($months);
 
         $cd = new ClientDomain();
+        $cd->currency_id = $req->currency_id;
         $cd->domain_name = $req->domain_name;
         $cd->client_id = $req->client_id;
         $cd->hosting_id = $req->hosting_id;
@@ -98,6 +102,7 @@ class ClientDomainController extends Controller
     }
     public function edit($id): View
     {
+        $data['currencies'] = Currency::activated()->latest()->get();
         $data['cd'] = ClientDomain::with(['client', 'hosting', 'company'])->findOrFail($id);
         $data['cd']->duration = Carbon::parse($data['cd']->expire_date)->diffInMonths(Carbon::parse($data['cd']->purchase_date)) / 12;
         $data['companies'] = Company::activated()->latest()->get();
@@ -114,6 +119,7 @@ class ClientDomainController extends Controller
             ->addYears($years)
             ->addMonths($months);
         $cd = ClientDomain::findOrFail($id);
+        $cd->currency_id = $req->currency_id;
         $cd->domain_name = $req->domain_name;
         $cd->client_id = $req->client_id;
         $cd->hosting_id = $req->hosting_id;

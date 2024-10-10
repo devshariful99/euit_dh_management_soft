@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ClientManagement\ClientHostingController;
 use App\Http\Controllers\Admin\ClientManagement\RenewController;
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\CompanyReportController;
+use App\Http\Controllers\Admin\CurrencyController;
 use App\Http\Controllers\Admin\DomainController;
 use App\Http\Controllers\Admin\HostingController;
 use App\Http\Controllers\Admin\PaymentController;
@@ -73,6 +74,17 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
         Route::put('edit/{id}', 'update')->name('company_edit');
         Route::get('status/{id}', 'status')->name('status.company_edit');
         Route::get('delete/{id}', 'delete')->name('company_delete');
+    });
+    // Currency Routes
+    Route::controller(CurrencyController::class, 'currency')->prefix('currency')->name('currency.')->group(function () {
+        Route::get('index', 'index')->name('currency_list');
+        Route::get('details/{id}', 'details')->name('details.currency_list');
+        Route::get('create', 'create')->name('currency_create');
+        Route::post('create', 'store')->name('currency_create');
+        Route::get('edit/{id}', 'edit')->name('currency_edit');
+        Route::put('edit/{id}', 'update')->name('currency_edit');
+        Route::get('status/{id}', 'status')->name('status.currency_edit');
+        Route::get('delete/{id}', 'delete')->name('currency_delete');
     });
     // Hosting Routes
     Route::controller(HostingController::class, 'hosting')->prefix('hosting')->name('hosting.')->group(function () {

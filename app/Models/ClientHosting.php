@@ -31,4 +31,9 @@ class ClientHosting extends BaseModel
     {
         return $this->morphMany(ClientRenew::class, 'hd');
     }
+
+    public function currency()
+    {
+        return $this->belongsTo(Currency::class, 'currency_id');
+    }
 }
