@@ -20,6 +20,12 @@
             'label' => 'Companies',
         ],
         [
+            'pageSlug' => 'currency',
+            'routeName' => 'currency.currency_list',
+            'iconClass' => 'fa-solid fa-coins',
+            'label' => 'Currencies',
+        ],
+        [
             'pageSlug' => 'hosting',
             'routeName' => 'hosting.hosting_list',
             'iconClass' => 'fa-solid fa-server',
