@@ -28,6 +28,7 @@ class RenewRequest extends FormRequest
             'renew_for' => 'required|in:"Hosting","Domain"',
             'duration' => 'required|numeric',
             'hd_id' => 'required',
+            'currency_id' => 'required|exists:currencies,id',
         ];
     }
 }

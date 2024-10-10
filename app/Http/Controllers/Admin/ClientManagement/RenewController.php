@@ -8,6 +8,7 @@ use App\Models\Client;
 use App\Models\ClientDomain;
 use App\Models\ClientHosting;
 use App\Models\ClientRenew;
+use App\Models\Currency;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -23,7 +24,7 @@ class RenewController extends Controller
         $id = $request->id;
         $data['title'] = 'Clients Renewal Histories';
         $query = ClientRenew::query();
-        $query->with(['hd', 'hd.hosting', 'client', 'created_user']);
+        $query->with(['hd', 'hd.hosting', 'client', 'created_user', 'currency']);
         if ($type == 'Domain') {
             $data['title'] = 'Client Domain Renewal Histories';
             $query->where('hd_id', $id)->where('hd_type', ClientDomain::class);
@@ -44,6 +45,7 @@ class RenewController extends Controller
     }
     public function create()
     {
+        $data['currencies'] = Currency::activated()->latest()->get();
         $data['clients'] = Client::activated()->latest()->get();
         return view('admin.client_management.renew.create', $data);
     }
@@ -89,6 +91,7 @@ class RenewController extends Controller
             $path = $file->storeAs($folderName, $fileName, 'public');
             $renew->file = $path;
         }
+        $renew->currency_id = $request->currency_id;
         $renew->client_id = $request->client_id;
         $renew->renew_for = $request->renew_for;
         $renew->renew_date = $request->renew_date;
@@ -108,7 +111,7 @@ class RenewController extends Controller
 
     public function details($id): JsonResponse
     {
-        $data = ClientRenew::with(['created_user', 'updated_user', 'client', 'hd.hosting'])->findOrFail($id);
+        $data = ClientRenew::with(['created_user', 'updated_user', 'client', 'hd.hosting', 'currency'])->findOrFail($id);
         $data->creating_time = $data->created_date();
         $data->updating_time = $data->updated_date();
         $data->created_by = $data->created_user_name();
@@ -120,10 +123,12 @@ class RenewController extends Controller
         $data->expire_date = timeFormate($data->expire_date);
         $data->renew_date = timeFormate($data->renew_date);
         $data->price = number_format($data->price, 2);
+        $data->icon = html_entity_decode(optional($data->currency)->icon);
         return response()->json($data);
     }
     public function edit($id): View
     {
+        $data['currencies'] = Currency::activated()->latest()->get();
         $data['clients'] = Client::activated()->latest()->get();
         $data['renew'] = ClientRenew::with('hd.hosting')->findOrFail($id);
         if ($data['renew']->renew_for == 'Domain') {
@@ -173,6 +178,7 @@ class RenewController extends Controller
             $this->fileDelete($renew->file);
             $renew->file = $path;
         }
+        $renew->currency_id = $request->currency_id;
         $renew->client_id = $request->client_id;
         $renew->renew_for = $request->renew_for;
         $renew->renew_date = $request->renew_date;

@@ -73,8 +73,14 @@
                                     <div class="input-group" role="group">
                                         <input type="text" name="price" placeholder="Enter price" id="price"
                                             class="form-control" value="{{ $renew->price }}">
-                                        <span class="btn btn-sm btn-secondary disabled"
-                                            style="line-height: 2">{{ __('BDT') }}</span>
+                                        <select name="currency_id" class="form-control">
+                                            <option selected hidden value="">{{ __('Select Currency') }}</option>
+                                            @foreach ($currencies as $currency)
+                                                <option value="{{ $currency->id }}"
+                                                    {{ $renew->currency_id == $currency->id ? 'selected' : '' }}>
+                                                    {{ $currency->short_form }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     @include('alerts.feedback', ['field' => 'price'])
                                 </div>

@@ -68,10 +68,17 @@
                                     <div class="input-group" role="group">
                                         <input type="text" name="price" placeholder="Enter price" id="price"
                                             class="form-control" value="{{ $payment->price }}">
-                                        <span class="btn btn-sm btn-secondary disabled"
-                                            style="line-height: 2">{{ __('USD') }}</span>
+                                        <select name="currency_id" class="form-control">
+                                            <option selected hidden value="">{{ __('Select Currency') }}</option>
+                                            @foreach ($currencies as $currency)
+                                                <option value="{{ $currency->id }}"
+                                                    {{ $payment->currency_id == $currency->id ? 'selected' : '' }}>
+                                                    {{ $currency->short_form }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     @include('alerts.feedback', ['field' => 'price'])
+                                    @include('alerts.feedback', ['field' => 'currency_id'])
                                 </div>
                                 <div class="form-group col-md-6" id="is_duration">
                                     <label for="duration">{{ __('Duration') }}</label>

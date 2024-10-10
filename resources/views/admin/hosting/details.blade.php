@@ -155,7 +155,7 @@
                                     <td> {{ $loop->iteration }} </td>
                                     <td> {{ $payment->payment_type }} </td>
                                     <td> {{ timeFormate($payment->payment_date) }} </td>
-                                    <td> {{ number_format($payment->price, 2) . ' USD' }} </td>
+                                    <td> {{ number_format($payment->price, 2) }}{!! optional($payment->currency)->icon !!} </td>
                                     <td>{{ $payment->created_user_name() }}</td>
                                     <td>{{ $payment->created_date() }}</td>
                                     <td class="text-center align-middle">
@@ -309,7 +309,7 @@
                                     <tr>
                                         <th class="text-nowrap">Price</th>
                                         <th>:</th>
-                                        <td>${data.price} Tk</td>
+                                        <td>${data.price}${data.icon}</td>
                                     </tr>
                                     <tr>
                                         <th class="text-nowrap">Created At</th>
@@ -384,7 +384,7 @@
                                     <tr>
                                         <th class="text-nowrap">Purchase Price</th>
                                         <th>:</th>
-                                        <td>${data.price} USD</td>
+                                        <td>${data.price}${data.icon}</td>
                                     </tr>
                                     <tr>
                                         <th class="text-nowrap">Website</th>

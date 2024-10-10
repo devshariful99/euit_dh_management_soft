@@ -33,6 +33,7 @@ class ClientHostingRequest extends FormRequest
             'purchase_date' => 'required|date|before_or_equal:today',
             'duration' => 'required|numeric',
             'note' => 'nullable',
+            'currency_id' => 'required|exists:currencies,id',
         ];
     }
 }

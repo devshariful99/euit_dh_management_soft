@@ -23,6 +23,7 @@ class PaymentRequest extends FormRequest
             'price' => 'required|numeric|min:0',
             'duration' => 'nullable|numeric|min:1',
             'hd_id' => 'required',
+            'currency_id' => 'required|exists:currencies,id',
 
 
         ];

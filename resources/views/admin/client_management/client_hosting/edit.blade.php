@@ -56,9 +56,23 @@
                             </div>
                             <div class="form-group">
                                 <label for="price">{{ __('Purchase Price') }}<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control {{ $errors->has('price') ? ' is-invalid' : '' }}"
-                                    id="price" name="price" value="{{ $ch->price }}" placeholder="Enter price in USD">
+                                <div class="input-group" role="group">
+                                    <input type="text"
+                                        class="form-control {{ $errors->has('price') ? ' is-invalid' : '' }}"
+                                        id="price" name="price" value="{{ $ch->price }}"
+                                        placeholder="Enter price">
+                                    <select name="currency_id" class="form-control">
+                                        <option selected hidden value="">{{ __('Select Currency') }}</option>
+                                        @foreach ($currencies as $currency)
+                                            <option value="{{ $currency->id }}"
+                                                {{ $ch->currency_id == $currency->id ? 'selected' : '' }}>
+                                                {{ $currency->short_form }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
                                 @include('alerts.feedback', ['field' => 'price'])
+                                @include('alerts.feedback', ['field' => 'currency_id'])
                             </div>
                             <div class="form-group">
                                 <label for="purchase_date">{{ __('Purchase Date') }}<span

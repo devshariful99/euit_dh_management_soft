@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientHostingRequest;
 use App\Models\Client;
 use App\Models\ClientHosting;
+use App\Models\Currency;
 use App\Models\Hosting;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
@@ -22,7 +23,7 @@ class ClientHostingController extends Controller
 
     public function index(Request $req): View
     {
-        $query = ClientHosting::with(['created_user', 'client', 'hosting'])->latest();
+        $query = ClientHosting::with(['created_user', 'client', 'hosting', 'currency'])->latest();
         if (isset($req->status)) {
             $query->where('status', $req->status);
         }
@@ -31,7 +32,7 @@ class ClientHostingController extends Controller
     }
     public function details($id): JsonResponse
     {
-        $data = ClientHosting::with(['created_user', 'updated_user', 'client', 'hosting', 'renews'])->findOrFail($id);
+        $data = ClientHosting::with(['created_user', 'updated_user', 'client', 'hosting', 'renews', 'currency'])->findOrFail($id);
         $data->creating_time = $data->created_date();
         $data->updating_time = $data->updated_date();
         $data->created_by = $data->created_user_name();
@@ -52,10 +53,12 @@ class ClientHostingController extends Controller
         $data->renew_status = $data->renew_date ? 'Yes' : 'No';
         $data->renew_statusClass = $data->renew_date ? 'badge-success' : 'badge-danger';
         $data->price = number_format($data->price, 2);
+        $data->icon = html_entity_decode(optional($data->currency)->icon);
         return response()->json($data);
     }
     public function create(): View
     {
+        $data['currencies'] = Currency::activated()->latest()->get();
         $data['clients'] = Client::activated()->latest()->get();
         $data['hostings'] = Hosting::activated()->latest()->get();
         return view('admin.client_management.client_hosting.create', $data);
@@ -69,6 +72,7 @@ class ClientHostingController extends Controller
             ->addMonths($months);
 
         $ch = new ClientHosting();
+        $ch->currency_id = $req->currency_id;
         $ch->client_id = $req->client_id;
         $ch->hosting_id = $req->hosting_id;
         $ch->storage = $req->storage;
@@ -87,6 +91,7 @@ class ClientHostingController extends Controller
     }
     public function edit($id): View
     {
+        $data['currencies'] = Currency::activated()->latest()->get();
         $data['ch'] = ClientHosting::with(['client', 'hosting'])->findOrFail($id);
         $data['ch']->duration = Carbon::parse($data['ch']->expire_date)->diffInMonths(Carbon::parse($data['ch']->purchase_date)) / 12;
         $data['clients'] = Client::activated()->latest()->get();
@@ -101,6 +106,7 @@ class ClientHostingController extends Controller
             ->addYears($years)
             ->addMonths($months);
         $ch = ClientHosting::findOrFail($id);
+        $ch->currency_id = $req->currency_id;
         $ch->client_id = $req->client_id;
         $ch->hosting_id = $req->hosting_id;
         $ch->storage = $req->storage;
