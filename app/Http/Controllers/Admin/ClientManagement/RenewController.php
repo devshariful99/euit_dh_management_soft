@@ -19,30 +19,26 @@ class RenewController extends Controller
 
     public function index(Request $request)
     {
-        $type = request('type');
-        $id = request('id');
+        $type = $request->type;
+        $id = $request->id;
         $data['title'] = 'Clients Renewal Histories';
-        $query = ClientRenew::with(['hd', 'hd.hosting', 'client', 'created_user'])->latest();
+        $query = ClientRenew::query();
+        $query->with(['hd', 'hd.hosting', 'client', 'created_user']);
         if ($type == 'Domain') {
             $data['title'] = 'Client Domain Renewal Histories';
-            $query = $query->where('hd_id', $id)->where('hd_type', 'App\Models\ClientDomain');
+            $query->where('hd_id', $id)->where('hd_type', ClientDomain::class);
         } elseif ($type == 'Hosting') {
             $data['title'] = 'Client Hosting Renewal Histories';
-            $query = $query->where('hd_id', $id)->where('hd_type', 'App\Models\ClientHosting');
+            $query->where('hd_id', $id)->where('hd_type', ClientHosting::class);
         }
 
-        $data['renewals'] = $query->get()->each(function (&$renew) {
-            $modelData = '';
-            if ($renew->renew_for == 'Domain') {
-                $modelData = ClientDomain::where('id', $renew->hd_id)->first();
-            } elseif ($renew->renew_for == 'Hosting') {
-                $modelData = ClientHosting::where('id', $renew->hd_id)->first();
-            }
-            $renew->renew_from = $renew->renew_date;
-            if ($modelData && $modelData->expire_date > $renew->renew_date) {
-                $renew->renew_from = $modelData->expire_date;
-            }
-            $renew->duration = Carbon::parse($renew->expire_date)->diffInMonths(Carbon::parse($renew->renew_from)) / 12;
+        $data['renewals'] = $query->latest()->get()->each(function ($renew) {
+            $modelData = $renew->hd;
+            $renew->renew_from = $modelData && $modelData->expire_date > $renew->renew_date
+                ? $modelData->expire_date
+                : $renew->renew_date;
+            $renew->duration = Carbon::parse($renew->expire_date)
+                ->diffInMonths(Carbon::parse($renew->renew_from)) / 12;
         });
         return view('admin.client_management.renew.index', $data);
     }
