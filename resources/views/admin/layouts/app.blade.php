@@ -44,7 +44,7 @@
     <script src="{{ asset('plugins/bootstrap-5.3.2/js/bootstrap.bundle.min.js') }}"></script>
 
     @stack('js_link')
-    @stack('js')
+
     <script>
         $(document).ready(function() {
             // Initialize ClipboardJS
@@ -60,6 +60,7 @@
             });
         });
     </script>
+    @stack('js')
 </body>
 
 </html>

@@ -51,6 +51,9 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
 
     Route::group(['as' => 'am.', 'prefix' => 'admin-management'], function () {
         Route::controller(AdminController::class, 'admin')->prefix('admin')->name('admin.')->group(function () {
+            Route::get('invoice', 'invoice')->name('invoice.admin_list');
+
+
             Route::get('index', 'index')->name('admin_list');
             Route::get('details/{id}', 'details')->name('details.admin_list');
             // Route::get('profile/{id}', 'profile')->name('admin_profile');

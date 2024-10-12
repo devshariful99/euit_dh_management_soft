@@ -1,0 +1,26 @@
+@media print {
+    .invoice-box {
+        margin: 100px auto;
+        font-family: "Roboto", sans-serif;
+        max-width: 800px;
+        padding: 30px;
+        background: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .invoice-box .invoice_body {
+        margin-top: 100px;
+    }
+
+    .invoice-box .survice_table_1 tr,
+    .invoice-box .client_table tr {
+        border: 1px solid #000;
+    }
+
+    /* Add any additional styles that should apply to printed invoices */
+
+    @page {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+}
