@@ -8,6 +8,11 @@
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h3 class="card-title">{{ __('Admin List') }}</h3>
                     <div class="button_ ms-auto">
+                        {{-- @include('admin.partials.button', [
+                            'routeName' => 'am.admin.invoice.admin_list',
+                            'className' => 'btn-outline-info',
+                            'label' => 'Invoice',
+                        ]) --}}
                         @include('admin.partials.button', [
                             'routeName' => 'am.admin.admin_create',
                             'className' => 'btn-outline-info',
@@ -56,7 +61,7 @@
                                                     'className' => 'btn btn-info',
                                                     'title' => 'Edit',
                                                 ],
-                                        
+
                                                 [
                                                     'routeName' => 'am.admin.admin_delete',
                                                     'params' => [$admin->id],

@@ -4,6 +4,8 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ClientManagement\ClientController;
 use App\Http\Controllers\Admin\ClientManagement\ClientDomainController;
 use App\Http\Controllers\Admin\ClientManagement\ClientHostingController;
+use App\Http\Controllers\Admin\ClientManagement\ExpireDomainController;
+use App\Http\Controllers\Admin\ClientManagement\ExpireHostingController;
 use App\Http\Controllers\Admin\ClientManagement\RenewController;
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\CompanyReportController;
@@ -51,6 +53,9 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
 
     Route::group(['as' => 'am.', 'prefix' => 'admin-management'], function () {
         Route::controller(AdminController::class, 'admin')->prefix('admin')->name('admin.')->group(function () {
+            Route::get('invoice', 'invoice')->name('invoice.admin_list');
+
+
             Route::get('index', 'index')->name('admin_list');
             Route::get('details/{id}', 'details')->name('details.admin_list');
             // Route::get('profile/{id}', 'profile')->name('admin_profile');
@@ -149,6 +154,11 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
             Route::get('status/{id}', 'status')->name('status.ch_edit');
             Route::get('delete/{id}', 'delete')->name('ch_delete');
         });
+        Route::controller(ExpireHostingController::class)->prefix('client-expire-hosting')->name('ceh.')->group(function () {
+            Route::get('index', 'index')->name('ceh_list');
+            Route::get('details/{id}', 'details')->name('details.ceh_list');
+            Route::get('invoice/{id}', 'invoice')->name('ceh_invoice');
+        });
         Route::controller(ClientDomainController::class)->prefix('client-domain')->name('cd.')->group(function () {
             Route::get('index', 'index')->name('cd_list');
             Route::get('details/{id}', 'details')->name('details.cd_list');
@@ -159,6 +169,11 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
             Route::get('status/{id}', 'status')->name('status.cd_edit');
             Route::get('developed/{id}', 'developed')->name('developed.cd_edit');
             Route::get('delete/{id}', 'delete')->name('cd_delete');
+        });
+        Route::controller(ExpireDomainController::class)->prefix('client-expire-domain')->name('ced.')->group(function () {
+            Route::get('index', 'index')->name('ced_list');
+            Route::get('details/{id}', 'details')->name('details.ced_list');
+            Route::get('invoice/{id}', 'invoice')->name('ced_invoice');
         });
         Route::controller(RenewController::class)->prefix('client-renew')->name('renew.')->group(function () {
             Route::get('index', 'index')->name('renew_list');

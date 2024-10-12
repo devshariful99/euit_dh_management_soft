@@ -12,14 +12,20 @@ use Illuminate\View\View;
 
 class AdminController extends Controller
 {
-    public function __construct() {
+    public function __construct()
+    {
         return $this->middleware('auth');
+    }
+
+    public function invoice(): View
+    {
+        return view('admin.admin.invoice');
     }
 
     public function index(): View
     {
         $data['admins'] = User::with('created_user')->latest()->get();
-        return view('admin.admin.index',$data);
+        return view('admin.admin.index', $data);
     }
     public function details($id): JsonResponse
     {
@@ -47,13 +53,13 @@ class AdminController extends Controller
         $admin->password = $req->password;
         $admin->created_by = admin()->id;
         $admin->save();
-        flash()->addSuccess('Admin '.$admin->name.' created successfully.');
+        flash()->addSuccess('Admin ' . $admin->name . ' created successfully.');
         return redirect()->route('am.admin.admin_list');
     }
     public function edit($id): View
     {
         $data['admin'] = User::findOrFail($id);
-        return view('admin.admin.edit',$data);
+        return view('admin.admin.edit', $data);
     }
     public function update(AdminRequest $req, $id): RedirectResponse
     {
@@ -62,22 +68,21 @@ class AdminController extends Controller
         $admin->email = $req->email;
         $admin->updated_by = admin()->id;
         $admin->update();
-        flash()->addSuccess('Admin '.$admin->name.' updated successfully.');
+        flash()->addSuccess('Admin ' . $admin->name . ' updated successfully.');
         return redirect()->route('am.admin.admin_list');
     }
     public function status($id): RedirectResponse
     {
         $admin = User::findOrFail($id);
         $this->statusChange($admin);
-        flash()->addSuccess('Admin '.$admin->name.' status updated successfully.');
+        flash()->addSuccess('Admin ' . $admin->name . ' status updated successfully.');
         return redirect()->route('am.admin.admin_list');
     }
     public function delete($id): RedirectResponse
     {
         $admin = User::findOrFail($id);
         $admin->delete();
-        flash()->addSuccess('Admin '.$admin->name.' deleted successfully.');
+        flash()->addSuccess('Admin ' . $admin->name . ' deleted successfully.');
         return redirect()->route('am.admin.admin_list');
-
     }
 }
