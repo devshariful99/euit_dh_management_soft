@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\ClientManagement;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\HostingRenewalInvoiceRequest;
 use App\Models\ClientHosting;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
@@ -67,13 +68,26 @@ class ExpireHostingController extends Controller
         return response()->json($data);
     }
 
-    public function invoice($id): View
+    public function invoice_data(HostingRenewalInvoiceRequest $request)
     {
-        $data['hosting'] = ClientHosting::with(['created_user', 'updated_user', 'client', 'hosting',  'renews', 'currency'])->findOrFail($id);
-        $last_renew = $data['hosting']->renews->where('status', 1)->first();
-        $data['hosting']->last_expire_date = $last_renew ? $last_renew->expire_date : $data['hosting']->expire_date;
-        $data['hosting']->new_expire_date = Carbon::parse($data['hosting']->last_expire_date)
-            ->addYears(1);
+        $data['id'] = $request->id;
+        $data['price'] = $request->price;
+        $data['storage'] = $request->storage;
+        $data['renewal_date'] = $request->renewal_date;
+        $data['duration'] = $request->duration;
+
+        return redirect()->route('cm.ceh.ceh_invoice', $data);
+    }
+
+    public function invoice(Request $request): View
+    {
+        $data['hosting'] = ClientHosting::with(['created_user', 'updated_user', 'client', 'hosting',  'renews', 'currency'])->findOrFail($request->id);
+        $data['hosting']->renewal_date = $request->renewal_date;
+        $data['hosting']->duration = $request->duration;
+        $data['hosting']->new_storage = $request->storage;
+        $data['hosting']->new_expire_date = Carbon::parse($data['hosting']->renewal_date)
+            ->addYears($request->duration);
+        $data['hosting']->renewal_price =  $request->price;
         return view('admin.client_management.client_expire_hosting.invoice', $data);
     }
 }
