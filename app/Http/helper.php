@@ -95,3 +95,8 @@ function getModelName($className)
     $className = basename(str_replace('\\', '/', $className));
     return trim(preg_replace('/(?<!\ )[A-Z]/', ' $0', $className));
 }
+
+function invoiceNumber()
+{
+    return date("Ym-j");
+}
