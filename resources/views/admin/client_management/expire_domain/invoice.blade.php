@@ -124,15 +124,15 @@
                                         from {{ date('j/m/Y', strtotime($domain->renewal_date)) }} -
                                         {{ date('j/m/Y', strtotime($domain->new_expire_date)) }}</td>
                                     <td class="py-4 text-center"
-                                        style="padding: 5px;border-left: 1px solid #000;  border-right: 1px solid #000;">
+                                        style="text-wrap: nowrap;padding: 5px;border-left: 1px solid #000;  border-right: 1px solid #000;">
                                         {!! optional($domain->currency)->icon . ' ' !!}{{ number_format($domain->price, 2) }}<br> per year
                                     </td>
                                     <td class="py-4 text-center"
-                                        style="padding: 5px;border-left: 1px solid #000;  border-right: 1px solid #000;">
+                                        style="text-wrap: nowrap;padding: 5px;border-left: 1px solid #000;  border-right: 1px solid #000;">
                                         {{ $domain->duration }}{{ $domain->duration > 1 ? ' years' : ' year' }}
                                     </td>
                                     <td class="py-4 text-end"
-                                        style="border-left: 1px solid #000;  border-right: 1px solid #000; padding: 5px;">
+                                        style="text-wrap: nowrap;border-left: 1px solid #000;  border-right: 1px solid #000; padding: 5px;">
                                         {{ $domain->duration . 'x' }}{!! optional($domain->currency)->icon . ' ' !!}
                                         {{ number_format($domain->price, 2) }}</td>
                                 </tr>
