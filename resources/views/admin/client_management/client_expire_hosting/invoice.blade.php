@@ -119,20 +119,20 @@
                                         style="padding-left: 5px; border-left: 1px solid #000; border-right: 1px solid #000;">
                                         {{ date('m.j.Y') }}</td>
                                     <td class="py-4"
-                                        style="padding-left: 5px;border-left: 1px solid #000;  border-right: 1px solid #000;"
+                                        style="text-wrap: wrap; padding-left: 5px;border-left: 1px solid #000;  border-right: 1px solid #000;"
                                         colspan="4">Hosting ({{ $hosting->new_storage }}) renew
                                         from {{ date('j/m/Y', strtotime($hosting->last_expire_date)) }} -
                                         {{ date('j/m/Y', strtotime($hosting->new_expire_date)) }}</td>
                                     <td class="py-4 text-center"
-                                        style="border-left: 1px solid #000;  border-right: 1px solid #000;">
+                                        style="text-wrap: nowrap;border-left: 1px solid #000;  border-right: 1px solid #000;">
                                         {!! optional($hosting->currency)->icon . ' ' !!}{{ number_format($hosting->price, 2) }}<br> per year
                                     </td>
                                     <td class="py-4 text-center"
-                                        style="border-left: 1px solid #000;  border-right: 1px solid #000;">
+                                        style="text-wrap: nowrap;border-left: 1px solid #000;  border-right: 1px solid #000;">
                                         {{ $hosting->duration }}{{ $hosting->duration > 1 ? ' years' : ' year' }}
                                     </td>
                                     <td class="py-4 text-end"
-                                        style="border-left: 1px solid #000;  border-right: 1px solid #000; padding-right: 5px;">
+                                        style="text-wrap: nowrap;border-left: 1px solid #000;  border-right: 1px solid #000; padding-right: 5px;">
                                         {{ $hosting->duration . 'x' }}{!! optional($hosting->currency)->icon . ' ' !!}
                                         {{ number_format($hosting->price, 2) }}</td>
                                 </tr>
