@@ -47,7 +47,8 @@
                                     </td>
                                 </tr>
                                 <tr style="border: 1px solid #000; border-right: 0;">
-                                    <td style="padding-left: 5px;">Wedsite Domain Renewal</td>
+                                    <td style="padding-left: 5px;">Wedsite domain renewal for
+                                        {{ $domain->duration }}{{ $domain->duration > 1 ? ' years' : ' year' }}</td>
                                 </tr>
                                 <tr style="border: 1px solid #000; border-right: 0;">
                                     <td style="padding-left: 5px;">Domain Name: {{ $domain->domain_name }}</td>
@@ -94,7 +95,7 @@
                             </table>
                         </div>
                         <div class="col-12 mt-5">
-                            <table class="service_detials_table" style="width: 100%;">
+                            <table class="service_detials_table table-responsive" style="width: 100%;">
                                 <tr>
                                     <td class="text-center" style="border-bottom: 10px solid #000;">
                                         <strong>DATE</strong>
@@ -115,33 +116,38 @@
                                 </tr>
                                 <tr>
                                     <td class="py-4"
-                                        style="padding-left: 5px; border-left: 1px solid #000; border-right: 1px solid #000;">
+                                        style="padding: 5px; border-left: 1px solid #000; border-right: 1px solid #000;">
                                         {{ date('m.j.Y') }}</td>
                                     <td class="py-4"
-                                        style="padding-left: 5px;border-left: 1px solid #000;  border-right: 1px solid #000;"
+                                        style="text-wrap: wrap; padding: 5px;border-left: 1px solid #000;  border-right: 1px solid #000;"
                                         colspan="4">Domain ({{ $domain->domain_name }}) renew
-                                        from {{ date('j/m/Y', strtotime($domain->last_expire_date)) }} -
+                                        from {{ date('j/m/Y', strtotime($domain->renewal_date)) }} -
                                         {{ date('j/m/Y', strtotime($domain->new_expire_date)) }}</td>
                                     <td class="py-4 text-center"
-                                        style="border-left: 1px solid #000;  border-right: 1px solid #000;">
+                                        style="padding: 5px;border-left: 1px solid #000;  border-right: 1px solid #000;">
+                                        {!! optional($domain->currency)->icon . ' ' !!}{{ number_format($domain->price, 2) }}<br> per year
                                     </td>
                                     <td class="py-4 text-center"
-                                        style="border-left: 1px solid #000;  border-right: 1px solid #000;">
+                                        style="padding: 5px;border-left: 1px solid #000;  border-right: 1px solid #000;">
+                                        {{ $domain->duration }}{{ $domain->duration > 1 ? ' years' : ' year' }}
                                     </td>
                                     <td class="py-4 text-end"
-                                        style="border-left: 1px solid #000;  border-right: 1px solid #000; padding-right: 5px;">
-                                        {!! optional($domain->currency)->icon . ' ' !!} {{ $domain->price }}</td>
+                                        style="border-left: 1px solid #000;  border-right: 1px solid #000; padding: 5px;">
+                                        {{ $domain->duration . 'x' }}{!! optional($domain->currency)->icon . ' ' !!}
+                                        {{ number_format($domain->price, 2) }}</td>
                                 </tr>
                                 <tr style="border-top: 1px solid #000;">
                                     <td colspan="7" class="text-end">{{ optional($domain->currency)->short_form }}
                                         Total:</td>
-                                    <td class=" text-end" style="border: 1px solid #000; padding-right: 5px;">
-                                        {!! optional($domain->currency)->icon . ' ' !!} {{ $domain->price }}</td>
+                                    <td class=" text-end" style="border: 1px solid #000; padding: 5px;">
+                                        {!! optional($domain->currency)->icon . ' ' !!} {{ number_format($domain->duration * $domain->price, 2) }}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td colspan="7" class="text-end">Total:</td>
-                                    <td class=" text-end" style="border: 1px solid #000; padding-right: 5px;">
-                                        {!! optional($domain->currency)->icon . ' ' !!} {{ $domain->price }}</td>
+                                    <td class=" text-end" style="border: 1px solid #000; padding: 5px;">
+                                        {!! optional($domain->currency)->icon . ' ' !!} {{ number_format($domain->duration * $domain->price, 2) }}
+                                    </td>
                                 </tr>
                             </table>
                         </div>
@@ -151,7 +157,8 @@
                     <div class="row">
                         <div class="col">
                             <ul class="list-unstyled">
-                                <li>Please make direct debit (Euro) transfer to the following beneficiary:</li>
+                                <li>Please make direct debit ({{ optional($domain->currency)->name }}) transfer to the
+                                    following beneficiary:</li>
                                 <li>Name: Sandeep Chowdhury</li>
                                 <li>Bank: Citibank</li>
                                 <li><strong>BIC: CITIIE2X</strong></li>

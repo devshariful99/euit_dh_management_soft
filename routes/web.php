@@ -157,6 +157,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
         Route::controller(ExpireHostingController::class)->prefix('client-expire-hosting')->name('ceh.')->group(function () {
             Route::get('index', 'index')->name('ceh_list');
             Route::get('details/{id}', 'details')->name('details.ceh_list');
+            Route::post('invoice', 'invoice_data')->name('data.ceh_invoice');
             Route::get('invoice/{id}', 'invoice')->name('ceh_invoice');
         });
         Route::controller(ClientDomainController::class)->prefix('client-domain')->name('cd.')->group(function () {
@@ -173,7 +174,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
         Route::controller(ExpireDomainController::class)->prefix('client-expire-domain')->name('ced.')->group(function () {
             Route::get('index', 'index')->name('ced_list');
             Route::get('details/{id}', 'details')->name('details.ced_list');
-            Route::get('invoice/{id}', 'invoice')->name('ced_invoice');
+            Route::post('invoice', 'invoice_data')->name('data.ced_invoice');
+            Route::get('invoice', 'invoice')->name('ced_invoice');
         });
         Route::controller(RenewController::class)->prefix('client-renew')->name('renew.')->group(function () {
             Route::get('index', 'index')->name('renew_list');

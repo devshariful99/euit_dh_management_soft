@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\ClientManagement;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\DomainRenewalInvoiceRequest;
 use App\Models\ClientDomain;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
@@ -72,13 +73,24 @@ class ExpireDomainController extends Controller
         return response()->json($data);
     }
 
-    public function invoice($id): View
+    public function invoice_data(DomainRenewalInvoiceRequest $request)
     {
-        $data['domain'] = ClientDomain::with(['created_user', 'updated_user', 'client', 'hosting', 'company', 'renews', 'currency'])->findOrFail($id);
-        $last_renew = $data['domain']->renews->where('status', 1)->first();
-        $data['domain']->last_expire_date = $last_renew ? $last_renew->expire_date : $data['domain']->expire_date;
-        $data['domain']->new_expire_date = Carbon::parse($data['domain']->last_expire_date)
-            ->addYears(1);
+        $data['id'] = $request->id;
+        $data['price'] = $request->price;
+        $data['renewal_date'] = $request->renewal_date;
+        $data['duration'] = $request->duration;
+
+        return redirect()->route('cm.ced.ced_invoice', $data);
+    }
+
+    public function invoice(Request $request): View
+    {
+        $data['domain'] = ClientDomain::with(['created_user', 'updated_user', 'client', 'hosting', 'company', 'renews', 'currency'])->findOrFail($request->id);
+        $data['domain']->renewal_date = $request->renewal_date;
+        $data['domain']->duration = $request->duration;
+        $data['domain']->new_expire_date = Carbon::parse($data['domain']->renewal_date)
+            ->addYears($request->duration);
+        $data['domain']->renewal_price =  $request->price;
         return view('admin.client_management.expire_domain.invoice', $data);
     }
 }

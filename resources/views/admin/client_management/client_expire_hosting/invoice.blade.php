@@ -47,10 +47,11 @@
                                     </td>
                                 </tr>
                                 <tr style="border: 1px solid #000; border-right: 0;">
-                                    <td style="padding-left: 5px;">Wedsite Hosting Renewal</td>
+                                    <td style="padding-left: 5px;">Wedsite hosting renewal for {{ $hosting->duration }}
+                                        {{ $hosting->duration > 1 ? ' years' : ' year' }}</td>
                                 </tr>
                                 <tr style="border: 1px solid #000; border-right: 0;">
-                                    <td style="padding-left: 5px;">Space: {{ $hosting->storage }}</td>
+                                    <td style="padding-left: 5px;">Space: {{ $hosting->new_storage }}</td>
                                 </tr>
                             </table>
                         </div>
@@ -119,29 +120,36 @@
                                         {{ date('m.j.Y') }}</td>
                                     <td class="py-4"
                                         style="padding-left: 5px;border-left: 1px solid #000;  border-right: 1px solid #000;"
-                                        colspan="4">Hosting ({{ $hosting->storage }}) renew
+                                        colspan="4">Hosting ({{ $hosting->new_storage }}) renew
                                         from {{ date('j/m/Y', strtotime($hosting->last_expire_date)) }} -
                                         {{ date('j/m/Y', strtotime($hosting->new_expire_date)) }}</td>
                                     <td class="py-4 text-center"
                                         style="border-left: 1px solid #000;  border-right: 1px solid #000;">
+                                        {!! optional($hosting->currency)->icon . ' ' !!}{{ number_format($hosting->price, 2) }}<br> per year
                                     </td>
                                     <td class="py-4 text-center"
                                         style="border-left: 1px solid #000;  border-right: 1px solid #000;">
+                                        {{ $hosting->duration }}{{ $hosting->duration > 1 ? ' years' : ' year' }}
                                     </td>
                                     <td class="py-4 text-end"
                                         style="border-left: 1px solid #000;  border-right: 1px solid #000; padding-right: 5px;">
-                                        {!! optional($hosting->currency)->icon . ' ' !!} {{ $hosting->price }}</td>
+                                        {{ $hosting->duration . 'x' }}{!! optional($hosting->currency)->icon . ' ' !!}
+                                        {{ number_format($hosting->price, 2) }}</td>
                                 </tr>
                                 <tr style="border-top: 1px solid #000;">
                                     <td colspan="7" class="text-end">{{ optional($hosting->currency)->short_form }}
                                         Total:</td>
                                     <td class=" text-end" style="border: 1px solid #000; padding-right: 5px;">
-                                        {!! optional($hosting->currency)->icon . ' ' !!} {{ $hosting->price }}</td>
+                                        {!! optional($hosting->currency)->icon . ' ' !!}
+                                        {{ number_format($hosting->duration * $hosting->price, 2) }}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td colspan="7" class="text-end">Total:</td>
                                     <td class=" text-end" style="border: 1px solid #000; padding-right: 5px;">
-                                        {!! optional($hosting->currency)->icon . ' ' !!} {{ $hosting->price }}</td>
+                                        {!! optional($hosting->currency)->icon . ' ' !!}
+                                        {{ number_format($hosting->duration * $hosting->price, 2) }}
+                                    </td>
                                 </tr>
                             </table>
                         </div>
@@ -151,7 +159,8 @@
                     <div class="row">
                         <div class="col">
                             <ul class="list-unstyled">
-                                <li>Please make direct debit (Euro) transfer to the following beneficiary:</li>
+                                <li>Please make direct debit ({{ optional($hosting->currency)->name }}) transfer to the
+                                    following beneficiary:</li>
                                 <li>Name: Sandeep Chowdhury</li>
                                 <li>Bank: Citibank</li>
                                 <li><strong>BIC: CITIIE2X</strong></li>
