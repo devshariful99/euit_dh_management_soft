@@ -36,9 +36,9 @@
                                     <td>{{ $client->name }}</td>
                                     {{-- <td>{{ $client->email }}</td> --}}
                                     <td>
-                                        <span id="email1">{{ $client->email }}</span>
+                                        <span id="email{{ $client->id }}">{{ $client->email }}</span>
                                         <a href="javascript:void(0)" title="Copy" class="copy-btn text-info p-2 fs-5"
-                                            data-clipboard-target="#email1">
+                                            data-clipboard-target="#email{{ $client->id }}">
                                             <i class="fas fa-copy"></i>
                                         </a>
                                     </td>
@@ -64,7 +64,7 @@
                                                     'className' => 'btn btn-info',
                                                     'title' => 'Edit',
                                                 ],
-                                        
+
                                                 [
                                                     'routeName' => 'cm.client.client_delete',
                                                     'params' => [$client->id],
