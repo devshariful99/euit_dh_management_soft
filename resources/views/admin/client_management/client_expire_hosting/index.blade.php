@@ -36,7 +36,7 @@
                                             class="{{ $hosting->getStatusBadgeClass() }}">{{ $hosting->getStatus() }}</span>
                                     </td>
                                     <td>{{ timeFormate($hosting->purchase_date) }}</td>
-                                    <td>{{ timeFormate($hosting->active_renew() ? $hosting->active_renew()->expire_date : $hosting->expire_date) }}
+                                    <td>{{ timeFormate($hosting->last_expire_date) }}
                                     </td>
                                     <td>{{ $hosting->created_user_name() }}</td>
                                     <td class="text-center align-middle">

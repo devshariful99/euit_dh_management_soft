@@ -48,14 +48,9 @@ class SendExpiryEmails implements ShouldQueue
             return;
         }
         foreach ($items as $item) {
-            $renew = $item->renews->where('status', 1)->first();
-            if ($renew) {
-                $item->expire_date = $renew->expire_date;
-            }
-
             $data = [
                 'client' => $item->client->name,
-                'day' => Carbon::parse($item->expire_date)->diffInDays(Carbon::now()),
+                'day' => Carbon::parse($item->last_expire_date)->diffInDays(Carbon::now()),
                 'subject' => "$type Expiration Reminder",
                 'email_for' => $type,
                 'name' => $type == 'domain' ? $item->domain_name : $item->hosting->name . "($item->storage)",

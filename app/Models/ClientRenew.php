@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class ClientRenew extends BaseModel
 {
     use HasFactory;
+    protected $fillable = [
+        'status',
+    ];
     public function hd()
     {
         return $this->morphTo();

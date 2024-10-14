@@ -45,7 +45,7 @@
                                             class="{{ $domain->getDevelopedStatusBadgeClass() }}">{{ $domain->getDevelopedStatus() }}</span>
                                     </td>
                                     <td>{{ timeFormate($domain->purchase_date) }}</td>
-                                    <td>{{ timeFormate($domain->active_renew() ? $domain->active_renew()->expire_date : $domain->expire_date) }}
+                                    <td>{{ timeFormate($domain->last_expire_date) }}
                                     </td>
                                     <td>{{ $domain->created_user_name() }}</td>
                                     <td class="text-center align-middle">

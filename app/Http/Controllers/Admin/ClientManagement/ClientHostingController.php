@@ -23,6 +23,17 @@ class ClientHostingController extends Controller
 
     public function index(Request $req): View
     {
+
+        $hostings = ClientHosting::get();
+        foreach ($hostings as $hosting) {
+            $expire_date = $hosting->expire_date;
+            if ($hosting->active_renew()) {
+                $expire_date = $hosting->active_renew()->expire_date;
+            }
+            $hosting->last_expire_date = $expire_date;
+            $hosting->update();
+        }
+
         $query = ClientHosting::with(['created_user', 'client', 'hosting', 'currency'])->latest();
         if (isset($req->status)) {
             $query->where('status', $req->status);
@@ -83,6 +94,7 @@ class ClientHostingController extends Controller
         $ch->password = $req->password;
         $ch->purchase_date = $req->purchase_date;
         $ch->expire_date = $expire_date;
+        $ch->last_expire_date = $expire_date;
         $ch->note = $req->note;
         $ch->created_by = admin()->id;
         $ch->save();
@@ -117,6 +129,9 @@ class ClientHostingController extends Controller
         $ch->password = $req->password;
         $ch->purchase_date = $req->purchase_date;
         $ch->expire_date = $expire_date;
+        if (!$ch->active_renew()) {
+            $ch->last_expire_date = $expire_date;
+        }
         $ch->note = $req->note;
         $ch->updated_by = admin()->id;
         $ch->update();
