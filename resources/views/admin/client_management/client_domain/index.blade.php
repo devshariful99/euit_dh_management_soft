@@ -7,7 +7,24 @@
             <div class="card m-3">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h3 class="card-title">{{ __('Client Domain List') }}</h3>
-                    <div class="button_ ms-auto">
+                    <div class="filter w-25">
+                        <form action="{{ route('cm.cd.filter.cd_list') }}" method="POST">
+                            @csrf
+                            <div class="input-group">
+                                <div class="input-group">
+                                    <select name="purchase_type" id="purchase_type" class="form-control">
+                                        <option selected hidden value="">{{ __('Select Purchase Type') }}</option>
+                                        <option value="1" {{ old('purchase_type') == '1' ? 'selected' : '' }}>
+                                            {{ __('Purchase From Us') }}</option>
+                                        <option value="2" {{ old('purchase_type') == '2' ? 'selected' : '' }}>
+                                            {{ __('Purchase From Others') }}</option>
+                                    </select>
+                                    <input type="submit" class="btn btn-primary" value="Filter">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="button_">
                         @include('admin.partials.button', [
                             'routeName' => 'cm.cd.cd_create',
                             'className' => 'btn-outline-info',
@@ -22,13 +39,10 @@
                             <tr>
                                 <th>{{ __('SL') }}</th>
                                 <th>{{ __('Client') }}</th>
-                                {{-- <th>{{ __('Hosting') }}</th> --}}
                                 <th>{{ __('Domain Name') }}</th>
-                                {{-- <th>{{ __('Type') }}</th> --}}
                                 <th>{{ __('Purchase Price') }}</th>
                                 <th>{{ __('Status') }}</th>
                                 <th>{{ __('Website') }}</th>
-                                <th>{{ __('Purchase Date') }}</th>
                                 <th>{{ __('Created By') }}</th>
                                 <th>{{ __('Creation Date') }}</th>
                                 <th class="text-center">{{ __('Action') }}</th>
@@ -39,7 +53,6 @@
                                 <tr>
                                     <td> {{ $loop->iteration }} </td>
                                     <td>{{ $domain->client->name }}</td>
-                                    {{-- <td>{{ $domain->hosting ? $domain->hosting->name : 'NULL' }}</td> --}}
                                     <td>
                                         <span id="domain_name{{ $domain->id }}">{{ $domain->domain_name }}<span>
                                                 <a href="javascript:void(0)" title="Copy"
@@ -48,7 +61,6 @@
                                                     <i class="fas fa-copy"></i>
                                                 </a>
                                     </td>
-                                    {{-- <td>{{ Str::ucfirst(str_replace('-', ' ', $domain->type())) }}</td> --}}
                                     <td>{{ number_format($domain->price, 2) }}{!! optional($domain->currency)->icon !!}</td>
                                     <td><span
                                             class="{{ $domain->getStatusBadgeClass() }}">{{ $domain->getStatus() }}</span>
@@ -56,7 +68,6 @@
                                     <td><span
                                             class="{{ $domain->getDevelopedStatusBadgeClass() }}">{{ $domain->getDevelopedStatus() }}</span>
                                     </td>
-                                    <td>{{ timeFormate($domain->purchase_date) }}</td>
                                     <td>{{ $domain->created_user_name() }}</td>
                                     <td>{{ $domain->created_date() }}</td>
                                     <td class="text-center align-middle">
@@ -99,15 +110,21 @@
                                                     'className' => $domain->getStatusClass(),
                                                     'title' => $domain->getStatusTitle(),
                                                 ],
-                                                [
-                                                    'routeName' => 'cm.renew.renew_list',
-                                                    'params' => ['type' => 'Domain', 'id' => $domain->id],
-                                                    'iconClass' => 'fa-solid fa-arrow-right',
-                                                    'className' => 'btn btn-primary',
-                                                    'title' => 'Renewals',
-                                                ],
                                             ],
                                         ])
+                                        @if ($domain->purchase_type == 1)
+                                            @include('admin.partials.action_buttons', [
+                                                'menuItems' => [
+                                                    [
+                                                        'routeName' => 'cm.renew.renew_list',
+                                                        'params' => ['type' => 'Domain', 'id' => $domain->id],
+                                                        'iconClass' => 'fa-solid fa-arrow-right',
+                                                        'className' => 'btn btn-primary',
+                                                        'title' => 'Renewals',
+                                                    ],
+                                                ],
+                                            ])
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
@@ -169,12 +186,12 @@
                                     <tr>
                                         <th class="text-nowrap">Company</th>
                                         <th>:</th>
-                                        <td>${data.company.name}</td>
+                                        <td>${data.company ? data.company.name : "null"}</td>
                                     </tr>
                                     <tr>
                                         <th class="text-nowrap">Hosting</th>
                                         <th>:</th>
-                                        <td>${data.hosting ? data.hosting.name : "NULL"}</td>
+                                        <td>${data.hosting ? data.hosting.name : "null"}</td>
                                     </tr>
                                     <tr>
                                         <th class="text-nowrap">Type</th>

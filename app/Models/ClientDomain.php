@@ -59,6 +59,18 @@ class ClientDomain extends BaseModel
                 break;
         }
     }
+    public function purchase_type()
+    {
+        switch ($this->purchase_type) {
+            case 1:
+                return 'Purchase From Us';
+                break;
+            case 2:
+                return 'Purchase From Others';
+                break;
+        }
+    }
+
 
     public function isDeveloped()
     {

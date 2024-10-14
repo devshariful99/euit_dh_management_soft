@@ -133,20 +133,20 @@
                                     </td>
                                     <td class="py-4 text-end"
                                         style="text-wrap: nowrap;border-left: 1px solid #000;  border-right: 1px solid #000; padding: 5px;">
-                                        {{ $domain->duration . 'x' }}{!! optional($domain->currency)->icon !!}
-                                        {{ number_format($domain->price, 2) }}</td>
+                                        {{ $domain->duration . 'x' }}{!! optional($domain->currency)->icon !!}{{ number_format($domain->price, 2) }}
+                                    </td>
                                 </tr>
                                 <tr style="border-top: 1px solid #000;">
                                     <td colspan="7" class="text-end">{{ optional($domain->currency)->short_form }}
                                         Total:</td>
                                     <td class=" text-end" style="border: 1px solid #000; padding: 5px;">
-                                        {!! optional($domain->currency)->icon !!} {{ number_format($domain->duration * $domain->price, 2) }}
+                                        {!! optional($domain->currency)->icon !!}{{ number_format($domain->duration * $domain->price, 2) }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td colspan="7" class="text-end">Total:</td>
                                     <td class=" text-end" style="border: 1px solid #000; padding: 5px;">
-                                        {!! optional($domain->currency)->icon !!} {{ number_format($domain->duration * $domain->price, 2) }}
+                                        {!! optional($domain->currency)->icon !!}{{ number_format($domain->duration * $domain->price, 2) }}
                                     </td>
                                 </tr>
                             </table>

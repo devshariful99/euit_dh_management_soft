@@ -164,6 +164,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
         });
         Route::controller(ClientDomainController::class)->prefix('client-domain')->name('cd.')->group(function () {
             Route::get('index', 'index')->name('cd_list');
+            Route::post('filter', 'filter')->name('filter.cd_list');
             Route::get('details/{id}', 'details')->name('details.cd_list');
             Route::get('create', 'create')->name('cd_create');
             Route::post('create', 'store')->name('cd_create');
