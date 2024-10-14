@@ -36,12 +36,11 @@ class ExpireDomainController extends Controller
         ])->whereHas('renews', function ($query) {
             $query->where('status', 1)
                 ->where('expire_date', '<', Carbon::now());
-        })
-            ->orWhere(function ($query) {
-                $query->whereDoesntHave('renews', function ($subQuery) {
-                    $subQuery->where('status', 1);
-                })->where('expire_date', '<', Carbon::now());
-            })
+        })->orWhere(function ($query) {
+            $query->whereDoesntHave('renews', function ($subQuery) {
+                $subQuery->where('status', 1);
+            })->where('expire_date', '<', Carbon::now());
+        })->where('purchase_type', 1)
             ->get();
         return view('admin.client_management.expire_domain.index', $data);
     }
@@ -71,6 +70,7 @@ class ExpireDomainController extends Controller
         $data->renew_statusClass = $data->renew_date ? 'badge-success' : 'badge-danger';
         $data->price = number_format($data->price, 2);
         $data->type = ucfirst(str_replace('_', ' ', $data->type()));
+        $data->purchase_type = $data->purchase_type();
         $data->isDeveloped = $data->getDevelopedStatus();
         $data->isDevelopedBadge = $data->getDevelopedStatusBadgeClass();
         $data->icon = html_entity_decode(optional($data->currency)->icon);

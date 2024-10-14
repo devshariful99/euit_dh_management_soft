@@ -222,8 +222,8 @@ class RenewController extends Controller
 
 
         if ($renew_for == 'Domain') {
-            $client = Client::findOrFail($client_id);
-            $data['datas'] = $client->domains;
+            $client = Client::with('domains')->findOrFail($client_id);
+            $data['datas'] = $client->domains->where('purchase_type', 1);
         } elseif ($renew_for == 'Hosting') {
             $client = Client::with('hostings.hosting')->findOrFail($client_id);
             $data['datas'] = $client->hostings;
