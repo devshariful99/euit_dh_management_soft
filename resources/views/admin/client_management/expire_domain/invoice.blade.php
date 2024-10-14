@@ -102,7 +102,7 @@
                                     </td>
                                     <td colspan="4" style="border-bottom: 10px solid #000;" class="text-center"
                                         style="border-bottom: 10px solid #000;">
-                                        <strong>SERVIE DESCRIPTION</strong>
+                                        <strong>SERVICE DESCRIPTION</strong>
                                     </td>
                                     <td class="text-center" style="border-bottom: 10px solid #000;">
                                         <strong>RATE</strong>
@@ -117,15 +117,15 @@
                                 <tr>
                                     <td class="py-4"
                                         style="padding: 5px; border-left: 1px solid #000; border-right: 1px solid #000;">
-                                        {{ date('m.j.Y') }}</td>
+                                        {{ date('d.m.Y') }}</td>
                                     <td class="py-4"
                                         style="text-wrap: wrap; padding: 5px;border-left: 1px solid #000;  border-right: 1px solid #000;"
                                         colspan="4">Domain ({{ $domain->domain_name }}) renew
-                                        from {{ date('j/m/Y', strtotime($domain->renewal_date)) }} -
+                                        from {{ date('d/m/Y', strtotime($domain->renewal_date)) }} -
                                         {{ date('j/m/Y', strtotime($domain->new_expire_date)) }}</td>
                                     <td class="py-4 text-center"
                                         style="text-wrap: nowrap;padding: 5px;border-left: 1px solid #000;  border-right: 1px solid #000;">
-                                        {!! optional($domain->currency)->icon . ' ' !!}{{ number_format($domain->price, 2) }}<br> per year
+                                        {!! optional($domain->currency)->icon !!}{{ number_format($domain->price, 2) }}<br> per year
                                     </td>
                                     <td class="py-4 text-center"
                                         style="text-wrap: nowrap;padding: 5px;border-left: 1px solid #000;  border-right: 1px solid #000;">
@@ -133,20 +133,20 @@
                                     </td>
                                     <td class="py-4 text-end"
                                         style="text-wrap: nowrap;border-left: 1px solid #000;  border-right: 1px solid #000; padding: 5px;">
-                                        {{ $domain->duration . 'x' }}{!! optional($domain->currency)->icon . ' ' !!}
+                                        {{ $domain->duration . 'x' }}{!! optional($domain->currency)->icon !!}
                                         {{ number_format($domain->price, 2) }}</td>
                                 </tr>
                                 <tr style="border-top: 1px solid #000;">
                                     <td colspan="7" class="text-end">{{ optional($domain->currency)->short_form }}
                                         Total:</td>
                                     <td class=" text-end" style="border: 1px solid #000; padding: 5px;">
-                                        {!! optional($domain->currency)->icon . ' ' !!} {{ number_format($domain->duration * $domain->price, 2) }}
+                                        {!! optional($domain->currency)->icon !!} {{ number_format($domain->duration * $domain->price, 2) }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td colspan="7" class="text-end">Total:</td>
                                     <td class=" text-end" style="border: 1px solid #000; padding: 5px;">
-                                        {!! optional($domain->currency)->icon . ' ' !!} {{ number_format($domain->duration * $domain->price, 2) }}
+                                        {!! optional($domain->currency)->icon !!} {{ number_format($domain->duration * $domain->price, 2) }}
                                     </td>
                                 </tr>
                             </table>

@@ -16,11 +16,11 @@
                                 <th>{{ __('Client') }}</th>
                                 <th>{{ __('Domain Name') }}</th>
                                 <th>{{ __('Purchase Price') }}</th>
-                                <th>{{ __('Website') }}</th>
                                 <th>{{ __('Status') }}</th>
+                                <th>{{ __('Website') }}</th>
                                 <th>{{ __('Purchase Date') }}</th>
+                                <th>{{ __('Expired Date') }}</th>
                                 <th>{{ __('Created By') }}</th>
-                                <th>{{ __('Creation Date') }}</th>
                                 <th class="text-center">{{ __('Action') }}</th>
                             </tr>
                         </thead>
@@ -45,8 +45,9 @@
                                             class="{{ $domain->getDevelopedStatusBadgeClass() }}">{{ $domain->getDevelopedStatus() }}</span>
                                     </td>
                                     <td>{{ timeFormate($domain->purchase_date) }}</td>
+                                    <td>{{ timeFormate($domain->active_renew() ? $domain->active_renew()->expire_date : $domain->expire_date) }}
+                                    </td>
                                     <td>{{ $domain->created_user_name() }}</td>
-                                    <td>{{ $domain->created_date() }}</td>
                                     <td class="text-center align-middle">
                                         @include('admin.partials.action_buttons', [
                                             'menuItems' => [
@@ -58,10 +59,17 @@
                                                     'title' => 'Details',
                                                 ],
                                                 [
+                                                    'routeName' => 'cm.ced.ced_renew',
+                                                    'iconClass' => 'fa-solid fa-sync',
+                                                    'className' => 'btn btn-success renew',
+                                                    'params' => $domain->id,
+                                                    'title' => 'Renew',
+                                                ],
+                                                [
                                                     'routeName' => 'javascript:void(0)',
                                                     'iconClass' => 'fa-solid fa-file-invoice',
                                                     'data-id' => $domain->id,
-                                                    'className' => 'btn btn-success invoice_view',
+                                                    'className' => 'btn btn-secondary invoice_view',
                                                     'title' => 'Invoice',
                                                 ],
                                                 [
@@ -84,81 +92,13 @@
     </div>
 
     {{-- Admin Details Modal  --}}
-    <div class="modal view_modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">{{ __('Client Expire Domain Details') }}</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body modal_data">
-                </div>
-            </div>
-        </div>
-    </div>
+    @include('admin.client_management.expire_domain.includes.details_modal')
 
     {{-- Invoice Modal  --}}
-    <div class="modal invoice_modal fade" id="exampleModal1" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModal1Label" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModal1Label">{{ __('Client Expire Domain Details') }}</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body invoice_modal_data">
-                    <form action="{{ route('cm.ced.data.ced_invoice') }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="id" id="ced_id" value="">
-                        <div class="form-group">
-                            <label>Renewal Date<span class="text-danger">*</span></label>
-                            <input type="date" name="renewal_date" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Duration<span class="text-danger">*</span></label>
-                            <select name="duration" class="form-control" required>
-                                <option selected hidden value="">{{ __('Select Duration') }}</option>
-                                <option value="0.5">{{ __('6 Month') }}</option>
-                                <option value="1">{{ __('1 Year') }}</option>
-                                <option value="1.5">{{ __('1.5 Year') }}</option>
-                                <option value="2">{{ __('2 Year') }}</option>
-                                <option value="2.5">{{ __('2.5 Year') }}</option>
-                                <option value="3">{{ __('3 Year') }}</option>
-                                <option value="3.5">{{ __('3.5 Year') }}</option>
-                                <option value="4">{{ __('4 Year') }}</option>
-                                <option value="4.5">{{ __('4.5 Year') }}</option>
-                                <option value="5">{{ __('5 Year') }}</option>
-                                <option value="5.5">{{ __('5.5 Year') }}</option>
-                                <option value="6">{{ __('6 Year') }}</option>
-                                <option value="6.5">{{ __('6.5 Year') }}</option>
-                                <option value="7">{{ __('7 Year') }}</option>
-                                <option value="7.5">{{ __('7.5 Year') }}</option>
-                                <option value="8">{{ __('8 Year') }}</option>
-                                <option value="8.5">{{ __('8.5 Year') }}</option>
-                                <option value="9">{{ __('9 Year') }}</option>
-                                <option value="9.5">{{ __('9.5 Year') }}</option>
-                                <option value="10">{{ __('10 Year') }}</option>
-                            </select>
-                        </div>
+    @include('admin.client_management.expire_domain.includes.invoice_modal')
 
-                        <div class="form-group">
-                            <label>Price Per Year<span class="text-danger">*</span></label>
-                            <input type="text" name="price" placeholder="Enter Price Per Year" class="form-control"
-                                required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
-@include('admin.partials.datatable', ['columns_to_show' => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]])
+@include('admin.partials.datatable', ['columns_to_show' => [0, 1, 2, 3, 4, 5, 6, 7, 8]])
 @push('js')
     <script>
         $(document).ready(function() {

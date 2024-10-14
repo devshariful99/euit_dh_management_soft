@@ -4,10 +4,14 @@ namespace App\Http\Controllers\Admin\ClientManagement;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DomainRenewalInvoiceRequest;
+use App\Http\Requests\DomainRenewRequest;
 use App\Models\ClientDomain;
+use App\Models\ClientRenew;
+use App\Models\Currency;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class ExpireDomainController extends Controller
@@ -52,7 +56,7 @@ class ExpireDomainController extends Controller
         $data->updated_by = $data->updated_user_name();
         $data->statusTitle = $data->getStatus();
         $data->statusBg = $data->getStatusBadgeClass();
-        $renew = $data->renews->where('status', 1)->first();
+        $renew = $data->active_renew();
         $data->renew_from = $data->purchase_date;
         if ($renew) {
             $data->renew_from = $renew->renew_from;
@@ -92,5 +96,50 @@ class ExpireDomainController extends Controller
             ->addYears($request->duration);
         $data['domain']->renewal_price =  $request->price;
         return view('admin.client_management.expire_domain.invoice', $data);
+    }
+    public function renew($id): View
+    {
+        $data['domain'] = ClientDomain::with(['client', 'hosting', 'currency'])->findOrFail($id);
+        $data['currencies'] = Currency::activated()->latest()->get();
+        return view('admin.client_management.expire_domain.renew', $data);
+    }
+
+    public function renew_update(DomainRenewRequest $request, $id): RedirectResponse
+    {
+
+        $years = floor($request->duration);
+        $months = ($request->duration - $years) * 12;
+
+        $expire_date = Carbon::parse($request->renew_from)
+            ->addYears($years)
+            ->addMonths($months);
+
+        $domain = ClientDomain::with(['renews', 'client', 'hosting', 'currency'])->findOrFail($id);
+        $domain->renews()->where('status', 1)->update(['status' => 0]);
+
+        $renew = new ClientRenew();
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $fileName =  time() . '.' . $file->getClientOriginalExtension();
+            $folderName = 'renewals/Domain';
+            $path = $file->storeAs($folderName, $fileName, 'public');
+            $renew->file = $path;
+        }
+        $renew->currency_id = $request->currency_id;
+        $renew->client_id = $domain->client_id;
+        $renew->renew_for = "Domain";
+        $renew->renew_date = Carbon::now();
+        $renew->renew_from = $request->renew_from;
+        $renew->expire_date = $expire_date;
+        $renew->price = $request->price * $request->duration;
+        $renew->hd()->associate($domain);
+        $renew->created_by = admin()->id;
+        $renew->save();
+
+        $domain->renew_date = $request->renew_date;
+        $domain->updated_by = admin()->id;
+        $domain->update();
+        flash()->addSuccess('Domain renew successfully.');
+        return redirect()->route('cm.ced.ced_list');
     }
 }

@@ -58,7 +58,7 @@
                                                     'className' => 'btn btn-info',
                                                     'title' => 'Edit',
                                                 ],
-                                        
+
                                                 [
                                                     'routeName' => 'company.company_delete',
                                                     'params' => [$company->id],

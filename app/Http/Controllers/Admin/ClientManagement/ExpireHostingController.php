@@ -4,9 +4,13 @@ namespace App\Http\Controllers\Admin\ClientManagement;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\HostingRenewalInvoiceRequest;
+use App\Http\Requests\HostingRenewRequest;
 use App\Models\ClientHosting;
+use App\Models\ClientRenew;
+use App\Models\Currency;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -50,7 +54,7 @@ class ExpireHostingController extends Controller
         $data->updated_by = $data->updated_user_name();
         $data->statusTitle = $data->getStatus();
         $data->statusBg = $data->getStatusBadgeClass();
-        $renew = $data->renews->where('status', 1)->first();
+        $renew = $data->active_renew();
         $data->renew_from = $data->purchase_date;
         if ($renew) {
             $data->renew_from = $renew->renew_from;
@@ -89,5 +93,52 @@ class ExpireHostingController extends Controller
             ->addYears($request->duration);
         $data['hosting']->renewal_price =  $request->price;
         return view('admin.client_management.client_expire_hosting.invoice', $data);
+    }
+
+    public function renew($id): View
+    {
+        $data['hosting'] = ClientHosting::with(['client', 'hosting', 'currency'])->findOrFail($id);
+        $data['currencies'] = Currency::activated()->latest()->get();
+        return view('admin.client_management.client_expire_hosting.renew', $data);
+    }
+
+    public function renew_update(HostingRenewRequest $request, $id): RedirectResponse
+    {
+
+        $years = floor($request->duration);
+        $months = ($request->duration - $years) * 12;
+
+        $expire_date = Carbon::parse($request->renew_from)
+            ->addYears($years)
+            ->addMonths($months);
+
+        $hosting = ClientHosting::with(['renews', 'client', 'hosting', 'currency'])->findOrFail($id);
+        $hosting->renews()->where('status', 1)->update(['status' => 0]);
+
+        $renew = new ClientRenew();
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $fileName =  time() . '.' . $file->getClientOriginalExtension();
+            $folderName = 'renewals/Hosting';
+            $path = $file->storeAs($folderName, $fileName, 'public');
+            $renew->file = $path;
+        }
+        $renew->currency_id = $request->currency_id;
+        $renew->client_id = $hosting->client_id;
+        $renew->renew_for = "Hosting";
+        $renew->renew_date = Carbon::now();
+        $renew->renew_from = $request->renew_from;
+        $renew->expire_date = $expire_date;
+        $renew->price = $request->price * $request->duration;
+        $renew->hd()->associate($hosting);
+        $renew->created_by = admin()->id;
+        $renew->save();
+
+        $hosting->renew_date = $request->renew_date;
+        $hosting->storage = $request->storage;
+        $hosting->updated_by = admin()->id;
+        $hosting->update();
+        flash()->addSuccess('Hosting renew successfully.');
+        return redirect()->route('cm.ceh.ceh_list');
     }
 }

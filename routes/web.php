@@ -159,6 +159,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
             Route::get('details/{id}', 'details')->name('details.ceh_list');
             Route::post('invoice', 'invoice_data')->name('data.ceh_invoice');
             Route::get('invoice/{id}', 'invoice')->name('ceh_invoice');
+            Route::get('renew/{id}', 'renew')->name('ceh_renew');
+            Route::post('renew/{id}', 'renew_update')->name('ceh_renew');
         });
         Route::controller(ClientDomainController::class)->prefix('client-domain')->name('cd.')->group(function () {
             Route::get('index', 'index')->name('cd_list');
@@ -176,6 +178,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
             Route::get('details/{id}', 'details')->name('details.ced_list');
             Route::post('invoice', 'invoice_data')->name('data.ced_invoice');
             Route::get('invoice', 'invoice')->name('ced_invoice');
+            Route::get('renew/{id}', 'renew')->name('ced_renew');
+            Route::post('renew/{id}', 'renew_update')->name('ced_renew');
         });
         Route::controller(RenewController::class)->prefix('client-renew')->name('renew.')->group(function () {
             Route::get('index', 'index')->name('renew_list');

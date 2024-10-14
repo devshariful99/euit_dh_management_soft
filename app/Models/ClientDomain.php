@@ -82,6 +82,10 @@ class ClientDomain extends BaseModel
     {
         return $this->morphMany(ClientRenew::class, 'hd');
     }
+    public function active_renew()
+    {
+        return $this->morphMany(ClientRenew::class, 'hd')->where('status', 1)->first();
+    }
 
     public function currency()
     {

@@ -35,8 +35,9 @@ function storage_url($urlOrArray)
 function timeFormate($time)
 {
     $dateFormat = env('DATE_FORMAT', 'd-M-Y');
-    $timeFormat = env('TIME_FORMAT', 'H:i A');
-    return date($dateFormat . " " . $timeFormat, strtotime($time));
+    // $timeFormat = env('TIME_FORMAT', 'H:i A');
+    // return date($dateFormat . " " . $timeFormat, strtotime($time));
+    return date($dateFormat, strtotime($time));
 }
 
 function admin()
