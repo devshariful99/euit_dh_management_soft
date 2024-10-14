@@ -125,7 +125,7 @@
                                         {{ date('j/m/Y', strtotime($hosting->new_expire_date)) }}</td>
                                     <td class="py-4 text-center"
                                         style="text-wrap: nowrap;border-left: 1px solid #000;  border-right: 1px solid #000;">
-                                        {!! optional($hosting->currency)->icon . ' ' !!}{{ number_format($hosting->price, 2) }}<br> per year
+                                        {!! optional($hosting->currency)->icon !!}{{ number_format($hosting->price, 2) }}<br> per year
                                     </td>
                                     <td class="py-4 text-center"
                                         style="text-wrap: nowrap;border-left: 1px solid #000;  border-right: 1px solid #000;">
@@ -133,21 +133,21 @@
                                     </td>
                                     <td class="py-4 text-end"
                                         style="text-wrap: nowrap;border-left: 1px solid #000;  border-right: 1px solid #000; padding-right: 5px;">
-                                        {{ $hosting->duration . 'x' }}{!! optional($hosting->currency)->icon . ' ' !!}
+                                        {{ $hosting->duration . 'x' }}{!! optional($hosting->currency)->icon !!}
                                         {{ number_format($hosting->price, 2) }}</td>
                                 </tr>
                                 <tr style="border-top: 1px solid #000;">
                                     <td colspan="7" class="text-end">{{ optional($hosting->currency)->short_form }}
                                         Total:</td>
                                     <td class=" text-end" style="border: 1px solid #000; padding-right: 5px;">
-                                        {!! optional($hosting->currency)->icon . ' ' !!}
+                                        {!! optional($hosting->currency)->icon !!}
                                         {{ number_format($hosting->duration * $hosting->price, 2) }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td colspan="7" class="text-end">Total:</td>
                                     <td class=" text-end" style="border: 1px solid #000; padding-right: 5px;">
-                                        {!! optional($hosting->currency)->icon . ' ' !!}
+                                        {!! optional($hosting->currency)->icon !!}
                                         {{ number_format($hosting->duration * $hosting->price, 2) }}
                                     </td>
                                 </tr>
