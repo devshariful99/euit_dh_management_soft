@@ -128,8 +128,8 @@
                                 <th>{{ __('Hosting') }}</th>
                                 <th>{{ __('Name') }}</th>
                                 <th>{{ __('Company') }}</th>
-                                <th>{{ __('Website') }}</th>
                                 <th>{{ __('Status') }}</th>
+                                <th>{{ __('Website') }}</th>
                                 <th>{{ __('Created By') }}</th>
                                 <th class="text-center">{{ __('Action') }}</th>
                             </tr>
@@ -387,12 +387,12 @@
                                         <td>${data.price} USD</td>
                                     </tr>
                                     <tr>
-                                        <th class="text-nowrap">Website</th>
+                                        <th class="text-nowrap">Status</th>
                                         <th>:</th>
                                         <td><span class="badge ${data.statusBg}">${data.statusTitle}</span></td>
                                     </tr>
                                     <tr>
-                                        <th class="text-nowrap">Status</th>
+                                        <th class="text-nowrap">Website</th>
                                         <th>:</th>
                                         <td><span class="badge ${data.isDevelopedBadge}">${data.isDeveloped}</span></td>
                                     </tr>

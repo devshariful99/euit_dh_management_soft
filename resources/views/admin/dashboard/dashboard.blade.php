@@ -58,7 +58,7 @@
                 <div class="small-box bg-warning bg-gradient">
                     <div class="inner">
                         <h3>{{ $client_hostings->where('status', 1)->count() }}</h3>
-                        <p>{{ __('Total Active Client Hostings') }}</p>
+                        <p>{{ __('Client Active Hostings') }}</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-bag"></i>
@@ -73,7 +73,7 @@
                 <div class="small-box bg-danger bg-gradient">
                     <div class="inner">
                         <h3>{{ $client_hostings->where('status', 0)->count() }}</h3>
-                        <p>{{ __('Total Deactive Client Hostings') }}</p>
+                        <p>{{ __('Client Deactive Hostings') }}</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-stats-bars"></i>
@@ -93,7 +93,7 @@
                 <div class="small-box bg-info bg-gradient">
                     <div class="inner">
                         <h3>{{ $client_domains->where('status', 1)->count() }}</h3>
-                        <p>{{ __('Total Active Client Domains') }}</p>
+                        <p>{{ __('Client Active Domains') }}</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-person-add"></i>
@@ -108,7 +108,7 @@
                 <div class="small-box bg-primary bg-gradient">
                     <div class="inner">
                         <h3>{{ $client_domains->where('status', 0)->count() }}</h3>
-                        <p>{{ __('Total Deactive Client Domains') }}</p>
+                        <p>{{ __('Client Deactive Domains') }}</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-pie-graph"></i>
@@ -120,8 +120,35 @@
             <div class="col">
                 <div class="small-box bg-warning bg-gradient">
                     <div class="inner">
+                        <h3>{{ $expired_hostings->count() }}</h3>
+                        <p>{{ __('Client Expired Hostings') }}</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-pie-graph"></i>
+                    </div>
+                    <a href="{{ route('cm.ceh.ceh_list') }}" class="small-box-footer">{{ __('More info') }} <i
+                            class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <div class="col">
+                <div class="small-box bg-danger bg-gradient">
+                    <div class="inner">
+                        <h3>{{ $expired_domains->count() }}</h3>
+                        <p>{{ __('Client Expired Domains') }}</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-pie-graph"></i>
+                    </div>
+                    <a href="{{ route('cm.ced.ced_list') }}" class="small-box-footer">{{ __('More info') }} <i
+                            class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="small-box bg-success bg-gradient">
+                    <div class="inner">
                         <h3>{{ $client_domains->where('is_developed', 1)->count() }}</h3>
-                        <p>{{ __('Total Website') }}</p>
+                        <p>{{ __('Active Websites') }}</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-person-add"></i>
@@ -132,11 +159,10 @@
             </div>
 
             <div class="col">
-
-                <div class="small-box bg-danger bg-gradient">
+                <div class="small-box bg-primary bg-gradient">
                     <div class="inner">
                         <h3>{{ $client_domains->where('is_developed', 0)->count() }}</h3>
-                        <p>{{ __('Empty Domains') }}</p>
+                        <p>{{ __('Empty Websites') }}</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-pie-graph"></i>

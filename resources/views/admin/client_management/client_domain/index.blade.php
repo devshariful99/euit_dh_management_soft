@@ -26,8 +26,8 @@
                                 <th>{{ __('Domain Name') }}</th>
                                 {{-- <th>{{ __('Type') }}</th> --}}
                                 <th>{{ __('Purchase Price') }}</th>
-                                <th>{{ __('Website') }}</th>
                                 <th>{{ __('Status') }}</th>
+                                <th>{{ __('Website') }}</th>
                                 <th>{{ __('Purchase Date') }}</th>
                                 <th>{{ __('Created By') }}</th>
                                 <th>{{ __('Creation Date') }}</th>
@@ -187,12 +187,12 @@
                                         <td>${data.price}${data.icon}</td>
                                     </tr>
                                     <tr>
-                                        <th class="text-nowrap">Website</th>
+                                        <th class="text-nowrap">Status</th>
                                         <th>:</th>
                                         <td><span class="badge ${data.statusBg}">${data.statusTitle}</span></td>
                                     </tr>
                                     <tr>
-                                        <th class="text-nowrap">Status</th>
+                                        <th class="text-nowrap">Website</th>
                                         <th>:</th>
                                         <td><span class="badge ${data.isDevelopedBadge}">${data.isDeveloped}</span></td>
                                     </tr>

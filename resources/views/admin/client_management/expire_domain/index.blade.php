@@ -16,8 +16,8 @@
                                 <th>{{ __('Client') }}</th>
                                 <th>{{ __('Domain Name') }}</th>
                                 <th>{{ __('Purchase Price') }}</th>
-                                <th>{{ __('Website') }}</th>
                                 <th>{{ __('Status') }}</th>
+                                <th>{{ __('Website') }}</th>
                                 <th>{{ __('Purchase Date') }}</th>
                                 <th>{{ __('Expired Date') }}</th>
                                 <th>{{ __('Created By') }}</th>
