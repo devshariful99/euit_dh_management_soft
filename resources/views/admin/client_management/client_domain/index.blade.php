@@ -41,10 +41,10 @@
                                     <td>{{ $domain->client->name }}</td>
                                     {{-- <td>{{ $domain->hosting ? $domain->hosting->name : 'NULL' }}</td> --}}
                                     <td>
-                                        <span id="domain_name1">{{ $domain->domain_name }}<span>
+                                        <span id="domain_name{{ $domain->id }}">{{ $domain->domain_name }}<span>
                                                 <a href="javascript:void(0)" title="Copy"
                                                     class="copy-btn text-info p-2 fs-5"
-                                                    data-clipboard-target="#domain_name1">
+                                                    data-clipboard-target="#domain_name{{ $domain->id }}">
                                                     <i class="fas fa-copy"></i>
                                                 </a>
                                     </td>
