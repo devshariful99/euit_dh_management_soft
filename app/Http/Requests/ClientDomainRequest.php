@@ -24,17 +24,18 @@ class ClientDomainRequest extends FormRequest
         return [
             'client_id' => 'required|exists:clients,id',
             'hosting_id' => 'nullable|exists:hostings,id',
-            'domain_id' => 'nullable|exists:domains,id',
-            'price' => 'required|numeric',
+            'company_id' => 'nullable|exists:companies,id',
+            'price' => 'required|sometimes|numeric',
             'type' => 'required|numeric',
-            'admin_url' => 'required|url',
+            'purchase_type' => 'required|numeric',
+            'admin_url' => 'required|sometimes|url',
             'username' => 'nullable',
-            'email' => 'required|email',
-            'password' => 'required',
-            'purchase_date' => 'required|date|before_or_equal:today',
-            'duration' => 'required|numeric',
+            'email' => 'required|sometimes|email',
+            'password' => 'required|sometimes',
+            'purchase_date' => 'required|sometimes|date|before_or_equal:today',
+            'duration' => 'required|sometimes|numeric',
             'note' => 'nullable',
-            'currency_id' => 'required|exists:currencies,id',
+            'currency_id' => 'required|sometimes|exists:currencies,id',
         ];
     }
 }

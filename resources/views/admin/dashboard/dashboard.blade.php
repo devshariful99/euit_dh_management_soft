@@ -86,13 +86,10 @@
 
         </div>
         <div class="row row-cols-5">
-
-
             <div class="col">
-
                 <div class="small-box bg-info bg-gradient">
                     <div class="inner">
-                        <h3>{{ $client_domains->where('status', 1)->count() }}</h3>
+                        <h3>{{ $client_domains->where('purchase_type', '1')->where('status', 1)->count() }}</h3>
                         <p>{{ __('Client Active Domains') }}</p>
                     </div>
                     <div class="icon">
@@ -102,9 +99,7 @@
                         <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
-
             <div class="col">
-
                 <div class="small-box bg-primary bg-gradient">
                     <div class="inner">
                         <h3>{{ $client_domains->where('status', 0)->count() }}</h3>
@@ -169,6 +164,20 @@
                     </div>
                     <a href="{{ route('cm.cd.cd_list', ['is_developed' => 1]) }}"
                         class="small-box-footer">{{ __('More info') }} <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <div class="col">
+                <div class="small-box bg-warning bg-gradient">
+                    <div class="inner">
+                        <h3>{{ $client_domains->where('purchase_type', '2')->where('status', 1)->count() }}</h3>
+                        <p>{{ __('Client Outside Purchased Domains') }}</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-person-add"></i>
+                    </div>
+                    <a href="{{ route('cm.cd.cd_list', ['purchase_type' => 2, 'status' => 1]) }}"
+                        class="small-box-footer">{{ __('More info') }}
+                        <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
         </div>

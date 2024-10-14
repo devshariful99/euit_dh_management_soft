@@ -23,9 +23,17 @@ class ClientDomainController extends Controller
         return $this->middleware('auth');
     }
 
+
+    public function filter(Request $req): RedirectResponse
+    {
+        return redirect()->route('cm.cd.cd_list', ['purchase_type' => $req->purchase_type]);
+    }
     public function index(Request $req): View
     {
         $query = ClientDomain::with(['created_user', 'client', 'company', 'hosting', 'currency'])->latest();
+        if (isset($req->purchase_type)) {
+            $query->where('purchase_type', $req->purchase_type);
+        }
         if (isset($req->status)) {
             $query->where('status', $req->status);
         }
@@ -59,6 +67,7 @@ class ClientDomainController extends Controller
         $data->renew_statusClass = $data->renew_date ? 'badge-success' : 'badge-danger';
         $data->price = number_format($data->price, 2);
         $data->type = ucfirst(str_replace('_', ' ', $data->type()));
+        $data->purchase_type = $data->purchase_type();
         $data->isDeveloped = $data->getDevelopedStatus();
         $data->isDevelopedBadge = $data->getDevelopedStatusBadgeClass();
         $data->icon = html_entity_decode(optional($data->currency)->icon);
@@ -87,6 +96,7 @@ class ClientDomainController extends Controller
         $cd->hosting_id = $req->hosting_id;
         $cd->company_id = $req->company_id;
         $cd->type = $req->type;
+        $cd->purchase_type = $req->purchase_type;
         $cd->price = $req->price;
         $cd->admin_url = $req->admin_url;
         $cd->username = $req->username;
@@ -125,6 +135,7 @@ class ClientDomainController extends Controller
         $cd->hosting_id = $req->hosting_id;
         $cd->company_id = $req->company_id;
         $cd->type = $req->type;
+        $cd->purchase_type = $req->purchase_type;
         $cd->price = $req->price;
         $cd->admin_url = $req->admin_url;
         $cd->username = $req->username;
