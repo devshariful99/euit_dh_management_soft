@@ -30,19 +30,6 @@ class ClientDomainController extends Controller
     }
     public function index(Request $req): View
     {
-
-        $domains = ClientDomain::get();
-        foreach ($domains as $domain) {
-            $expire_date = $domain->expire_date;
-            if ($domain->active_renew()) {
-                $expire_date = $domain->active_renew()->expire_date;
-            }
-            $domain->last_expire_date = $expire_date;
-            $domain->update();
-        }
-
-
-
         $query = ClientDomain::with(['created_user', 'client', 'company', 'hosting', 'currency'])->latest();
         if (isset($req->purchase_type)) {
             $query->where('purchase_type', $req->purchase_type);

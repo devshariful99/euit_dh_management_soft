@@ -24,7 +24,7 @@ class RenewController extends Controller
         $id = $request->id;
         $data['title'] = 'Clients Renewal Histories';
         $query = ClientRenew::query();
-        $query->with(['hd', 'hd.hosting', 'client', 'created_user', 'currency']);
+        $query->with(['hd.hosting', 'client', 'created_user', 'currency']);
         if ($type == 'Domain') {
             $data['title'] = 'Client Domain Renewal Histories';
             $query->where('hd_id', $id)->where('hd_type', ClientDomain::class);
@@ -33,7 +33,7 @@ class RenewController extends Controller
             $query->where('hd_id', $id)->where('hd_type', ClientHosting::class);
         }
 
-        $data['renewals'] = $query->latest()->get()->each(function ($renew) {
+        $data['renewals'] = $query->latest()->get()->each(function (&$renew) {
             $renew->duration = Carbon::parse($renew->expire_date)
                 ->diffInMonths(Carbon::parse($renew->renew_from)) / 12;
         });
