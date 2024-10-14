@@ -95,7 +95,7 @@
                             </table>
                         </div>
                         <div class="col-12 mt-5">
-                            <table class="service_detials_table table-responsive" style="width: 100%;">
+                            <table class="service_detials_table" style="width: 100%;">
                                 <tr>
                                     <td class="text-center" style="border-bottom: 10px solid #000;">
                                         <strong>DATE</strong>
