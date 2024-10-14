@@ -25,23 +25,8 @@ class ExpireDomainController extends Controller
         $data['client_domains'] = ClientDomain::with([
             'created_user',
             'client',
-            'company',
-            'hosting',
             'currency',
-            'renews' => function ($query) {
-                $query->where('status', 1)
-                    ->where('expire_date', '<', Carbon::now())
-                    ->latest();
-            }
-        ])->whereHas('renews', function ($query) {
-            $query->where('status', 1)
-                ->where('expire_date', '<', Carbon::now());
-        })->orWhere(function ($query) {
-            $query->whereDoesntHave('renews', function ($subQuery) {
-                $subQuery->where('status', 1);
-            })->where('expire_date', '<', Carbon::now());
-        })->where('purchase_type', 1)
-            ->get();
+        ])->where('last_expire_date', '<', Carbon::now())->where('purchase_type', 1)->get();
         return view('admin.client_management.expire_domain.index', $data);
     }
 
@@ -137,6 +122,7 @@ class ExpireDomainController extends Controller
         $renew->save();
 
         $domain->renew_date = $request->renew_date;
+        $domain->last_expire_date = $renew->expire_date;
         $domain->updated_by = admin()->id;
         $domain->update();
         flash()->addSuccess('Domain renew successfully.');

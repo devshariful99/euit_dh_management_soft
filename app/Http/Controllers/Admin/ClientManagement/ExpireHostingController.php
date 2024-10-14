@@ -27,21 +27,7 @@ class ExpireHostingController extends Controller
             'client',
             'hosting',
             'currency',
-            'renews' => function ($query) {
-                $query->where('status', 1)
-                    ->where('expire_date', '<', Carbon::now())
-                    ->latest();
-            }
-        ])->whereHas('renews', function ($query) {
-            $query->where('status', 1)
-                ->where('expire_date', '<', Carbon::now());
-        })
-            ->orWhere(function ($query) {
-                $query->whereDoesntHave('renews', function ($subQuery) {
-                    $subQuery->where('status', 1);
-                })->where('expire_date', '<', Carbon::now());
-            })
-            ->get();
+        ])->where('last_expire_date', '<', Carbon::now())->get();
         return view('admin.client_management.client_expire_hosting.index', $data);
     }
 
@@ -135,6 +121,7 @@ class ExpireHostingController extends Controller
         $renew->save();
 
         $hosting->renew_date = $request->renew_date;
+        $hosting->last_expire_date = $renew->expire_date;
         $hosting->storage = $request->storage;
         $hosting->updated_by = admin()->id;
         $hosting->update();

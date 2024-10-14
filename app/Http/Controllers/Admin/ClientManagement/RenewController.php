@@ -34,10 +34,6 @@ class RenewController extends Controller
         }
 
         $data['renewals'] = $query->latest()->get()->each(function ($renew) {
-            $modelData = $renew->hd;
-            $renew->renew_from = $modelData && $modelData->expire_date > $renew->renew_date
-                ? $modelData->expire_date
-                : $renew->renew_date;
             $renew->duration = Carbon::parse($renew->expire_date)
                 ->diffInMonths(Carbon::parse($renew->renew_from)) / 12;
         });
@@ -63,11 +59,7 @@ class RenewController extends Controller
         $years = floor($request->duration);
         $months = ($request->duration - $years) * 12;
 
-        $active_renew = $modelData->renews->where('status', 1)->first();
-        $renew_from = $modelData->expire_date;
-        if ($active_renew) {
-            $renew_from = $active_renew->expire_date;
-        }
+        $renew_from = $modelData->last_expire_date;
         if ($renew_from < $request->renew_date) {
             $renew_from = $request->renew_date;
             $expire_date = Carbon::parse($renew_from)
@@ -79,10 +71,7 @@ class RenewController extends Controller
                 ->addMonths($months);
         }
 
-        ClientRenew::where('status', 1)
-            ->where('hd_id', $modelData->id)
-            ->where('hd_type', get_class($modelData))
-            ->update(['status' => 0]);
+        $modelData->renews()->where('status', 1)->update(['status', 0]);
         $renew = new ClientRenew();
         if ($request->hasFile('file')) {
             $file = $request->file('file');
@@ -103,6 +92,7 @@ class RenewController extends Controller
         $renew->save();
 
         $modelData->renew_date = $request->renew_date;
+        $modelData->last_expire_date = $renew->expire_date;
         $modelData->updated_by = admin()->id;
         $modelData->update();
         flash()->addSuccess('Renew data added successfully.');

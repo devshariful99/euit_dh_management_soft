@@ -115,7 +115,7 @@
             <div class="col">
                 <div class="small-box bg-warning bg-gradient">
                     <div class="inner">
-                        <h3>{{ $expired_hostings->count() }}</h3>
+                        <h3>{{ $client_hostings->where('last_expire_date', '<', Carbon\Carbon::now())->count() }}</h3>
                         <p>{{ __('Client Expired Hostings') }}</p>
                     </div>
                     <div class="icon">
@@ -128,7 +128,7 @@
             <div class="col">
                 <div class="small-box bg-danger bg-gradient">
                     <div class="inner">
-                        <h3>{{ $expired_domains->count() }}</h3>
+                        <h3>{{ $client_domains->where('last_expire_date', '<', Carbon\Carbon::now())->count() }}</h3>
                         <p>{{ __('Client Expired Domains') }}</p>
                     </div>
                     <div class="icon">

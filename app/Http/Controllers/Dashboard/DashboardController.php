@@ -27,41 +27,6 @@ class DashboardController extends Controller
         $data['clients'] = Client::latest()->get();
         $data['client_hostings'] = ClientHosting::latest()->get();
         $data['client_domains'] = ClientDomain::latest()->get();
-
-
-        $data['expired_domains'] = ClientDomain::with([
-            'renews' => function ($query) {
-                $query->where('status', 1)
-                    ->where('expire_date', '<', Carbon::now())
-                    ->latest();
-            }
-        ])->whereHas('renews', function ($query) {
-            $query->where('status', 1)
-                ->where('expire_date', '<', Carbon::now());
-        })
-            ->orWhere(function ($query) {
-                $query->whereDoesntHave('renews', function ($subQuery) {
-                    $subQuery->where('status', 1);
-                })->where('expire_date', '<', Carbon::now());
-            })
-            ->get();
-
-        $data['expired_hostings'] = ClientHosting::with([
-            'renews' => function ($query) {
-                $query->where('status', 1)
-                    ->where('expire_date', '<', Carbon::now())
-                    ->latest();
-            }
-        ])->whereHas('renews', function ($query) {
-            $query->where('status', 1)
-                ->where('expire_date', '<', Carbon::now());
-        })
-            ->orWhere(function ($query) {
-                $query->whereDoesntHave('renews', function ($subQuery) {
-                    $subQuery->where('status', 1);
-                })->where('expire_date', '<', Carbon::now());
-            })
-            ->get();
         return view('admin.dashboard.dashboard', $data);
     }
 }
