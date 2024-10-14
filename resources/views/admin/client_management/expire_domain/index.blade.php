@@ -19,8 +19,8 @@
                                 <th>{{ __('Website') }}</th>
                                 <th>{{ __('Status') }}</th>
                                 <th>{{ __('Purchase Date') }}</th>
+                                <th>{{ __('Expired Date') }}</th>
                                 <th>{{ __('Created By') }}</th>
-                                <th>{{ __('Creation Date') }}</th>
                                 <th class="text-center">{{ __('Action') }}</th>
                             </tr>
                         </thead>
@@ -45,8 +45,8 @@
                                             class="{{ $domain->getDevelopedStatusBadgeClass() }}">{{ $domain->getDevelopedStatus() }}</span>
                                     </td>
                                     <td>{{ timeFormate($domain->purchase_date) }}</td>
+                                    <td>{{ timeFormate($domain->active_renew() ? $domain->active_renew()->expire_date : $domain->expire_date) }}</td>
                                     <td>{{ $domain->created_user_name() }}</td>
-                                    <td>{{ $domain->created_date() }}</td>
                                     <td class="text-center align-middle">
                                         @include('admin.partials.action_buttons', [
                                             'menuItems' => [

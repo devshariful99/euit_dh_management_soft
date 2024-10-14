@@ -95,7 +95,7 @@
                                     </td>
                                     <td colspan="4" style="border-bottom: 10px solid #000;" class="text-center"
                                         style="border-bottom: 10px solid #000;">
-                                        <strong>SERVIE DESCRIPTION</strong>
+                                        <strong>SERVICE DESCRIPTION</strong>
                                     </td>
                                     <td class="text-center" style="border-bottom: 10px solid #000;">
                                         <strong>RATE</strong>

@@ -102,7 +102,7 @@
                                     </td>
                                     <td colspan="4" style="border-bottom: 10px solid #000;" class="text-center"
                                         style="border-bottom: 10px solid #000;">
-                                        <strong>SERVIE DESCRIPTION</strong>
+                                        <strong>SERVICE DESCRIPTION</strong>
                                     </td>
                                     <td class="text-center" style="border-bottom: 10px solid #000;">
                                         <strong>RATE</strong>
@@ -117,11 +117,11 @@
                                 <tr>
                                     <td class="py-4"
                                         style="padding-left: 5px; border-left: 1px solid #000; border-right: 1px solid #000;">
-                                        {{ date('m.j.Y') }}</td>
+                                        {{ date('d.m.Y') }}</td>
                                     <td class="py-4"
                                         style="text-wrap: wrap; padding-left: 5px;border-left: 1px solid #000;  border-right: 1px solid #000;"
                                         colspan="4">Hosting ({{ $hosting->new_storage }}) renew
-                                        from {{ date('j/m/Y', strtotime($hosting->last_expire_date)) }} -
+                                        from {{ date('j/m/Y', strtotime($hosting->renewal_date)) }} -
                                         {{ date('j/m/Y', strtotime($hosting->new_expire_date)) }}</td>
                                     <td class="py-4 text-center"
                                         style="text-wrap: nowrap;border-left: 1px solid #000;  border-right: 1px solid #000;">

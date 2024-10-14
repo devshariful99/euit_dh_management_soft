@@ -52,7 +52,7 @@ class ExpireDomainController extends Controller
         $data->updated_by = $data->updated_user_name();
         $data->statusTitle = $data->getStatus();
         $data->statusBg = $data->getStatusBadgeClass();
-        $renew = $data->renews->where('status', 1)->first();
+        $renew = $data->active_renew();
         $data->renew_from = $data->purchase_date;
         if ($renew) {
             $data->renew_from = $renew->renew_from;

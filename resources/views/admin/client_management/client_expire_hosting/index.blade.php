@@ -19,8 +19,8 @@
                                 <th>{{ __('Purchase Price') }}</th>
                                 <th>{{ __('Status') }}</th>
                                 <th>{{ __('Purchase Date') }}</th>
+                                <th>{{ __('Expired Date') }}</th>
                                 <th>{{ __('Created By') }}</th>
-                                <th>{{ __('Creation Date') }}</th>
                                 <th class="text-center">{{ __('Action') }}</th>
                             </tr>
                         </thead>
@@ -36,8 +36,8 @@
                                             class="{{ $hosting->getStatusBadgeClass() }}">{{ $hosting->getStatus() }}</span>
                                     </td>
                                     <td>{{ timeFormate($hosting->purchase_date) }}</td>
+                                    <td>{{ timeFormate($hosting->active_renew() ? $hosting->active_renew()->expire_date : $hosting->expire_date) }}</td>
                                     <td>{{ $hosting->created_user_name() }}</td>
-                                    <td>{{ $hosting->created_date() }}</td>
                                     <td class="text-center align-middle">
                                         @include('admin.partials.action_buttons', [
                                             'menuItems' => [
