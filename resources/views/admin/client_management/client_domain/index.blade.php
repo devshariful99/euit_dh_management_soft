@@ -199,6 +199,11 @@
                                         <td>${data.type}</td>
                                     </tr>
                                     <tr>
+                                        <th class="text-nowrap">Purchase Type</th>
+                                        <th>:</th>
+                                        <td>${data.purchase_type}</td>
+                                    </tr>
+                                    <tr>
                                         <th class="text-nowrap">Purchase Price</th>
                                         <th>:</th>
                                         <td>${data.price}${data.icon}</td>
