@@ -54,8 +54,8 @@ class SendExpiryEmails extends Command
         Log::info('Domains fetched for email dispatch:', ['domains' => $domains->pluck('id')->toArray()]);
 
         // Fetch hostings (change your query if needed)
-        $hostings = ClientHosting::with(['client'])->whereDate('last_expire_date', $fifteenDaysFromNow)->orWhereDate('last_expire_date', $oneMonthFromNow)->get();
-        // $hostings = ClientHosting::with(['client', 'renews'])->get();
+        // $hostings = ClientHosting::with(['client'])->whereDate('last_expire_date', $fifteenDaysFromNow)->orWhereDate('last_expire_date', $oneMonthFromNow)->get();
+        $hostings = ClientHosting::with(['client', 'renews'])->get();
         Log::info('Hostings fetched for email dispatch:', ['hostings' => $hostings->pluck('id')->toArray()]);
 
         try {
