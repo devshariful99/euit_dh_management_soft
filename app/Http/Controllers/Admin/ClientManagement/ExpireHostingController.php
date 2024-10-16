@@ -27,7 +27,7 @@ class ExpireHostingController extends Controller
             'client',
             'hosting',
             'currency',
-        ])->where('last_expire_date', '<', Carbon::now())->get();
+        ])->where('last_expire_date', '<', Carbon::now()->addDays(30))->get();
         return view('admin.client_management.client_expire_hosting.index', $data);
     }
 

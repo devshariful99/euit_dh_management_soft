@@ -30,7 +30,7 @@ class ClientDomainController extends Controller
     }
     public function index(Request $req): View
     {
-        $query = ClientDomain::with(['created_user', 'client', 'company', 'hosting', 'currency'])->latest();
+        $query = ClientDomain::with(['created_user', 'client', 'company', 'hosting', 'currency']);
         if (isset($req->purchase_type)) {
             $query->where('purchase_type', $req->purchase_type);
         }
@@ -40,7 +40,7 @@ class ClientDomainController extends Controller
         if (isset($req->is_developed)) {
             $query->where('is_developed', $req->is_developed);
         }
-        $data['client_domains'] = $query->get();
+        $data['client_domains'] = $query->where('last_expire_date', '>', Carbon::now()->addDays(30))->latest()->get();
         return view('admin.client_management.client_domain.index', $data);
     }
     public function details($id): JsonResponse

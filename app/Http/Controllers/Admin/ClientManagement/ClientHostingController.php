@@ -23,11 +23,11 @@ class ClientHostingController extends Controller
 
     public function index(Request $req): View
     {
-        $query = ClientHosting::with(['created_user', 'client', 'hosting', 'currency'])->latest();
+        $query = ClientHosting::with(['created_user', 'client', 'hosting', 'currency']);
         if (isset($req->status)) {
             $query->where('status', $req->status);
         }
-        $data['client_hostings'] = $query->get();
+        $data['client_hostings'] = $query->latest()->where('last_expire_date', '>', Carbon::now()->addDays(30))->get();
         return view('admin.client_management.client_hosting.index', $data);
     }
     public function details($id): JsonResponse

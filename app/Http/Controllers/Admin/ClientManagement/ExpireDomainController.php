@@ -26,7 +26,7 @@ class ExpireDomainController extends Controller
             'created_user',
             'client',
             'currency',
-        ])->where('last_expire_date', '<', Carbon::now())->where('purchase_type', 1)->get();
+        ])->where('last_expire_date', '<', Carbon::now()->addDays(30))->where('purchase_type', 1)->get();
         return view('admin.client_management.expire_domain.index', $data);
     }
 
