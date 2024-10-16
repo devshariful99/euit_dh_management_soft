@@ -48,23 +48,26 @@ class SendExpiryEmails implements ShouldQueue
             Log::info("No $type's to send email");
             return;
         }
-        foreach ($items as $item) {
+        $renewals = [];
+        foreach ($items as $key => $item) {
             $data = [
                 'client' => $item->client->name,
                 'day' => Carbon::parse($item->last_expire_date)->diffInDays(Carbon::now()),
-                'subject' => "$type Expiration Reminder",
+                'subject' => "$type Renewal Reminder",
                 'email_for' => $type,
-                'name' => $type == 'domain' ? $item->domain_name : $item->hosting->name . "($item->storage)",
-                'email' => $item->client->email
+                'name' => $type == 'domain' ? $item->domain_name : $item->hosting->name,
+                'storage' => $type == 'hosting' ? $item->storage : '',
+                'email' => $item->client->email,
+                'expire_date' => $item->last_expire_date
             ];
+            $renewals[] = $data;
 
             Mail::to($item->client->email)
                 ->send(new ExpiryReminder($data));
             sleep(5);
-            Mail::to($item->client->email)
-                ->send(new AdminERNotifyMail($data));
-            sleep(5);
         }
+        Mail::to('noreply@gmail.com')
+            ->send(new AdminERNotifyMail($renewals));
 
         Log::info("$type's expiration reminder emais send successfully");
     }

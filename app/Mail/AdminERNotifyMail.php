@@ -13,13 +13,13 @@ class AdminERNotifyMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $mailData;
+    public $renewals;
     /**
      * Create a new message instance.
      */
-    public function __construct(array $data)
+    public function __construct(array $renewals)
     {
-        $this->mailData = $data;
+        $this->renewals = $renewals;
     }
 
     /**
@@ -28,7 +28,7 @@ class AdminERNotifyMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: $this->mailData['subject'],
+            subject: 'Client Domain and Hosting Renewal Reminder',
         );
     }
 
