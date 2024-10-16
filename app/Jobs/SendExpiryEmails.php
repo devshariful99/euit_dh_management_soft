@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Mail\AdminERNotifyMail;
 use App\Mail\ExpiryReminder;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
@@ -54,10 +55,14 @@ class SendExpiryEmails implements ShouldQueue
                 'subject' => "$type Expiration Reminder",
                 'email_for' => $type,
                 'name' => $type == 'domain' ? $item->domain_name : $item->hosting->name . "($item->storage)",
+                'email' => $item->client->email
             ];
 
             Mail::to($item->client->email)
                 ->send(new ExpiryReminder($data));
+            sleep(5);
+            Mail::to($item->client->email)
+                ->send(new AdminERNotifyMail($data));
             sleep(5);
         }
 
