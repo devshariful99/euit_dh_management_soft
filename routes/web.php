@@ -13,6 +13,8 @@ use App\Http\Controllers\Admin\CurrencyController;
 use App\Http\Controllers\Admin\DomainController;
 use App\Http\Controllers\Admin\HostingController;
 use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\Client\DashboardController as ClientDashboardController;
+use App\Http\Controllers\Client\LoginController as ClientLoginController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -43,6 +45,12 @@ Route::prefix('admin')->group(function () {
     Route::post('/password/email', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
     Route::get('/password/reset/{token}', [App\Http\Controllers\Auth\ResetPasswordController::class, 'showResetForm'])->name('password.reset');
     Route::post('/password/reset', [App\Http\Controllers\Auth\ResetPasswordController::class, 'reset']);
+});
+
+Route::controller(ClientLoginController::class)->prefix('client')->name('client.')->group(function () {
+    Route::get('/login', 'showLoginForm')->name('login');
+    Route::post('/login', 'login');
+    Route::post('/logout', 'logout')->name('logout');
 });
 
 Auth::routes();
@@ -195,4 +203,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
             Route::get('get-hostings-or-domains', 'get_hostings_or_domains')->name('get_hostings_or_domains.renew_list');
         });
     });
+});
+
+Route::group(['middleware' => 'client', 'prefix' => 'client-panel'], function () {
+    Route::get('/dashboard', [ClientDashboardController::class, 'dashboard'])->name('cp.dashboard');
 });

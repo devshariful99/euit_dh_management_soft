@@ -44,6 +44,10 @@ function admin()
 {
     return auth()->guard('web')->user();
 }
+function client()
+{
+    return auth()->guard('client')->user();
+}
 
 function availableTimezones()
 {

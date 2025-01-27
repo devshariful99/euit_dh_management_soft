@@ -22,6 +22,18 @@ class AuthBaseModel extends Authenticatable
     {
         return $this->belongsTo(User::class, 'deleted_by');
     }
+    public function created_client()
+    {
+        return $this->belongsTo(Client::class, 'created_by');
+    }
+    public function updated_client()
+    {
+        return $this->belongsTo(Client::class, 'updated_by');
+    }
+    public function deleted_client()
+    {
+        return $this->belongsTo(Client::class, 'deleted_by');
+    }
     public function getStatus()
     {
         if ($this->status == 1) {
@@ -56,25 +68,32 @@ class AuthBaseModel extends Authenticatable
         }
     }
 
-    public function scopeActivated($query){
-        return $query->where('status',1);
+    public function scopeActivated($query)
+    {
+        return $query->where('status', 1);
     }
-    public function scopeCreated_user_name(){
+    public function scopeCreated_user_name()
+    {
         return $this->created_user->name ?? 'System';
     }
-    public function scopeUpdated_user_name(){
+    public function scopeUpdated_user_name()
+    {
         return $this->updated_user->name ?? '--';
     }
-    public function scopeDeleted_user_name(){
+    public function scopeDeleted_user_name()
+    {
         return $this->deleted_user->name ?? '--';
     }
-    public function scopeCreated_date(){
+    public function scopeCreated_date()
+    {
         return timeFormate($this->created_at);
     }
-    public function scopeUpdated_date(){
+    public function scopeUpdated_date()
+    {
         return ($this->updated_at != $this->created_at) ? timeFormate($this->updated_at) : '--';
     }
-    public function scopeDeleted_date(){
+    public function scopeDeleted_date()
+    {
         return timeFormate($this->deleted_at);
     }
 }

@@ -42,6 +42,7 @@ class ClientController extends Controller
         $client = new Client();
         $client->name = $req->name;
         $client->email = $req->email;
+        $client->password = $req->password;
         $client->phone = $req->phone;
         $client->company_name = $req->company_name;
         $client->address = $req->address;
@@ -61,6 +62,7 @@ class ClientController extends Controller
         $client = Client::findOrFail($id);
         $client->name = $req->name;
         $client->email = $req->email;
+        $client->password = $req->password;
         $client->phone = $req->phone;
         $client->company_name = $req->company_name;
         $client->address = $req->address;

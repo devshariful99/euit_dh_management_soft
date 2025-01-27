@@ -34,6 +34,18 @@
                                 @include('alerts.feedback', ['field' => 'email'])
                             </div>
                             <div class="form-group">
+                                <label for="password">{{ __('Password') }}</label>
+                                <input type="password"
+                                    class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" id="password"
+                                    name="password" placeholder="Enter password">
+                                @include('alerts.feedback', ['field' => 'password'])
+                            </div>
+                            <div class="form-group">
+                                <label for="confirm_password">{{ __('Confirm Password') }}</label>
+                                <input type="password" class="form-control" id="confirm_password"
+                                    name="password_confirmation" placeholder="Enter confirm password">
+                            </div>
+                            <div class="form-group">
                                 <label for="phone">{{ __('Phone') }}</label>
                                 <input type="text" value="{{ $client->phone }}"
                                     class="form-control {{ $errors->has('phone') ? ' is-invalid' : '' }}" id="phone"
