@@ -14,7 +14,10 @@ use App\Http\Controllers\Admin\DomainController;
 use App\Http\Controllers\Admin\HostingController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Client\DashboardController as ClientDashboardController;
+use App\Http\Controllers\Client\DomainController as CpDomainController;
+use App\Http\Controllers\Client\HostingController as CpHostingController;
 use App\Http\Controllers\Client\LoginController as ClientLoginController;
+use App\Http\Controllers\Client\RenewHistoryController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -205,6 +208,24 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
     });
 });
 
-Route::group(['middleware' => 'client', 'prefix' => 'client-panel'], function () {
-    Route::get('/dashboard', [ClientDashboardController::class, 'dashboard'])->name('cp.dashboard');
+Route::group(['middleware' => 'client', 'prefix' => 'client-panel', 'as' => 'cp.'], function () {
+    Route::get('/dashboard', [ClientDashboardController::class, 'dashboard'])->name('dashboard');
+
+    Route::controller(CpDomainController::class)->prefix('domain')->name('domain.')->group(function () {
+        Route::get('index', 'index')->name('list');
+        Route::post('filter', 'filter')->name('filter.list');
+        Route::get('details/{id}', 'details')->name('details');
+        Route::get('expire/index', 'exd_index')->name('exd.list');
+        Route::get('expire/details/{id}', 'exd_details')->name('exd.details');
+    });
+    Route::controller(CpHostingController::class)->prefix('hosting')->name('hosting.')->group(function () {
+        Route::get('index', 'index')->name('list');
+        Route::get('details/{id}', 'details')->name('details');
+        Route::get('expire/index', 'exh_index')->name('exh.list');
+        Route::get('expire/details/{id}', 'exh_details')->name('exh.details');
+    });
+    Route::controller(RenewHistoryController::class)->prefix('renewal')->name('renewal.')->group(function () {
+        Route::get('index', 'index')->name('list');
+        Route::get('details/{id}', 'details')->name('details');
+    });
 });
