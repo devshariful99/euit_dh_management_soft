@@ -34,6 +34,20 @@ class AuthBaseModel extends Authenticatable
     {
         return $this->belongsTo(Client::class, 'deleted_by');
     }
+
+    public function creater()
+    {
+        return $this->morphTo();
+    }
+    public function updater()
+    {
+        return $this->morphTo();
+    }
+    public function deleter()
+    {
+        return $this->morphTo();
+    }
+
     public function getStatus()
     {
         if ($this->status == 1) {

@@ -21,6 +21,32 @@ class BaseModel extends Model
     {
         return $this->belongsTo(User::class, 'deleted_by');
     }
+
+    public function created_client()
+    {
+        return $this->belongsTo(Client::class, 'created_by');
+    }
+    public function updated_client()
+    {
+        return $this->belongsTo(Client::class, 'updated_by');
+    }
+    public function deleted_client()
+    {
+        return $this->belongsTo(Client::class, 'deleted_by');
+    }
+
+    public function creater()
+    {
+        return $this->morphTo();
+    }
+    public function updater()
+    {
+        return $this->morphTo();
+    }
+    public function deleter()
+    {
+        return $this->morphTo();
+    }
     public function getStatus()
     {
         if ($this->status == 1) {
