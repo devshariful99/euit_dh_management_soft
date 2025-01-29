@@ -19,6 +19,8 @@ use App\Http\Controllers\Client\DashboardController as ClientDashboardController
 use App\Http\Controllers\Client\DomainController as CpDomainController;
 use App\Http\Controllers\Client\HostingController as CpHostingController;
 use App\Http\Controllers\Client\LoginController as ClientLoginController;
+use App\Http\Controllers\Client\ProjectController as ClientProjectController;
+use App\Http\Controllers\Client\ProjectCredentialController as ClientProjectCredentialController;
 use App\Http\Controllers\Client\RenewHistoryController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use Illuminate\Support\Facades\Auth;
@@ -252,5 +254,21 @@ Route::group(['middleware' => 'client', 'prefix' => 'client-panel', 'as' => 'cp.
     Route::controller(RenewHistoryController::class)->prefix('renewal')->name('renewal.')->group(function () {
         Route::get('index', 'index')->name('list');
         Route::get('details/{id}', 'details')->name('details');
+    });
+
+    Route::controller(ClientProjectController::class)->prefix('project')->name('project.')->group(function () {
+        Route::get('index', 'index')->name('list');
+        Route::get('details/{id}', 'details')->name('details');
+    });
+
+    Route::controller(ClientProjectCredentialController::class)->prefix('project-credential')->name('credential.')->group(function () {
+        Route::get('index', 'index')->name('list');
+        Route::get('details/{id}', 'details')->name('details');
+        Route::get('create', 'create')->name('create');
+        Route::post('create', 'store')->name('create');
+        Route::get('edit/{id}', 'edit')->name('edit');
+        Route::put('edit/{id}', 'update')->name('edit');
+        Route::get('status/{id}', 'status')->name('status.edit');
+        Route::get('delete/{id}', 'delete')->name('delete');
     });
 });

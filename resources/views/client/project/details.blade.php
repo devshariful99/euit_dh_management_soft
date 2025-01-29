@@ -1,4 +1,4 @@
-@extends('admin.layouts.app', ['pageSlug' => 'cp'])
+@extends('client.layouts.app', ['pageSlug' => 'project'])
 
 @section('title', 'Project Details')
 @section('content')
@@ -36,10 +36,7 @@
                             <tr>
                                 <td class="fw-bold">{{ __('Client') }}</td>
                                 <td>{{ __(':') }}</td>
-                                <td>
-                                    <a
-                                        href="{{ route('cm.client.client_list', ['id' => $project->client->id]) }}">{{ $project->client->name }}</a>
-                                </td>
+                                <td>{{ $project->client->name }}</td>
                                 <td class="fw-bold">{{ __('Domain') }}</td>
                                 <td>{{ __(':') }}</td>
                                 <td>{{ optional($project->domain)->domain_name }}</td>

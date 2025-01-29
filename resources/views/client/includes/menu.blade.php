@@ -8,6 +8,18 @@
             'label' => 'Dashboard',
         ],
         [
+            'pageSlug' => 'project',
+            'routeName' => 'cp.project.list',
+            'iconClass' => 'fa-brands fa-hubspot',
+            'label' => 'Projects',
+        ],
+        [
+            'pageSlug' => 'credential',
+            'routeName' => 'cp.credential.list',
+            'iconClass' => 'fa-brands fa-hubspot',
+            'label' => 'Project Credentials',
+        ],
+        [
             'pageSlug' => 'domain',
             'routeName' => 'cp.domain.list',
             'iconClass' => 'fa-brands fa-hubspot',

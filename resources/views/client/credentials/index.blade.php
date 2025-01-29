@@ -1,4 +1,4 @@
-@extends('admin.layouts.app', ['pageSlug' => 'cpc'])
+@extends('client.layouts.app', ['pageSlug' => 'credential'])
 
 @section('title', 'Project Credential List')
 @section('content')
@@ -9,7 +9,7 @@
                     <h3 class="card-title">{{ __('Project Credential List') }}</h3>
                     <div class="button_ ms-auto">
                         @include('admin.partials.button', [
-                            'routeName' => 'cm.cpc.cpc_create',
+                            'routeName' => 'cp.credential.create',
                             'className' => 'btn-outline-info',
                             'label' => 'Add new credential',
                         ])
@@ -73,14 +73,14 @@
                                         @include('admin.partials.action_buttons', [
                                             'menuItems' => [
                                                 [
-                                                    'routeName' => 'cm.cpc.details.cpc_list',
+                                                    'routeName' => 'cp.credential.details',
                                                     'params' => [$credential->id],
                                                     'iconClass' => 'fa-regular fa-eye',
                                                     'className' => 'btn btn-primary',
                                                     'title' => 'Details',
                                                 ],
                                                 [
-                                                    'routeName' => 'cm.cpc.cpc_edit',
+                                                    'routeName' => 'cp.credential.edit',
                                                     'params' => [$credential->id],
                                                     'iconClass' => 'fa-regular fa-pen-to-square',
                                                     'className' => 'btn btn-info',
@@ -88,14 +88,14 @@
                                                 ],
                                         
                                                 [
-                                                    'routeName' => 'cm.cpc.status.cpc_edit',
+                                                    'routeName' => 'cp.credential.status.edit',
                                                     'params' => [$credential->id],
                                                     'iconClass' => 'fa-solid fa-power-off',
                                                     'className' => $credential->getStatusClass(),
                                                     'title' => $credential->getStatusTitle(),
                                                 ],
                                                 [
-                                                    'routeName' => 'cm.cpc.cpc_delete',
+                                                    'routeName' => 'cp.credential.delete',
                                                     'params' => [$credential->id],
                                                     'iconClass' => 'fa-regular fa-trash-can',
                                                     'className' => 'btn btn-danger',
