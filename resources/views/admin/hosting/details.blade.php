@@ -107,22 +107,22 @@
                             <tr>
                                 <th>{{ __('Created By') }}</th>
                                 <th>:</th>
-                                <td>{{ $hosting->created_user_name() }}</td>
+                                <td>{{ c_user_name($hosting->created_user) }}</td>
                             </tr>
                             <tr>
                                 <th>{{ __('Created Date') }}</th>
                                 <th>:</th>
-                                <td>{{ $hosting->created_date() }}</td>
+                                <td>{{ c_date($hosting->created_at) }}</td>
                             </tr>
                             <tr>
                                 <th>{{ __('Updated By') }}</th>
                                 <th>:</th>
-                                <td>{{ $hosting->updated_user_name() }}</td>
+                                <td>{{ u_user_name($hosting->updated_user) }}</td>
                             </tr>
                             <tr>
                                 <th>{{ __('Updated At') }}</th>
                                 <th>:</th>
-                                <td>{{ $hosting->updated_date() }}</td>
+                                <td>{{ u_date($hosting->created_at, $hosting->updated_at) }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -156,8 +156,8 @@
                                     <td> {{ $payment->payment_type }} </td>
                                     <td> {{ timeFormate($payment->payment_date) }} </td>
                                     <td> {{ number_format($payment->price, 2) }}{!! optional($payment->currency)->icon !!} </td>
-                                    <td>{{ $payment->created_user_name() }}</td>
-                                    <td>{{ $payment->created_date() }}</td>
+                                    <td>{{ c_user_name($payment->created_user) }}</td>
+                                    <td>{{ c_date($payment->created_at) }}</td>
                                     <td class="text-center align-middle">
                                         @include('admin.partials.action_buttons', [
                                             'menuItems' => [
@@ -213,7 +213,7 @@
                                     <td><span
                                             class="{{ $domain->getDevelopedStatusBadgeClass() }}">{{ $domain->getDevelopedStatus() }}</span>
                                     </td>
-                                    <td>{{ $domain->created_user_name() }}</td>
+                                    <td>{{ c_user_name($domain->created_user) }}</td>
                                     <td class="text-center align-middle">
                                         @include('admin.partials.action_buttons', [
                                             'menuItems' => [

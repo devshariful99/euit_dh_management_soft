@@ -40,7 +40,7 @@
                                     <td> {{ timeFormate($payment->payment_date) }} </td>
                                     <td> {{ number_format($payment->price, 2) }}{!! optional($payment->currency)->icon !!}
                                     </td>
-                                    <td>{{ $payment->created_user_name() }}</td>
+                                    <td>{{ c_user_name($payment->created_user) }}</td>
                                     <td class="text-center align-middle">
                                         @include('admin.partials.action_buttons', [
                                             'menuItems' => [

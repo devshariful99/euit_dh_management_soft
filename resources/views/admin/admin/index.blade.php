@@ -42,8 +42,8 @@
                                     <td>{{ $admin->email }}</td>
                                     <td><span class="{{ $admin->getStatusBadgeClass() }}">{{ $admin->getStatus() }}</span>
                                     </td>
-                                    <td>{{ $admin->created_user_name() }}</td>
-                                    <td>{{ $admin->created_date() }}</td>
+                                    <td>{{ c_user_name($admin->created_user) }}</td>
+                                    <td>{{ c_date($admin->created_at) }}</td>
                                     <td class="text-center align-middle">
                                         @include('admin.partials.action_buttons', [
                                             'menuItems' => [
@@ -61,7 +61,7 @@
                                                     'className' => 'btn btn-info',
                                                     'title' => 'Edit',
                                                 ],
-
+                                        
                                                 [
                                                     'routeName' => 'am.admin.admin_delete',
                                                     'params' => [$admin->id],

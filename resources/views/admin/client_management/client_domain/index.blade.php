@@ -68,8 +68,8 @@
                                     <td><span
                                             class="{{ $domain->getDevelopedStatusBadgeClass() }}">{{ $domain->getDevelopedStatus() }}</span>
                                     </td>
-                                    <td>{{ $domain->created_user_name() }}</td>
-                                    <td>{{ $domain->created_date() }}</td>
+                                    <td>{{ c_user_name($domain->created_user) }}</td>
+                                    <td>{{ c_date($domain->created_at) }}</td>
                                     <td class="text-center align-middle">
                                         @include('admin.partials.action_buttons', [
                                             'menuItems' => [

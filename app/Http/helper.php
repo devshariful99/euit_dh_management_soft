@@ -105,3 +105,22 @@ function invoiceNumber()
 {
     return date("Ym-j");
 }
+
+
+function c_user_name($user)
+{
+    return $user->name ?? 'System';
+}
+function u_user_name($user)
+{
+    return $user->name ?? 'Null';
+}
+
+function c_date($created_date)
+{
+    return timeFormate($created_date);
+}
+function u_date($created_date, $updated_date)
+{
+    return ($created_date != $updated_date) ? timeFormate($updated_date) : '--';
+}

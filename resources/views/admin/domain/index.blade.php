@@ -52,7 +52,7 @@
                                     <td><span
                                             class="{{ $domain->getDevelopedStatusBadgeClass() }}">{{ $domain->getDevelopedStatus() }}</span>
                                     </td>
-                                    <td>{{ $domain->created_user_name() }}</td>
+                                    <td>{{ c_user_name($domain->created_user) }}</td>
                                     <td class="text-center align-middle">
                                         @include('admin.partials.action_buttons', [
                                             'menuItems' => [
@@ -70,7 +70,7 @@
                                                     'className' => 'btn btn-info',
                                                     'title' => 'Edit',
                                                 ],
-                                        
+
                                                 [
                                                     'routeName' => 'domain.domain_delete',
                                                     'params' => [$domain->id],

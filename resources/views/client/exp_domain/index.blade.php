@@ -45,7 +45,7 @@
                                     <td>{{ timeFormate($domain->purchase_date) }}</td>
                                     <td>{{ timeFormate($domain->last_expire_date) }}
                                     </td>
-                                    <td>{{ $domain->created_user_name() }}</td>
+                                    <td>{{ c_user_name($domain->created_user) }}</td>
                                     <td class="text-center align-middle">
                                         @include('admin.partials.action_buttons', [
                                             'menuItems' => [

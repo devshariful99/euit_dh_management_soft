@@ -34,8 +34,8 @@
                                             class="{{ $hosting->getStatusBadgeClass() }}">{{ $hosting->getStatus() }}</span>
                                     </td>
                                     <td>{{ timeFormate($hosting->purchase_date) }}</td>
-                                    <td>{{ $hosting->created_user_name() }}</td>
-                                    <td>{{ $hosting->created_date() }}</td>
+                                    <td>{{ c_user_name($hosting->created_user) }}</td>
+                                    <td>{{ c_date($hosting->created_at) }}</td>
                                     <td class="text-center align-middle">
                                         @include('admin.partials.action_buttons', [
                                             'menuItems' => [

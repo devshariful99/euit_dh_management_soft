@@ -41,7 +41,7 @@
                                     <td> {{ timeFormate($renew->renew_date) }} </td>
                                     <td> {{ number_format($renew->price, 2) }}{!! optional($renew->currency)->icon !!} </td>
                                     <td> {{ $renew->duration . ' Year' }} </td>
-                                    <td>{{ $renew->created_user_name() }}</td>
+                                    <td>{{ c_user_name($renew->created_user) }}</td>
                                     <td class="text-center align-middle">
                                         @include('admin.partials.action_buttons', [
                                             'menuItems' => [

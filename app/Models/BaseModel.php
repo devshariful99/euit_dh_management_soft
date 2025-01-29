@@ -84,32 +84,6 @@ class BaseModel extends Model
     {
         return $query->where('status', 1);
     }
-    public function created_user_name()
-    {
-        return $this->created_user->name ?? 'System';
-    }
-    public function updated_user_name()
-    {
-        return $this->updated_user->name ?? '--';
-    }
-    public function deleted_user_name()
-    {
-        return $this->deleted_user->name ?? '--';
-    }
-    public function created_date()
-    {
-        return timeFormate($this->created_at);
-    }
-    public function updated_date()
-    {
-        return ($this->updated_at != $this->created_at) ? timeFormate($this->updated_at) : '--';
-    }
-    public function deleted_date()
-    {
-        return timeFormate($this->deleted_at);
-    }
-
-
     public function getDevelopedStatus()
     {
         if ($this->is_developed == 1) {

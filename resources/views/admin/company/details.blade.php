@@ -39,22 +39,22 @@
                             <tr>
                                 <th>{{ __('Created By') }}</th>
                                 <th>:</th>
-                                <td>{{ $company->created_user_name() }}</td>
+                                <td>{{ c_user_name($company->created_user) }}</td>
                             </tr>
                             <tr>
                                 <th>{{ __('Created Date') }}</th>
                                 <th>:</th>
-                                <td>{{ $company->created_date() }}</td>
+                                <td>{{ c_date($company->created_at) }}</td>
                             </tr>
                             <tr>
                                 <th>{{ __('Updated By') }}</th>
                                 <th>:</th>
-                                <td>{{ $company->updated_user_name() }}</td>
+                                <td>{{ c_user_name($company->updated_user) }}</td>
                             </tr>
                             <tr>
                                 <th>{{ __('Updated At') }}</th>
                                 <th>:</th>
-                                <td>{{ $company->updated_date() }}</td>
+                                <td>{{ u_date($company->created_at, $company->updated_at) }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -90,8 +90,8 @@
                                     <td><span
                                             class="{{ $hosting->getStatusBadgeClass() }}">{{ $hosting->getStatus() }}</span>
                                     </td>
-                                    <td>{{ $hosting->created_user_name() }}</td>
-                                    <td>{{ $hosting->created_date() }}</td>
+                                    <td>{{ c_user_name($hosting->created_user) }}</td>
+                                    <td>{{ c_date($hosting->created_at) }}</td>
                                     <td class="text-center align-middle">
                                         @include('admin.partials.action_buttons', [
                                             'menuItems' => [
@@ -147,7 +147,7 @@
                                     <td><span
                                             class="{{ $domain->getDevelopedStatusBadgeClass() }}">{{ $domain->getDevelopedStatus() }}</span>
                                     </td>
-                                    <td>{{ $domain->created_user_name() }}</td>
+                                    <td>{{ c_user_name($domain->created_user) }}</td>
                                     <td class="text-center align-middle">
                                         @include('admin.partials.action_buttons', [
                                             'menuItems' => [
