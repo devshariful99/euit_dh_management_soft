@@ -18,17 +18,18 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('url')->nullable();
+            $table->boolean('status')->default(1);
             $table->unsignedBigInteger('client_id');
             $table->unsignedBigInteger('hosting_id')->nullable();
             $table->unsignedBigInteger('domain_id')->nullable();
-            $table->json('credentials')->nullable();
+            $table->longText('note')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $this->addMorphedAuditColumns($table);
 
             $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
-            $table->foreign('hosting_id')->references('id')->on('hostings')->onDelete('cascade');
-            $table->foreign('domain_id')->references('id')->on('domains')->onDelete('cascade');
+            $table->foreign('hosting_id')->references('id')->on('client_hostings')->onDelete('cascade');
+            $table->foreign('domain_id')->references('id')->on('client_domains')->onDelete('cascade');
         });
     }
 

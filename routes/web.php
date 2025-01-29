@@ -6,6 +6,8 @@ use App\Http\Controllers\Admin\ClientManagement\ClientDomainController;
 use App\Http\Controllers\Admin\ClientManagement\ClientHostingController;
 use App\Http\Controllers\Admin\ClientManagement\ExpireDomainController;
 use App\Http\Controllers\Admin\ClientManagement\ExpireHostingController;
+use App\Http\Controllers\Admin\ClientManagement\ProjectController;
+use App\Http\Controllers\Admin\ClientManagement\ProjectCredentialController;
 use App\Http\Controllers\Admin\ClientManagement\RenewController;
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\CompanyReportController;
@@ -204,6 +206,29 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
             Route::get('delete/{id}', 'delete')->name('renew_delete');
 
             Route::get('get-hostings-or-domains', 'get_hostings_or_domains')->name('get_hostings_or_domains.renew_list');
+        });
+
+        Route::controller(ProjectController::class)->prefix('client-project')->name('cp.')->group(function () {
+            Route::get('index', 'index')->name('cp_list');
+            Route::get('details/{id}', 'details')->name('details.cp_list');
+            Route::get('create', 'create')->name('cp_create');
+            Route::post('create', 'store')->name('cp_create');
+            Route::get('edit/{id}', 'edit')->name('cp_edit');
+            Route::put('edit/{id}', 'update')->name('cp_edit');
+            Route::get('status/{id}', 'status')->name('status.cp_edit');
+            Route::get('delete/{id}', 'delete')->name('cp_delete');
+
+            Route::get('get-hostings-and-domains/{client_id}', 'get_hd')->name('hd.cp_list');
+        });
+        Route::controller(ProjectCredentialController::class)->prefix('client-project-credential')->name('cpc.')->group(function () {
+            Route::get('index', 'index')->name('cpc_list');
+            Route::get('details/{id}', 'details')->name('details.cpc_list');
+            Route::get('create', 'create')->name('cpc_create');
+            Route::post('create', 'store')->name('cpc_create');
+            Route::get('edit/{id}', 'edit')->name('cpc_edit');
+            Route::put('edit/{id}', 'update')->name('cpc_edit');
+            Route::get('status/{id}', 'status')->name('status.cpc_edit');
+            Route::get('delete/{id}', 'delete')->name('cpc_delete');
         });
     });
 });

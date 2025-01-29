@@ -17,9 +17,15 @@ class ClientController extends Controller
         return $this->middleware('auth');
     }
 
-    public function index(): View
+    public function index(Request $req): View
     {
-        $data['clients'] = Client::with('created_user')->latest()->get();
+        $query = Client::with('created_user');
+        $data = array();
+        if (isset($req->id)) {
+            $data['clients'] =  $query->where('id', $req->id)->get();
+        } else {
+            $data['clients'] =  $query->latest()->get();
+        }
         return view('admin.client_management.client.index', $data);
     }
     public function details($id): JsonResponse

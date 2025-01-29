@@ -49,6 +49,8 @@
 <li class="nav-item
 @if (
     $pageSlug == 'client' ||
+        $pageSlug == 'cp' ||
+        $pageSlug == 'cpc' ||
         $pageSlug == 'ch' ||
         $pageSlug == 'cd' ||
         $pageSlug == 'ced' ||
@@ -57,6 +59,8 @@
 
     <a href="javescript:void(0)" class="nav-link @if (
         $pageSlug == 'client' ||
+            $pageSlug == 'cp' ||
+            $pageSlug == 'cpc' ||
             $pageSlug == 'ch' ||
             $pageSlug == 'cd' ||
             $pageSlug == 'ced' ||
@@ -70,6 +74,8 @@
     </a>
     <ul class="nav nav-treeview" style="@if (
         $pageSlug == 'client' ||
+            $pageSlug == 'cp' ||
+            $pageSlug == 'cpc' ||
             $pageSlug == 'ch' ||
             $pageSlug == 'cd' ||
             $pageSlug == 'ced' ||
@@ -81,6 +87,16 @@
                     'pageSlug' => 'client',
                     'routeName' => 'cm.client.client_list',
                     'label' => 'Clients',
+                ],
+                [
+                    'pageSlug' => 'cp',
+                    'routeName' => 'cm.cp.cp_list',
+                    'label' => 'Client Projects',
+                ],
+                [
+                    'pageSlug' => 'cpc',
+                    'routeName' => 'cm.cpc.cpc_list',
+                    'label' => 'Projects Credentials',
                 ],
                 [
                     'pageSlug' => 'ch',
