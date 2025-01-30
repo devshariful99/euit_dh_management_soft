@@ -45,8 +45,8 @@
                                     <td><span
                                             class="{{ $client->getStatusBadgeClass() }}">{{ $client->getStatus() }}</span>
                                     </td>
-                                    <td>{{ $client->created_user_name() }}</td>
-                                    <td>{{ $client->created_date() }}</td>
+                                    <td>{{ c_user_name($client->created_user) }}</td>
+                                    <td>{{ c_date($client->created_at) }}</td>
                                     <td class="text-center align-middle">
                                         @include('admin.partials.action_buttons', [
                                             'menuItems' => [
@@ -64,7 +64,7 @@
                                                     'className' => 'btn btn-info',
                                                     'title' => 'Edit',
                                                 ],
-
+                                        
                                                 [
                                                     'routeName' => 'cm.client.client_delete',
                                                     'params' => [$client->id],

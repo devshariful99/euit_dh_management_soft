@@ -29,11 +29,11 @@ class PaymentController extends Controller
     public function details($id): JsonResponse
     {
         $data = Payment::with(['updated_user', 'created_user', 'hd', 'currency'])->findOrFail($id);
-        $data->creating_time = $data->created_date();
+        $data->creating_time = c_date($data->created_at);
+        $data->updating_time = u_date($data->created_at, $data->updated_at);
+        $data->created_by = c_user_name($data->created_user);
+        $data->updated_by = u_user_name($data->updated_user);
         $data->payment_date = timeFormate($data->payment_date);
-        $data->updating_time = $data->updated_date();
-        $data->created_by = $data->created_user_name();
-        $data->updated_by = $data->updated_user_name();
         $data->icon = html_entity_decode(optional($data->currency)->icon);
         return response()->json($data);
     }

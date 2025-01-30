@@ -17,18 +17,24 @@ class ClientController extends Controller
         return $this->middleware('auth');
     }
 
-    public function index(): View
+    public function index(Request $req): View
     {
-        $data['clients'] = Client::with('created_user')->latest()->get();
+        $query = Client::with('created_user');
+        $data = array();
+        if (isset($req->id)) {
+            $data['clients'] =  $query->where('id', $req->id)->get();
+        } else {
+            $data['clients'] =  $query->latest()->get();
+        }
         return view('admin.client_management.client.index', $data);
     }
     public function details($id): JsonResponse
     {
-        $data = Client::findOrFail($id);
-        $data->creating_time = $data->created_date();
-        $data->updating_time = $data->updated_date();
-        $data->created_by = $data->created_user_name();
-        $data->updated_by = $data->updated_user_name();
+        $data = Client::with(['created_user', 'updated_user'])->findOrFail($id);
+        $data->creating_time = c_date($data->created_at);
+        $data->updating_time = u_date($data->created_at, $data->updated_at);
+        $data->created_by = c_user_name($data->created_user);
+        $data->updated_by = u_user_name($data->updated_user);
         $data->statusTitle = $data->getStatus();
         $data->statusBg = $data->getStatusBadgeClass();
         return response()->json($data);
@@ -42,6 +48,7 @@ class ClientController extends Controller
         $client = new Client();
         $client->name = $req->name;
         $client->email = $req->email;
+        $client->password = $req->password;
         $client->phone = $req->phone;
         $client->company_name = $req->company_name;
         $client->address = $req->address;
@@ -61,6 +68,7 @@ class ClientController extends Controller
         $client = Client::findOrFail($id);
         $client->name = $req->name;
         $client->email = $req->email;
+        $client->password = $req->password;
         $client->phone = $req->phone;
         $client->company_name = $req->company_name;
         $client->address = $req->address;

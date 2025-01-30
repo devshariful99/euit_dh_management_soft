@@ -39,8 +39,8 @@
                                     <td><span
                                             class="{{ $company->getStatusBadgeClass() }}">{{ $company->getStatus() }}</span>
                                     </td>
-                                    <td>{{ $company->created_user_name() }}</td>
-                                    <td>{{ $company->created_date() }}</td>
+                                    <td>{{ c_user_name($company->created_user) }}</td>
+                                    <td>{{ c_date($company->created_at) }}</td>
                                     <td class="text-center align-middle">
                                         @include('admin.partials.action_buttons', [
                                             'menuItems' => [
@@ -58,7 +58,7 @@
                                                     'className' => 'btn btn-info',
                                                     'title' => 'Edit',
                                                 ],
-
+                                        
                                                 [
                                                     'routeName' => 'company.company_delete',
                                                     'params' => [$company->id],

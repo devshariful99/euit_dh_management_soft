@@ -38,7 +38,7 @@
                                     <td>{{ timeFormate($hosting->purchase_date) }}</td>
                                     <td>{{ timeFormate($hosting->last_expire_date) }}
                                     </td>
-                                    <td>{{ $hosting->created_user_name() }}</td>
+                                    <td>{{ c_user_name($hosting->created_user) }}</td>
                                     <td class="text-center align-middle">
                                         @include('admin.partials.action_buttons', [
                                             'menuItems' => [

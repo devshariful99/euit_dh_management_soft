@@ -91,22 +91,22 @@
                             <tr>
                                 <th>{{ __('Created By') }}</th>
                                 <th>:</th>
-                                <td>{{ $domain->created_user_name() }}</td>
+                                <td>{{ c_user_name($domain->created_user) }}</td>
                             </tr>
                             <tr>
                                 <th>{{ __('Created Date') }}</th>
                                 <th>:</th>
-                                <td>{{ $domain->created_date() }}</td>
+                                <td>{{ c_date($domain->created_at) }}</td>
                             </tr>
                             <tr>
                                 <th>{{ __('Updated By') }}</th>
                                 <th>:</th>
-                                <td>{{ $domain->updated_user_name() }}</td>
+                                <td>{{ u_user_name($domain->updated_user) }}</td>
                             </tr>
                             <tr>
                                 <th>{{ __('Updated At') }}</th>
                                 <th>:</th>
-                                <td>{{ $domain->updated_date() }}</td>
+                                <td>{{ u_date($domain->created_at, $domain->updated_at) }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -139,8 +139,8 @@
                                     <td> {{ $payment->payment_type }} </td>
                                     <td> {{ timeFormate($payment->payment_date) }} </td>
                                     <td> {{ number_format($payment->price, 2) . ' USD' }} </td>
-                                    <td>{{ $payment->created_user_name() }}</td>
-                                    <td>{{ $payment->created_date() }}</td>
+                                    <td>{{ c_user_name($payment->created_user) }}</td>
+                                    <td>{{ c_date($payment->created_at) }}</td>
                                     <td class="text-center align-middle">
                                         @include('admin.partials.action_buttons', [
                                             'menuItems' => [

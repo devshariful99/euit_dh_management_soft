@@ -40,8 +40,8 @@
                                     <td><span
                                             class="{{ $currency->getStatusBadgeClass() }}">{{ $currency->getStatus() }}</span>
                                     </td>
-                                    <td>{{ $currency->created_user_name() }}</td>
-                                    <td>{{ $currency->created_date() }}</td>
+                                    <td>{{ c_user_name($currency->created_user) }}</td>
+                                    <td>{{ c_date($currency->created_at) }}</td>
                                     <td class="text-center align-middle">
                                         @include('admin.partials.action_buttons', [
                                             'menuItems' => [
@@ -59,7 +59,7 @@
                                                     'className' => 'btn btn-info',
                                                     'title' => 'Edit',
                                                 ],
-
+                                        
                                                 [
                                                     'routeName' => 'currency.currency_delete',
                                                     'params' => [$currency->id],

@@ -6,6 +6,8 @@ use App\Http\Controllers\Admin\ClientManagement\ClientDomainController;
 use App\Http\Controllers\Admin\ClientManagement\ClientHostingController;
 use App\Http\Controllers\Admin\ClientManagement\ExpireDomainController;
 use App\Http\Controllers\Admin\ClientManagement\ExpireHostingController;
+use App\Http\Controllers\Admin\ClientManagement\ProjectController;
+use App\Http\Controllers\Admin\ClientManagement\ProjectCredentialController;
 use App\Http\Controllers\Admin\ClientManagement\RenewController;
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\CompanyReportController;
@@ -13,6 +15,13 @@ use App\Http\Controllers\Admin\CurrencyController;
 use App\Http\Controllers\Admin\DomainController;
 use App\Http\Controllers\Admin\HostingController;
 use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\Client\DashboardController as ClientDashboardController;
+use App\Http\Controllers\Client\DomainController as CpDomainController;
+use App\Http\Controllers\Client\HostingController as CpHostingController;
+use App\Http\Controllers\Client\LoginController as ClientLoginController;
+use App\Http\Controllers\Client\ProjectController as ClientProjectController;
+use App\Http\Controllers\Client\ProjectCredentialController as ClientProjectCredentialController;
+use App\Http\Controllers\Client\RenewHistoryController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -43,6 +52,12 @@ Route::prefix('admin')->group(function () {
     Route::post('/password/email', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
     Route::get('/password/reset/{token}', [App\Http\Controllers\Auth\ResetPasswordController::class, 'showResetForm'])->name('password.reset');
     Route::post('/password/reset', [App\Http\Controllers\Auth\ResetPasswordController::class, 'reset']);
+});
+
+Route::controller(ClientLoginController::class)->prefix('client')->name('client.')->group(function () {
+    Route::get('/login', 'showLoginForm')->name('login');
+    Route::post('/login', 'login');
+    Route::post('/logout', 'logout')->name('logout');
 });
 
 Auth::routes();
@@ -194,5 +209,66 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
 
             Route::get('get-hostings-or-domains', 'get_hostings_or_domains')->name('get_hostings_or_domains.renew_list');
         });
+
+        Route::controller(ProjectController::class)->prefix('client-project')->name('cp.')->group(function () {
+            Route::get('index', 'index')->name('cp_list');
+            Route::get('details/{id}', 'details')->name('details.cp_list');
+            Route::get('create', 'create')->name('cp_create');
+            Route::post('create', 'store')->name('cp_create');
+            Route::get('edit/{id}', 'edit')->name('cp_edit');
+            Route::put('edit/{id}', 'update')->name('cp_edit');
+            Route::get('status/{id}', 'status')->name('status.cp_edit');
+            Route::get('delete/{id}', 'delete')->name('cp_delete');
+
+            Route::get('get-hostings-and-domains/{client_id}', 'get_hd')->name('hd.cp_list');
+        });
+        Route::controller(ProjectCredentialController::class)->prefix('client-project-credential')->name('cpc.')->group(function () {
+            Route::get('index', 'index')->name('cpc_list');
+            Route::get('details/{id}', 'details')->name('details.cpc_list');
+            Route::get('create', 'create')->name('cpc_create');
+            Route::post('create', 'store')->name('cpc_create');
+            Route::get('edit/{id}', 'edit')->name('cpc_edit');
+            Route::put('edit/{id}', 'update')->name('cpc_edit');
+            Route::get('status/{id}', 'status')->name('status.cpc_edit');
+            Route::get('delete/{id}', 'delete')->name('cpc_delete');
+        });
+    });
+});
+
+Route::group(['middleware' => 'client', 'prefix' => 'client-panel', 'as' => 'cp.'], function () {
+    Route::get('/dashboard', [ClientDashboardController::class, 'dashboard'])->name('dashboard');
+
+    Route::controller(CpDomainController::class)->prefix('domain')->name('domain.')->group(function () {
+        Route::get('index', 'index')->name('list');
+        Route::post('filter', 'filter')->name('filter.list');
+        Route::get('details/{id}', 'details')->name('details');
+        Route::get('expire/index', 'exd_index')->name('exd.list');
+        Route::get('expire/details/{id}', 'exd_details')->name('exd.details');
+    });
+    Route::controller(CpHostingController::class)->prefix('hosting')->name('hosting.')->group(function () {
+        Route::get('index', 'index')->name('list');
+        Route::get('details/{id}', 'details')->name('details');
+        Route::get('expire/index', 'exh_index')->name('exh.list');
+        Route::get('expire/details/{id}', 'exh_details')->name('exh.details');
+    });
+    Route::controller(RenewHistoryController::class)->prefix('renewal')->name('renewal.')->group(function () {
+        Route::get('index', 'index')->name('list');
+        Route::get('details/{id}', 'details')->name('details');
+    });
+
+    Route::controller(ClientProjectController::class)->prefix('project')->name('project.')->group(function () {
+        Route::get('index', 'index')->name('list');
+        Route::get('details/{id}', 'details')->name('details');
+    });
+
+    Route::controller(ClientProjectCredentialController::class)->prefix('project-credential')->name('credential.')->group(function () {
+        Route::get('index', 'index')->name('list');
+        Route::get('details/{id}', 'details')->name('details');
+        Route::get('create', 'create')->name('create');
+        Route::post('create', 'store')->name('create');
+        Route::get('edit/{id}', 'edit')->name('edit');
+        Route::put('edit/{id}', 'update')->name('edit');
+        Route::get('status/{id}', 'status')->name('status.edit');
+        Route::get('delete/{id}', 'delete')->name('delete');
     });
 });

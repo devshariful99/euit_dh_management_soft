@@ -33,14 +33,14 @@ class DomainController extends Controller
     }
     public function view($id): JsonResponse
     {
-        $data = Domain::with(['created_user', 'company', 'hosting'])->findOrFail($id);
-        $data->creating_time = $data->created_date();
+        $data = Domain::with(['created_user', 'updated_user', 'company', 'hosting'])->findOrFail($id);
+        $data->creating_time = c_date($data->created_at);
+        $data->updating_time = u_date($data->created_at, $data->updated_at);
+        $data->created_by = c_user_name($data->created_user);
+        $data->updated_by = u_user_name($data->updated_user);
         $data->purchase_date = timeFormate($data->purchase_date);
         $data->renew_date = timeFormate($data->renew_date);
-        $data->expire_date = timeFormate($data->expire_date);
-        $data->updating_time = $data->updated_date();
-        $data->created_by = $data->created_user_name();
-        $data->updated_by = $data->updated_user_name();
+        $data->expire_date = timeFormate($data->expire_date);;
         return response()->json($data);
     }
     public function create(): View

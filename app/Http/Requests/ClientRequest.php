@@ -31,6 +31,7 @@ class ClientRequest extends FormRequest
         return [
             'email' => 'required|unique:clients,email',
             'phone' => 'nullable|unique:clients,phone',
+            'password' => 'required|min:6|confirmed',
         ];
     }
 
@@ -39,6 +40,7 @@ class ClientRequest extends FormRequest
         return [
             'email' => 'required|unique:clients,email,' . $this->route('id'),
             'phone' => 'nullable|unique:clients,phone,' . $this->route('id'),
+            'password' => 'nullable|min:6|confirmed',
         ];
     }
 }
