@@ -158,7 +158,7 @@
             <div class="card">
                 <div class="card-body px-4">
                     <div class="email-header">
-                        <h2>Client Domain and Hosting Renewal Reminder</h2>
+                        <h2>Client {{ Str::ucfirst($type) }} Renewal Reminder</h2>
                     </div>
                     <div class="table_border">
                         <table class="table table-custom">
@@ -187,7 +187,8 @@
                                         </td>
                                         <td data-label="Expiry Date" class="text-muted text-nowrap">
                                             {{ date('F j, Y', strtotime($renew['expire_date'])) }}<br />
-                                            <small style="color: #dc3545">Expiring in {{ $renew['day'] }} days</small>
+                                            <small
+                                                style="color: #dc3545">{{ ($renew['expire_date'] < $today ? 'Expired ' : 'Expiring in ') . $renew['day'] . ' days' . ($renew['expire_date'] < $today ? ' ago' : '') }}</small>
                                         </td>
                                     </tr>
                                 @endforeach

@@ -2,24 +2,30 @@
 
 namespace App\Mail;
 
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Str;
 
 class AdminERNotifyMail extends Mailable
 {
     use Queueable, SerializesModels;
 
     public $renewals;
+    public $type;
+    public $today;
     /**
      * Create a new message instance.
      */
-    public function __construct(array $renewals)
+    public function __construct(array $renewals, string $type)
     {
+        $this->type = $type;
         $this->renewals = $renewals;
+        $this->today = Carbon::now();
     }
 
     /**
@@ -28,7 +34,7 @@ class AdminERNotifyMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Client Domain and Hosting Renewal Reminder',
+            subject: 'Client ' . Str::ucfirst($this->type) . ' Renewal Reminder',
         );
     }
 
