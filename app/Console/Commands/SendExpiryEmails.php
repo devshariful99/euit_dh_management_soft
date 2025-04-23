@@ -37,39 +37,45 @@ class SendExpiryEmails extends Command
     public function handle()
     {
 
-        // Get the dates for 15 days and 30 days from now
-        $oneDayFromNow = Carbon::now()->addDays(1);
-        $fifteenDaysFromNow = Carbon::now()->addDays(15);
-        $oneMonthFromNow = Carbon::now()->addDays(30);
+        try {
+            // Get the dates for 15 days and 30 days from now
+            $oneDayFromNow = Carbon::now()->addDays(1);
+            $fifteenDaysFromNow = Carbon::now()->addDays(15);
+            $oneMonthFromNow = Carbon::now()->addDays(30);
 
-        // Log the date calculation for reference
-        Log::info('Fetching domains and hostings expiring on ' . $fifteenDaysFromNow . ' and ' . $oneMonthFromNow);
+            // Log the date calculation for reference
+            Log::info('Fetching domains and hostings expiring on ' . $fifteenDaysFromNow . ' and ' . $oneMonthFromNow);
 
-        // Fetch domains expiring in 15 and 30 days
-        $domains = ClientDomain::with(['client'])
-            ->whereDate('last_expire_date', $oneDayFromNow)
-            ->whereDate('last_expire_date', $fifteenDaysFromNow)
-            ->orWhereDate('last_expire_date', $oneMonthFromNow)->where('purchase_type', 1)
-            ->get();
-        // ============================================Temp Code
-        // $domains = ClientDomain::with(['client'])
-        //     ->where('last_expire_date', '<=', Carbon::now())
-        //     ->orWhere('last_expire_date', '<', $oneMonthFromNow)->where('purchase_type', 1)
-        //     ->get();
+            // Fetch domains expiring in 15 and 30 days
+            $domains = ClientDomain::with(['client'])
+                ->whereDate('last_expire_date', $oneDayFromNow)
+                ->whereDate('last_expire_date', $fifteenDaysFromNow)
+                ->orWhereDate('last_expire_date', $oneMonthFromNow)->where('purchase_type', 1)
+                ->get();
+            // ============================================Temp Code
+            // $domains = ClientDomain::with(['client'])
+            //     ->where('last_expire_date', '<=', Carbon::now())
+            //     ->orWhere('last_expire_date', '<', $oneMonthFromNow)->where('purchase_type', 1)
+            //     ->get();
 
-        // Log the domains that were fetched
-        Log::info('Domains fetched for email dispatch:', ['domains' => $domains->pluck('id')->toArray()]);
+            // Log the domains that were fetched
+            Log::info('Domains fetched for email dispatch:', ['domains' => $domains->pluck('id')->toArray()]);
 
-        // Fetch hostings (change your query if needed)
-        $hostings = ClientHosting::with(['client'])
-            ->whereDate('last_expire_date', $oneDayFromNow)
-            ->whereDate('last_expire_date', $fifteenDaysFromNow)
-            ->orWhereDate('last_expire_date', $oneMonthFromNow)->get();
+            // Fetch hostings (change your query if needed)
+            $hostings = ClientHosting::with(['client'])
+                ->whereDate('last_expire_date', $oneDayFromNow)
+                ->whereDate('last_expire_date', $fifteenDaysFromNow)
+                ->orWhereDate('last_expire_date', $oneMonthFromNow)->get();
 
-        // // =========================================Temp Code
-        // $hostings = ClientHosting::with(['client'])->where('last_expire_date', '<=', Carbon::now())->orWhere('last_expire_date', '<', $oneMonthFromNow)->get();
-        // // $hostings = ClientHosting::with(['client', 'renews'])->get();
-        Log::info('Hostings fetched for email dispatch:', ['hostings' => $hostings->pluck('id')->toArray()]);
+            // // =========================================Temp Code
+            // $hostings = ClientHosting::with(['client'])->where('last_expire_date', '<=', Carbon::now())->orWhere('last_expire_date', '<', $oneMonthFromNow)->get();
+            // // $hostings = ClientHosting::with(['client', 'renews'])->get();
+            Log::info('Hostings fetched for email dispatch:', ['hostings' => $hostings->pluck('id')->toArray()]);
+        } catch (\Exception $e) {
+            Log::error('Failed to fetch domains or hostings: ' . $e->getMessage());
+            throw $e;
+            return Command::FAILURE;
+        }
 
         try {
             // Dispatch the email jobs
@@ -77,6 +83,7 @@ class SendExpiryEmails extends Command
             Log::info('Email dispatch job queued successfully.');
         } catch (\Exception $e) {
             Log::error('Failed to dispatch email job: ' . $e->getMessage());
+            throw $e;
         }
 
         // Call queue worker to process the job immediately (optional)
@@ -85,6 +92,7 @@ class SendExpiryEmails extends Command
             Artisan::call('queue:work', ['--once' => true]);
         } catch (\Exception $e) {
             Log::error('Failed to run queue worker: ' . $e->getMessage());
+            throw $e;
         }
         $this->info('Email sending job dispatched and processed successfully!');
         Log::info('Command finished execution.');
