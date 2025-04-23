@@ -66,12 +66,12 @@ class SendExpiryEmails implements ShouldQueue
             //     ->send(new ExpiryReminder($data));
             // sleep(5);
         }
-        // Mail::to('schwdhry@gmail.com')
-        //     ->send(new AdminERNotifyMail($renewals, $type));
-        // sleep(5);
-        // Mail::to('murasid@gmail.com')
-        //     ->send(new AdminERNotifyMail($renewals, $type));
-        // sleep(5);
+        Mail::to('schwdhry@gmail.com')
+            ->send(new AdminERNotifyMail($renewals, $type));
+        sleep(5);
+        Mail::to('murasid@gmail.com')
+            ->send(new AdminERNotifyMail($renewals, $type));
+        sleep(5);
         Mail::to('sohag.euitsols@gmail.com')
             ->send(new AdminERNotifyMail($renewals, $type));
         Mail::to('shariful.euitsols@gmail.com')
