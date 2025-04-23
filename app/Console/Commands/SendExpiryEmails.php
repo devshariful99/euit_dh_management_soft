@@ -38,6 +38,7 @@ class SendExpiryEmails extends Command
     {
 
         // Get the dates for 15 days and 30 days from now
+        $oneDayFromNow = Carbon::now()->addDays(1);
         $fifteenDaysFromNow = Carbon::now()->addDays(15);
         $oneMonthFromNow = Carbon::now()->addDays(30);
 
@@ -45,25 +46,29 @@ class SendExpiryEmails extends Command
         Log::info('Fetching domains and hostings expiring on ' . $fifteenDaysFromNow . ' and ' . $oneMonthFromNow);
 
         // Fetch domains expiring in 15 and 30 days
-        // $domains = ClientDomain::with(['client'])
-        //     ->whereDate('last_expire_date', $fifteenDaysFromNow)
-        //     ->orWhereDate('last_expire_date', $oneMonthFromNow)->where('purchase_type', 1)
-        //     ->get();
-        // ============================================Temp Code
         $domains = ClientDomain::with(['client'])
-            ->where('last_expire_date', '<=', Carbon::now())
-            ->orWhere('last_expire_date', '<', $oneMonthFromNow)->where('purchase_type', 1)
+            ->whereDate('last_expire_date', $oneDayFromNow)
+            ->whereDate('last_expire_date', $fifteenDaysFromNow)
+            ->orWhereDate('last_expire_date', $oneMonthFromNow)->where('purchase_type', 1)
             ->get();
+        // ============================================Temp Code
+        // $domains = ClientDomain::with(['client'])
+        //     ->where('last_expire_date', '<=', Carbon::now())
+        //     ->orWhere('last_expire_date', '<', $oneMonthFromNow)->where('purchase_type', 1)
+        //     ->get();
 
         // Log the domains that were fetched
         Log::info('Domains fetched for email dispatch:', ['domains' => $domains->pluck('id')->toArray()]);
 
         // Fetch hostings (change your query if needed)
-        // $hostings = ClientHosting::with(['client'])->whereDate('last_expire_date', $fifteenDaysFromNow)->orWhereDate('last_expire_date', $oneMonthFromNow)->get();
+        $hostings = ClientHosting::with(['client'])
+            ->whereDate('last_expire_date', $oneDayFromNow)
+            ->whereDate('last_expire_date', $fifteenDaysFromNow)
+            ->orWhereDate('last_expire_date', $oneMonthFromNow)->get();
 
-        // =========================================Temp Code
-        $hostings = ClientHosting::with(['client'])->where('last_expire_date', '<=', Carbon::now())->orWhere('last_expire_date', '<', $oneMonthFromNow)->get();
-        // $hostings = ClientHosting::with(['client', 'renews'])->get();
+        // // =========================================Temp Code
+        // $hostings = ClientHosting::with(['client'])->where('last_expire_date', '<=', Carbon::now())->orWhere('last_expire_date', '<', $oneMonthFromNow)->get();
+        // // $hostings = ClientHosting::with(['client', 'renews'])->get();
         Log::info('Hostings fetched for email dispatch:', ['hostings' => $hostings->pluck('id')->toArray()]);
 
         try {
