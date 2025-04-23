@@ -34,7 +34,7 @@ class AdminERNotifyMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Client ' . Str::ucfirst($this->type) . ' Renewal Reminder',
+            subject: 'Client ' . Str::ucfirst($this->type) . ' Renewal Reminder -' . $this->today->format('d-m-Y'),
         );
     }
 
