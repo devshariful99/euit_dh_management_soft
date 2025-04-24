@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class SendExpiryEmails extends Command
 {
@@ -60,7 +61,6 @@ class SendExpiryEmails extends Command
 
             // Log the domains that were fetched
             Log::info('Domains fetched for email dispatch:', ['domains' => $domains->pluck('id')->toArray()]);
-
             // Fetch hostings (change your query if needed)
             $hostings = ClientHosting::with(['client'])
                 ->whereDate('last_expire_date', $oneDayFromNow)
@@ -74,7 +74,6 @@ class SendExpiryEmails extends Command
         } catch (\Exception $e) {
             Log::error('Failed to fetch domains or hostings: ' . $e->getMessage());
             throw $e;
-            return Command::FAILURE;
         }
 
         try {
@@ -87,15 +86,24 @@ class SendExpiryEmails extends Command
         }
 
         // Call queue worker to process the job immediately (optional)
+        $message = '';
         try {
             Log::info('Queue worker processing the jobs.');
             Artisan::call('queue:work', ['--once' => true]);
+            $message .= "Queue working successfully.\n";
         } catch (\Exception $e) {
             Log::error('Failed to run queue worker: ' . $e->getMessage());
+            $message .= "Queue working failed.: " . $e->getMessage() . "\n";
             throw $e;
         }
         $this->info('Email sending job dispatched and processed successfully!');
         Log::info('Command finished execution.');
+
+        // Send a success email (optional)
+        Mail::raw($message, function ($mail) {
+            $mail->to(['shariful.euitsols@gmail.com', 'sohag.euitsols@gmail.com'])
+                ->subject('Queue Worker Result');
+        });
 
         return Command::SUCCESS;
     }
