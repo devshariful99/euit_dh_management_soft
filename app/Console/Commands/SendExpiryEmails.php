@@ -40,7 +40,7 @@ class SendExpiryEmails extends Command
 
         try {
             // Get the dates for 15 days and 30 days from now
-            $oneDayFromNow = Carbon::now()->addDays(1);
+            $oneDayFromNow = Carbon::now()->addDays(2);
             $fifteenDaysFromNow = Carbon::now()->addDays(15);
             $oneMonthFromNow = Carbon::now()->addDays(30);
 
