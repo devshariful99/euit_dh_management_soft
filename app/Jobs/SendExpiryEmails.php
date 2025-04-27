@@ -69,14 +69,16 @@ class SendExpiryEmails implements ShouldQueue
         try {
             Mail::to('schwdhry@gmail.com')
                 ->send(new AdminERNotifyMail($renewals, $type));
-            sleep(5);
+            sleep(4);
             Mail::to('murasid@gmail.com')
                 ->send(new AdminERNotifyMail($renewals, $type));
-            sleep(5);
+            sleep(4);
             Mail::to('sohag.euitsols@gmail.com')
                 ->send(new AdminERNotifyMail($renewals, $type));
+            sleep(4);
             Mail::to('shariful.euitsols@gmail.com')
                 ->send(new AdminERNotifyMail($renewals, $type));
+            sleep(4);
         } catch (\Exception $e) {
             Log::error("Failed to send $type renewal admin emails: " . $e->getMessage());
             throw $e; // rethrow to mark the job as failed

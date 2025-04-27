@@ -50,7 +50,7 @@ class SendExpiryEmails extends Command
             // Fetch domains expiring in 15 and 30 days
             $domains = ClientDomain::with(['client'])
                 ->whereDate('last_expire_date', $oneDayFromNow)
-                ->whereDate('last_expire_date', $fifteenDaysFromNow)
+                ->orWhereDate('last_expire_date', $fifteenDaysFromNow)
                 ->orWhereDate('last_expire_date', $oneMonthFromNow)->where('purchase_type', 1)
                 ->get();
             // ============================================Temp Code
@@ -64,7 +64,7 @@ class SendExpiryEmails extends Command
             // Fetch hostings (change your query if needed)
             $hostings = ClientHosting::with(['client'])
                 ->whereDate('last_expire_date', $oneDayFromNow)
-                ->whereDate('last_expire_date', $fifteenDaysFromNow)
+                ->orWhereDate('last_expire_date', $fifteenDaysFromNow)
                 ->orWhereDate('last_expire_date', $oneMonthFromNow)->get();
 
             // // =========================================Temp Code
