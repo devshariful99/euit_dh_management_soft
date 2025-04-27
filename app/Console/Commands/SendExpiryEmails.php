@@ -41,18 +41,17 @@ class SendExpiryEmails extends Command
         try {
             // Get the dates for 15 days and 30 days from now
             $oneDayFromNow = Carbon::now()->addDays(2);
-            $fifteenDaysFromNow = Carbon::now()->addDays(15);
-            $oneMonthFromNow = Carbon::now()->addDays(30);
+            $fifteenDaysFromNow = Carbon::now()->addDays(16);
+            $oneMonthFromNow = Carbon::now()->addDays(31);
 
             // Log the date calculation for reference
             Log::info('Fetching domains and hostings expiring on ' . $fifteenDaysFromNow . ' and ' . $oneMonthFromNow);
 
             // Fetch domains expiring in 15 and 30 days
             $domains = ClientDomain::with(['client'])
-                ->whereDate('last_expire_date', '>=', Carbon::now())
-                // ->whereDate('last_expire_date', $oneDayFromNow)
-                // ->orWhereDate('last_expire_date', $fifteenDaysFromNow)
-                // ->orWhereDate('last_expire_date', $oneMonthFromNow)->where('purchase_type', 1)
+                ->whereDate('last_expire_date', $oneDayFromNow)
+                ->orWhereDate('last_expire_date', $fifteenDaysFromNow)
+                ->orWhereDate('last_expire_date', $oneMonthFromNow)->where('purchase_type', 1)
                 ->orderBy('last_expire_date', 'asc')
                 ->get();
             // ============================================Temp Code
@@ -65,10 +64,9 @@ class SendExpiryEmails extends Command
             Log::info('Domains fetched for email dispatch:', ['domains' => $domains->pluck('id')->toArray()]);
             // Fetch hostings (change your query if needed)
             $hostings = ClientHosting::with(['client'])
-                ->whereDate('last_expire_date', '>=', Carbon::now())
-                // ->whereDate('last_expire_date', $oneDayFromNow)
-                // ->orWhereDate('last_expire_date', $fifteenDaysFromNow)
-                // ->orWhereDate('last_expire_date', $oneMonthFromNow)
+                ->whereDate('last_expire_date', $oneDayFromNow)
+                ->orWhereDate('last_expire_date', $fifteenDaysFromNow)
+                ->orWhereDate('last_expire_date', $oneMonthFromNow)
                 ->orderBy('last_expire_date', 'asc')
                 ->get();
 
